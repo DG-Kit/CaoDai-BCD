@@ -18,7 +18,8 @@
   - Quy chuẩn bắt buộc về tính liên tục đa thiết bị qua Git.
 - **Cấu hình Repo & Công cụ:**
   - Thiết lập [`.gitignore`](.gitignore) chuẩn cho dự án.
-  - Cấu hình các bộ kỹ năng (`speckit-*`, `agy-customizations`).
+  - Cấu hình và tinh gọn toàn bộ 19 skills về duy nhất thư mục [`.agents/skills/`](.agents/skills) (bao gồm 9 skills Spec Kit, 1 skill `find-skills` và 9 skills thiết kế trực quan `baoyu-design`).
+  - Tạo sổ tay hướng dẫn chi tiết tại [`SKILLS_NOTE.md`](SKILLS_NOTE.md).
 
 ### Công việc tiếp theo:
 
