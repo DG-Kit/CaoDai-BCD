@@ -49,5 +49,4 @@ git push
    git pull
    ```
 2. Mở Antigravity tại thư mục workspace dự án, mở một cuộc trò chuyện mới và gửi câu lệnh:
-   > *"Đọc file HANDOFF.md và AGENTS.md để nắm bối cảnh dự án. Báo cáo các công việc tiếp theo và chờ chỉ đạo."*
-   >
+   > _"Đọc file HANDOFF.md và AGENTS.md và SKILLS_NOTE.md để nắm bối cảnh dự án. Báo cáo các công việc tiếp theo và chờ chỉ đạo."_

@@ -1,10 +1,10 @@
 # Sổ Tay Hướng Dẫn & Ý Nghĩa Các Skills Trong Dự Án
 
-Tài liệu này tổng hợp ý nghĩa, mục đích và cách sử dụng của toàn bộ các **Skills** hiện có trong dự án, bao gồm bộ quy trình **GitHub Spec Kit (Spec-Driven Development)** và các tiện ích mở rộng.
+Tài liệu này tổng hợp ý nghĩa, mục đích và cách sử dụng của toàn bộ các **Skills** hiện có trong dự án, bao gồm bộ quy trình **GitHub Spec Kit (Spec-Driven Development)**, các kỹ năng **Thiết Kế Trực Quan (baoyu-design)** và các tiện ích mở rộng.
 
 ---
 
-## 🗺️ Quy Trình Tổng Quan (Spec-Driven Development)
+## 🗺️ 1. Quy Trình Tổng Quan (Spec-Driven Development)
 
 Thay vì viết code ngay từ đầu ("vibe-coding"), quy trình Spec Kit dẫn dắt AI đi qua các chốt kiểm soát chất lượng rõ ràng:
 
@@ -22,9 +22,9 @@ flowchart TD
 
 ---
 
-## 📋 Chi Tiết Ý Nghĩa Từng Skill
+## 📋 2. Chi Tiết Ý Nghĩa Từng Nhóm Kỹ Năng
 
-### 1. Nhóm Cốt Lõi (Core SDD Workflow)
+### Nhóm 1: Cốt Lõi Phát Triển Phần Mềm (Core SDD Workflow)
 
 | Tên Skill | Lệnh Gọi | Ý Nghĩa & Mục Đích | Thời Điểm Sử Dụng | Đầu Ra / Tệp Tạo Ra |
 | :--- | :--- | :--- | :--- | :--- |
@@ -36,7 +36,7 @@ flowchart TD
 
 ---
 
-### 2. Nhóm Tối Ưu & Đảm Bảo Chất Lượng (Quality & Verification)
+### Nhóm 2: Tối Ưu & Đảm Bảo Chất Lượng (Quality & Verification)
 
 | Tên Skill | Lệnh Gọi | Ý Nghĩa & Mục Đích | Thời Điểm Sử Dụng | Đầu Ra / Lợi Ích |
 | :--- | :--- | :--- | :--- | :--- |
@@ -47,25 +47,40 @@ flowchart TD
 
 ---
 
-### 3. Nhóm Tiện Ích Mở Rộng Hệ Sinh Thái (Ecosystem Skills)
+### Nhóm 3: Thiết Kế Giao Diện & Trực Quan Hóa (UI/UX & Visual Design)
+*(Được cài đặt từ `JimLiu/baoyu-design` - cho phép tạo sản phẩm trực quan xem ngay trên trình duyệt)*
 
-| Tên Skill | Lệnh / Cách Dùng | Ý Nghĩa & Mục Đích |
-| :--- | :--- | :--- |
-| **`find-skills`** | Yêu cầu trong chat: *"Tìm skill để làm [X]..."* | **Trợ lý tìm kiếm kỹ năng:** Tra cứu trên thư viện mở [skills.sh](https://skills.sh/) của Vercel Labs để gợi ý hoặc cài đặt thêm các kỹ năng mới (ví dụ: review PR, tối ưu SEO, viết unit test, thiết kế UI...) vào dự án. |
+| Tên Skill | Ý Nghĩa & Mục Đích | Khi Nào AI Tự Động Áp Dụng / Đề Xuất | Đầu Ra / Định Dạng |
+| :--- | :--- | :--- | :--- |
+| **`claude-design`** | **Thiết kế giao diện UI/UX nhiều màn hình:** Tạo canvas chứa các artboard giao diện dạng HTML độc lập, có thể mở lên xem cạnh nhau, chỉnh sửa copy và layout trực tiếp. | Khi bạn yêu cầu phác thảo giao diện, tạo mockup, wireframe, thiết kế trang landing page, màn hình mobile/web. | `designs/<project>/canvas.json` và các file component `.dc.html` |
+| **`claude-design-system`** | **Xây dựng hệ thống nhận diện (Design System):** Định nghĩa bảng mã màu, kiểu chữ (typography), components, tokens và asset preview. | Khi bắt đầu xây dựng giao diện tổng thể hoặc cần đồng bộ phong cách thiết kế cho toàn dự án. | `project/design-system.json`, `tokens.json`, brand book. |
+| **`claude-slides`** | **Soạn thảo Slide thuyết trình tương tác:** Tạo bộ trình chiếu trực tiếp bằng HTML, có chế độ thuyết trình và xuất ra PDF hoặc PowerPoint (PPTX). | Khi bạn yêu cầu làm slide báo cáo tiến độ, tài liệu thuyết trình kiến trúc hoặc giới thiệu sản phẩm. | `project/deck.json` + từng slide HTML. |
+| **`claude-dashboard`** | **Tạo bảng điều khiển theo dõi số liệu (Dashboard/KPI):** Tạo trang số liệu, biểu đồ kèm thanh nguồn dữ liệu (Sources) và bộ chỉnh sửa trực tiếp (live editor). | Khi làm các tính năng thống kê, báo cáo, biểu đồ dữ liệu người dùng, quản trị thư viện. | HTML Dashboard tương tác kết nối dữ liệu CSV/JSON. |
+| **`claude-whiteboard`** | **Bảng trắng phác thảo ý tưởng (Whiteboard):** Không gian vẽ sơ đồ luồng nghiệp vụ, flowchart, mindmap, so sánh phương án kiến trúc. | Khi thảo luận ý tưởng, thiết kế luồng người dùng (user flow) hoặc sơ đồ kiến trúc phức tạp. | Bản lưu trữ dạng visual board có thể kéo thả, ghi chú. |
+| **`claude-motion`** & **`motion-director`** | **Tạo video hoạt ảnh UI (Motion Graphics):** Dựng video ngắn (10–30s) demo tính năng sản phẩm bằng mã code, có thể gắn kịch bản lời bình và xuất ra MP4/GIF. | Khi cần video demo tính năng nhanh, video teaser giới thiệu sản phẩm. | Player video code trực tiếp, xuất file MP4 / GIF. |
+| **`dataviz`** | **Quy chuẩn đồ thị & Trực quan dữ liệu:** Cung cấp bộ công thức chọn màu sắc, cấu trúc biểu đồ (Chart/D3/Recharts/SVG) chuẩn thẩm mỹ, không bị rối mắt. | Tự động kích hoạt mỗi khi AI sắp vẽ bất kỳ biểu đồ, đồ thị hay bảng thống kê nào. | Code biểu đồ chuẩn UX và bảng màu tối ưu. |
+| **`release-skills`** | **Tự động hóa phát hành phiên bản:** Tự nhận diện file version, cập nhật changelog, bump version và hỗ trợ tạo GitHub Release. | Khi bạn yêu cầu "release", "tạo phiên bản mới", "cập nhật changelog", "bump version". | Tag phiên bản, GitHub Release notes, cập nhật changelog. |
 
 ---
 
-## 💡 Hướng Dẫn Sử Dụng Nhanh Hằng Ngày
+### Nhóm 4: Tiện Ích Mở Rộng Hệ Sinh Thái (Ecosystem Skills)
 
-### Cách 1: Tự động hoàn toàn (Khuyên dùng khi cần làm nhanh)
-Bạn không cần nhớ từng lệnh, chỉ cần nhắn tin cho AI:
-> *"Dùng Spec Kit để làm tính năng: [Mô tả tính năng của bạn]"*  
-> ➡️ AI sẽ tự động kích hoạt tuần tự: `speckit-specify` ➔ `speckit-plan` ➔ `speckit-tasks` ➔ hỏi ý kiến bạn ➔ `speckit-implement`.
+| Tên Skill | Lệnh / Cách Dùng | Ý Nghĩa & Mục Đích |
+| :--- | :--- | :--- |
+| **`find-skills`** | Yêu cầu trong chat: *"Tìm skill để làm [X]..."* | **Trợ lý tìm kiếm kỹ năng:** Tra cứu trên thư viện mở [skills.sh](https://skills.sh/) của Vercel Labs để gợi ý hoặc cài đặt thêm các kỹ năng mới vào dự án. |
 
-### Cách 2: Gọi từng bước (Khuyên dùng cho tính năng lớn, quan trọng)
-* **Bước 1:** `/speckit-specify [mô tả]` ➔ Duyệt nội dung file `spec.md`.
-* **Bước 2 (nếu cần):** `/speckit-clarify` ➔ Trả lời các câu hỏi làm rõ.
-* **Bước 3:** `/speckit-plan` ➔ Duyệt giải pháp kiến trúc trong `plan.md`.
-* **Bước 4:** `/speckit-tasks` ➔ Duyệt danh sách các việc cần làm trong `tasks.md`.
-* **Bước 5:** `/speckit-implement` ➔ AI tiến hành code từng bước chắc chắn.
+---
 
+## ⚡ 3. Cơ Chế Tự Động Kích Hoạt / Đề Xuất Trong Dự Án
+
+Để bạn làm việc thuận tiện nhất, AI sẽ tự động điều phối các skills theo ngữ cảnh yêu cầu:
+
+1. **Khi bạn yêu cầu phát triển tính năng mới:**
+   * AI sẽ tự động áp dụng quy trình SDD: `speckit-specify` ➔ `speckit-plan` ➔ `speckit-tasks` ➔ hỏi ý kiến bạn trước khi `speckit-implement`.
+2. **Khi tính năng có liên quan đến Giao diện (UI/UX):**
+   * AI sẽ chủ động **đề xuất tạo bản thiết kế trực quan bằng `claude-design`** để bạn xem trước màn hình trên trình duyệt trước khi viết code React/HTML.
+   * Nếu có bảng số liệu/thống kê: Tự động dùng `dataviz` và `claude-dashboard`.
+3. **Khi cần giải thích luồng kiến trúc/nghiệp vụ phức tạp:**
+   * AI sẽ đề xuất phác thảo sơ đồ bằng `claude-whiteboard` để hai bên cùng nhìn vào một bức tranh chung.
+4. **Khi cần báo cáo hoặc trình bày:**
+   * Chỉ cần nói *"Tạo slide tóm tắt tiến độ/kiến trúc..."*, AI sẽ tự động dùng `claude-slides` để xuất file thuyết trình.

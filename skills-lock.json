@@ -1,11 +1,65 @@
 {
   "version": 1,
   "skills": {
+    "claude-dashboard": {
+      "source": "JimLiu/baoyu-design",
+      "sourceType": "github",
+      "skillPath": "skills/claude-dashboard/SKILL.md",
+      "computedHash": "88285e4516b96ec0d448a6fa61e916a72927df0dc16bf703d6035646f2c0a4aa"
+    },
+    "claude-design": {
+      "source": "JimLiu/baoyu-design",
+      "sourceType": "github",
+      "skillPath": "skills/claude-design/SKILL.md",
+      "computedHash": "700124cf968bbe0d081d8b4df0fbe9ea1aca785c0172e2ccc6edb1c36daee955"
+    },
+    "claude-design-system": {
+      "source": "JimLiu/baoyu-design",
+      "sourceType": "github",
+      "skillPath": "skills/claude-design-system/SKILL.md",
+      "computedHash": "b6119a9422babe0f9879923f5d25d9c4467a1054bf84867e9ee09d8339730fd6"
+    },
+    "claude-motion": {
+      "source": "JimLiu/baoyu-design",
+      "sourceType": "github",
+      "skillPath": "skills/claude-motion/SKILL.md",
+      "computedHash": "b95f664c7e42445225f65f8ec1392d8ffd842b3ca03604d207b05137eedecd97"
+    },
+    "claude-slides": {
+      "source": "JimLiu/baoyu-design",
+      "sourceType": "github",
+      "skillPath": "skills/claude-slides/SKILL.md",
+      "computedHash": "795766005090a9a51428a76cc04fd761bf2dac4ac223089c3b2b28ce8d3fd4eb"
+    },
+    "claude-whiteboard": {
+      "source": "JimLiu/baoyu-design",
+      "sourceType": "github",
+      "skillPath": "skills/claude-whiteboard/SKILL.md",
+      "computedHash": "d085f9d4adfb625ac0154af4fd35771f903060d0593fcba2c391db40a741edda"
+    },
+    "dataviz": {
+      "source": "JimLiu/baoyu-design",
+      "sourceType": "github",
+      "skillPath": "skills/dataviz/SKILL.md",
+      "computedHash": "29cea974f351f562583dd2000ab75d7b1e07fc7fa72bf02d35a8dcdd16d37055"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
       "skillPath": "skills/find-skills/SKILL.md",
       "computedHash": "b146008599c31057cef1c145774cea5d5afb30e8f43fa802e47a4b461419aaaf"
+    },
+    "motion-director": {
+      "source": "JimLiu/baoyu-design",
+      "sourceType": "github",
+      "skillPath": "skills/motion-director/SKILL.md",
+      "computedHash": "43ea08b0afa07e7bb06d124b65fb5f7471aaf7d17b2fbc193d3d93a9b081053f"
+    },
+    "release-skills": {
+      "source": "JimLiu/baoyu-design",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/release-skills/SKILL.md",
+      "computedHash": "5409cb532b40552f455827f69938193f6b3f3b7e853565e816eee4fa147ab8c7"
     }
   }
 }
