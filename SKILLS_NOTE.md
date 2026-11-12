@@ -64,7 +64,19 @@ flowchart TD
 
 ---
 
-### Nhóm 4: Tiện Ích Mở Rộng Hệ Sinh Thái (Ecosystem Skills)
+### Nhóm 4: Kiểm Thử, Chẩn Đoán Lỗi & Tối Ưu Code (QC, Testing & Code Review)
+*(Bổ sung để hoàn thiện vai trò QC / Tester / Reviewer độc lập)*
+
+| Tên Skill | Ý Nghĩa & Mục Đích | Thời Điểm Sử Dụng | Đầu Ra / Giá Trị Mang Lại |
+| :--- | :--- | :--- | :--- |
+| **`tdd`** *(Matt Pocock)* | **Kiểm thử hướng phát triển (TDD):** Viết unit test / integration test trước theo chu trình *Red-Green-Refactor* (viết test fail ➔ code vừa đủ pass ➔ refactor). | Khi bắt đầu viết logic nghiệp vụ, hàm tính toán, service hoặc API quan trọng. | Bộ test tự động (Vitest/Jest), đảm bảo không bao giờ bị vỡ logic cũ khi thêm tính năng mới. |
+| **`code-review`** *(Matt Pocock)* | **Kiểm duyệt mã nguồn 2 trục:** Chạy 2 sub-agent song song để review độc lập: Trục 1 (Tuân thủ chuẩn code dự án) & Trục 2 (Khớp 100% với đặc tả `spec.md`). | Trước khi tạo commit lớn, merge branch hoặc release phiên bản. | Báo cáo review chi tiết chỉ ra các chỗ chưa đạt chuẩn hoặc thiếu yêu cầu nghiệp vụ. |
+| **`diagnosing-bugs`** *(Matt Pocock)* | **Điều tra lỗi sâu (Root-cause Analysis):** Vòng lặp chẩn đoán nguyên nhân gốc rễ khi gặp bug phức tạp, chống tình trạng "đoán mò sửa bừa". | Khi gặp lỗi runtime, crash hoặc bug hành vi khó tái hiện. | Bản phân tích nguyên nhân gốc và phương án sửa chữa tối thiểu, an toàn. |
+| **`vercel-react-best-practices`** | **Tối ưu hóa Next.js & React:** Áp dụng bộ quy chuẩn hiệu năng chính thức từ Vercel (RSC, Server Actions, data fetching, bundle size). | Khi viết hoặc tối ưu code React/Next.js. | Mã nguồn frontend chạy mượt, tải nhanh và không re-render thừa. |
+
+---
+
+### Nhóm 5: Tiện Ích Mở Rộng Hệ Sinh Thái (Ecosystem Skills)
 
 | Tên Skill | Lệnh / Cách Dùng | Ý Nghĩa & Mục Đích |
 | :--- | :--- | :--- |
@@ -78,11 +90,15 @@ flowchart TD
 
 1. **Khi bạn yêu cầu phát triển tính năng mới:**
    * AI sẽ tự động áp dụng quy trình SDD: `speckit-specify` ➔ `speckit-plan` ➔ `speckit-tasks` ➔ hỏi ý kiến bạn trước khi `speckit-implement`.
+   * Với các module logic phức tạp: Tự động kết hợp phương pháp **`tdd`** (viết test kiểm thử trước khi code).
 2. **Khi tính năng có liên quan đến Giao diện (UI/UX):**
    * AI sẽ chủ động **đề xuất tạo bản thiết kế trực quan bằng `claude-design`** để bạn xem trước màn hình trên trình duyệt trước khi viết code React/HTML.
    * Nếu có bảng số liệu/thống kê: Tự động dùng `dataviz` và `claude-dashboard`.
-   * **Khi chuyển sang viết code frontend thật:** AI tự động áp dụng tiêu chuẩn của **`impeccable`** để đảm bảo typography kinh văn thanh nhã, màu sắc trang nghiêm, chuẩn tương phản và không bị lỗi vỡ khung hình. Bạn có thể gọi `/impeccable critique` hoặc `/impeccable polish` để AI rà soát và gọt giũa giao diện.
-3. **Khi cần giải thích luồng kiến trúc/nghiệp vụ phức tạp:**
+   * **Khi chuyển sang viết code frontend thật:** AI tự động áp dụng tiêu chuẩn của **`impeccable`** và **`vercel-react-best-practices`** để đảm bảo typography kinh văn thanh nhã, màu sắc trang nghiêm, chuẩn tương phản, tối ưu tốc độ tải trang.
+3. **Khi cần kiểm tra chất lượng & rà soát code:**
+   * Sử dụng **`code-review`** để đánh giá chéo giữa mã nguồn và đặc tả ban đầu.
+   * Nếu có sự cố/bug: Kích hoạt **`diagnosing-bugs`** để tìm nguyên nhân gốc rễ.
+4. **Khi cần giải thích luồng kiến trúc/nghiệp vụ phức tạp:**
    * AI sẽ đề xuất phác thảo sơ đồ bằng `claude-whiteboard` để hai bên cùng nhìn vào một bức tranh chung.
-4. **Khi cần báo cáo hoặc trình bày:**
+5. **Khi cần báo cáo hoặc trình bày:**
    * Chỉ cần nói *"Tạo slide tóm tắt tiến độ/kiến trúc..."*, AI sẽ tự động dùng `claude-slides` để xuất file thuyết trình.

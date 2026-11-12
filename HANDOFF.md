@@ -18,7 +18,7 @@
   - Quy chuẩn bắt buộc về tính liên tục đa thiết bị qua Git.
 - **Cấu hình Repo & Công cụ:**
   - Thiết lập [`.gitignore`](.gitignore) chuẩn cho dự án.
-  - Cấu hình và tinh gọn toàn bộ 20 skills về duy nhất thư mục [`.agents/skills/`](.agents/skills) (bao gồm 9 skills Spec Kit, 1 skill `find-skills`, 9 skills thiết kế trực quan `baoyu-design`, và 1 skill tinh chỉnh frontend chuẩn craft `impeccable`).
+  - Cấu hình và tinh gọn toàn bộ 24 skills về duy nhất thư mục [`.agents/skills/`](.agents/skills) bao gồm đầy đủ các vai trò: BA, Architect, Designer, Developer, QA, QC/Tester và Code Reviewer.
   - Tạo sổ tay hướng dẫn chi tiết tại [`SKILLS_NOTE.md`](SKILLS_NOTE.md).
 
 ### Công việc tiếp theo:
