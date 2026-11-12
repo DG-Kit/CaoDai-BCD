@@ -1,0 +1,27 @@
+{
+  "name": "caodai-bcd-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monorepo for Ban Chinh Dao Digital Library",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:api": "npm run start:dev --workspace=apps/api",
+    "dev:web": "npm run dev --workspace=apps/web",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "infra:up": "docker compose -f infra/docker-compose.yml up -d",
+    "infra:down": "docker compose -f infra/docker-compose.yml down",
+    "infra:logs": "docker compose -f infra/docker-compose.yml logs -f"
+  },
+  "keywords": [
+    "caodai",
+    "banchinhdao",
+    "digital-library",
+    "monorepo"
+  ],
+  "author": "Ban Chinh Dao Digital Library Team",
+  "license": "UNLICENSED"
+}
