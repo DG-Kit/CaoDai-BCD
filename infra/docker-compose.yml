@@ -40,7 +40,7 @@ services:
 
   # 3. MinIO: Kho lưu trữ đối tượng S3-compatible (Lưu bản scan gốc PDF & hình ảnh)
   minio:
-    image: minio/minio:latest
+    image: pgsty/minio:latest
     container_name: caodai_bcd_minio
     restart: unless-stopped
     command: server /data --console-address ":9001"

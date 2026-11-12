@@ -46,15 +46,28 @@
     * Tạo trang chủ Portal ([`apps/web/src/app/page.tsx`](apps/web/src/app/page.tsx)) giới thiệu trực quan 6 phân hệ cốt lõi.
     * Tích hợp widget kiểm tra kết nối API tự động ([`ApiHealthWidget.tsx`](apps/web/src/components/ApiHealthWidget.tsx)) kết nối `GET /api/health` của Backend.
     * Đã xác nhận `npm run build --workspace=@caodai-bcd/web` thành công 100% (tải trang nhẹ ~99.1 kB, chuẩn `vercel-react-best-practices`).
-  - **Trạng thái hiện tại:** **PHASE 0 - BƯỚC 0.3 HOÀN TẤT** (Toàn bộ nền tảng Monorepo + Shared + Backend NestJS + Frontend Next.js đã hoàn thành).
+  - **Bước 0.4 (Hoàn thành):**
+    * Khởi động thành công hạ tầng Docker Compose tại [`infra/docker-compose.yml`](infra/docker-compose.yml): PostgreSQL 16 kết hợp PostGIS (`postgis/postgis:16-3.4`), Redis 7 (`redis:7-alpine`), và MinIO S3 (`pgsty/minio:latest`).
+    * Thực thi thành công Prisma Migration ban đầu (`20261112163558_init_auth_schema`) tạo các bảng Scoped RBAC, Audit Log, User Calendar Preferences và PostGIS geometry.
+    * Khởi tạo kịch bản Seed data tại [`apps/api/prisma/seed.ts`](apps/api/prisma/seed.ts): Nạp đủ 6 vai trò chuẩn (`VISITOR`, `MEMBER`, `UNIT_ADMIN`, `LIBRARY_EDITOR`, `REVIEWER`, `SYSTEM_ADMIN`), 13 quyền hạn nền tảng và ánh xạ quyền hạn tương ứng.
+    * Nâng cấp `HealthController` tích hợp kiểm tra kết nối database thực tế (`$queryRaw SELECT 1`), đo độ trễ truy vấn (latency 8ms) và phản hồi JSON chi tiết.
+    * Đã kiểm thử tự động đạt 100% (Jest 3/3 tests passed, Monorepo build `npm run build` thành công cả 3 workspace `@caodai-bcd/api`, `@caodai-bcd/web`, `@caodai-bcd/shared`).
+  - **Trạng thái hiện tại:** **PHASE 0: PROJECT FOUNDATION HOÀN TẤT 100%**.
 
-### Công việc tiếp theo (Bước 0.4):
+---
 
-1. **Khởi động dịch vụ Docker Compose & Chạy Prisma Migration:**
-   - Chạy `npm run infra:up` (hoặc `docker compose -f infra/docker-compose.yml up -d`) để bật PostGIS, Redis và MinIO.
-   - Chạy `npx prisma migrate dev --name init_auth_schema` trong `apps/api` để tạo migration ban đầu vào PostgreSQL.
-   - Seed dữ liệu phân quyền ban đầu (các vai trò `VISITOR`, `MEMBER`, `UNIT_ADMIN`, `LIBRARY_EDITOR`, `REVIEWER`, `SYSTEM_ADMIN`).
-   - Kiểm tra kết nối từ Backend sang Database thực tế qua `/api/health`.
+## 2. Kế hoạch tiếp theo (Khởi động Phase 1: Core Library)
+
+Theo tài liệu [`DEVELOPMENT_ROADMAP.md`](docs/06-planning/DEVELOPMENT_ROADMAP.md) và [`BRD.md`](docs/01-business/BRD.md), chúng ta sẽ bước vào **Phase 1: Phân hệ Thư Viện Đạo (Core Library)**:
+
+1. **Bước 1.1: Thiết kế Database Schema cho Phân hệ Thư Viện:**
+   - Các bảng: `document_categories`, `documents`, `document_editions`, `document_files`, `document_sections`, `document_contents`, `document_sources`.
+   - Cơ chế lưu trữ bản scan đối chiếu bất biến (checksum SHA-256), trạng thái xác minh (`VerificationStatus`), và lịch sử sửa đổi.
+2. **Bước 1.2: Triển khai Module Thư viện Backend (NestJS):**
+   - API CRUD danh mục tác phẩm, ấn bản, tải tệp scan lên MinIO S3, lưu bản văn số hóa song song.
+   - Thẩm định và xuất bản ấn bản kinh văn theo quy trình Scoped RBAC.
+3. **Bước 1.3: Triển khai Giao diện Thư Viện Frontend (Next.js):**
+   - Danh mục phân cấp, bộ lọc tác phẩm, trang chi tiết ấn bản, trình đọc bản văn đối chiếu với scan gốc (Side-by-side reader).
 
 ---
 
