@@ -11,7 +11,7 @@ import {
   Sparkles,
   Compass,
 } from 'lucide-react';
-import { ThienNhan } from '@/components/ThienNhan';
+import { ThienNhanPortrait } from '@/components/ThienNhan';
 
 export default function HomePage() {
   const categories = [
@@ -59,11 +59,11 @@ export default function HomePage() {
 
   return (
     <div className="space-y-12">
-      {/* Khối Banner Giới Thiệu Đầu Trang với Điểm Nhấn Thiên Nhãn & Tam Giáo */}
+      {/* Khối Banner Giới Thiệu Đầu Trang với Bức Họa Thiên Nhãn & Tam Giáo */}
       <section className="relative overflow-hidden rounded-2xl bg-heritage-parchment border border-heritage-border p-6 sm:p-10 lg:p-12 shadow-xs">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
           {/* Cột Nội Dung Bên Trái */}
-          <div className="lg:col-span-8 space-y-5">
+          <div className="lg:col-span-7 xl:col-span-8 space-y-5">
             {/* Huy hiệu 3 màu Tam Giáo */}
             <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-heritage-paper border border-heritage-border text-xs font-semibold tracking-wide">
               <span className="flex space-x-1 items-center">
@@ -104,29 +104,20 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Cột Biểu Tượng Thiên Nhãn Trang Trọng Bên Phải */}
-          <div className="lg:col-span-4 flex flex-col items-center justify-center">
-            <div className="relative p-6 rounded-2xl bg-heritage-paper/90 border border-heritage-border shadow-md flex flex-col items-center text-center">
-              {/* Vòng tròn hào quang bao quanh Thiên Nhãn */}
-              <div className="relative w-36 h-36 flex items-center justify-center">
-                <div className="absolute inset-0 rounded-full border border-heritage-gold/30 bg-heritage-gold/5 animate-pulse" />
-                <ThienNhan className="w-32 h-32 relative z-10" size={128} withAura={true} />
-              </div>
-              <div className="mt-3">
-                <span className="block font-serif font-bold text-sm text-heritage-wood">
+          {/* Cột Biểu Tượng Thiên Nhãn Tả Thực Trang Trọng Bên Phải */}
+          <div className="lg:col-span-5 xl:col-span-4 flex flex-col items-center justify-center">
+            <div className="relative p-5 rounded-2xl bg-heritage-paper border border-heritage-border shadow-md flex flex-col items-center text-center group">
+              <ThienNhanPortrait className="w-48 h-48 sm:w-56 sm:h-56" />
+              <div className="mt-3.5 space-y-0.5">
+                <span className="block font-serif font-bold text-base text-heritage-wood">
                   Thiên Nhãn Thầy Ngự
                 </span>
-                <span className="block text-[11px] text-heritage-woodLight italic mt-0.5">
+                <span className="block text-xs text-heritage-woodLight italic">
                   &ldquo;Thầy là các con, các con là Thầy&rdquo;
                 </span>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Biểu trưng Thiên Nhãn mờ chìm nghệ thuật làm watermark nền */}
-        <div className="absolute right-[-40px] bottom-[-40px] opacity-[0.04] pointer-events-none">
-          <ThienNhan className="w-[450px] h-[450px]" size={450} withAura={true} />
         </div>
       </section>
 

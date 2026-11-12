@@ -42,7 +42,7 @@
   - **Bước 0.3 (Hoàn thành):**
     * Khởi tạo Frontend Web Boilerplate tại [`apps/web`](apps/web) với Next.js 14 (App Router) + TypeScript + Tailwind CSS.
     * Tích hợp bảng màu di sản theo tiêu chuẩn Art Director (`impeccable`): `heritage-paper`, `heritage-parchment`, `heritage-gold`, `heritage-wood` cùng bộ 3 màu sắc chủ đạo Tam Giáo Cao Đài (`caodai-yellow`, `caodai-blue`, `caodai-red`).
-    * Tích hợp điểm nhấn thiêng liêng cốt lõi của Đạo Cao Đài: Biểu tượng Thiên Nhãn (Thánh Nhãn tỏa hào quang) và Huy hiệu Tam Giáo (Vàng - Xanh - Đỏ) tại Logo Header, Banner chính và chân trang.
+    * Thay thế toàn bộ biểu tượng Thiên Nhãn bằng bức tranh tả thực chất chì mỹ thuật do người dùng cung cấp (`apps/web/public/images/thien-nhan.jpg`), hiển thị trọn vẹn nét tôn nghiêm của chân mày, mí mắt và đồng tử tại Logo Header, Banner chính và chân trang.
     * Đã khắc phục triệt để lỗi font tách dấu tiếng Việt (thay thế Georgia bằng `Lora` và `Times New Roman` tối ưu glyph tiếng Việt).
     * Đã tinh chỉnh toàn bộ nội dung trang chủ: Loại bỏ toàn bộ các từ ngữ kỹ thuật/developer, thay bằng giao diện đọc tra cứu thuần túy, thân thiện với bạn đọc, tín đồ và nhà nghiên cứu (tìm kiếm kinh sách, lịch sóc vọng ăn chay, danh bạ Thánh Thất, soạn sớ văn gia đạo).
     * Xây dựng layout chính thức gồm thanh thông báo tôn chỉ trung lập ("Bản scan gốc là bằng chứng đối chiếu tối cao"), header điều hướng 6 phân hệ, footer học thuật.
