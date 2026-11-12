@@ -33,11 +33,11 @@ export default function HomePage() {
     },
     {
       title: 'Thánh Sở & Họ Đạo',
-      description: 'Danh mục và bản đồ chỉ đường đến Tòa Thánh Bến Tre, các Thánh Thất, Điện Thờ Phật Mẫu và cơ sở tu học tại các địa phương.',
+      description: 'Danh mục và bản đồ chỉ đường đến Tòa Thánh, các Thánh Thất, Điện Thờ Phật Mẫu và cơ sở tu học tại các địa phương.',
       icon: MapPin,
       href: '/worship-sites',
       tag: 'Địa Chỉ',
-      highlights: ['Tòa Thánh Bến Tre (An Hội)', 'Danh bạ Thánh Thất các tỉnh', 'Địa chỉ và chỉ đường'],
+      highlights: ['Tòa Thánh & Thánh Thất', 'Danh bạ cơ sở các tỉnh', 'Địa chỉ và chỉ đường'],
     },
     {
       title: 'Soạn Sớ Văn & Biểu Mẫu',
@@ -49,11 +49,11 @@ export default function HomePage() {
     },
     {
       title: 'Đạo Sử & Gương Tiền Bối',
-      description: 'Tư liệu về nguồn gốc thành lập Hội Thánh Cao Đài Ban Chỉnh Đạo, công hạnh của chư vị tiền bối khai sáng và các bài khảo cứu lịch sử.',
+      description: 'Tư liệu về nguồn gốc thành lập Đại Đạo Tam Kỳ Phổ Độ, công hạnh của chư vị tiền bối khai sáng và các bài khảo cứu lịch sử.',
       icon: Search,
       href: '/research',
       tag: 'Lịch Sử',
-      highlights: ['Lịch sử Hội Thánh', 'Tiểu sử các bậc tiền bối', 'Từ điển thuật ngữ Đạo'],
+      highlights: ['Lịch sử Đại Đạo', 'Tiểu sử các bậc tiền bối', 'Từ điển thuật ngữ Đạo'],
     },
   ];
 
@@ -64,14 +64,14 @@ export default function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
           {/* Cột Nội Dung Bên Trái */}
           <div className="lg:col-span-7 xl:col-span-8 space-y-5">
-            {/* Huy hiệu 3 màu Tam Giáo */}
+            {/* Huy hiệu 3 màu Tam Giáo Đại Đạo Tam Kỳ Phổ Độ */}
             <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-heritage-paper border border-heritage-border text-xs font-semibold tracking-wide">
               <span className="flex space-x-1 items-center">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#EAB308]" title="Màu Vàng: Phái Phật (Thái Thanh)" />
                 <span className="w-2.5 h-2.5 rounded-full bg-[#0284C7]" title="Màu Xanh: Phái Tiên (Thượng Thanh)" />
                 <span className="w-2.5 h-2.5 rounded-full bg-[#DC2626]" title="Màu Đỏ: Phái Thánh (Ngọc Thanh)" />
               </span>
-              <span className="text-heritage-goldDark">Cao Đài Ban Chỉnh Đạo • Tòa Thánh Bến Tre</span>
+              <span className="text-heritage-goldDark">Đại Đạo Tam Kỳ Phổ Độ • Thư Viện Tư Liệu Truyền Thống</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-heritage-wood leading-tight">
@@ -99,7 +99,7 @@ export default function HomePage() {
                 </button>
               </div>
               <p className="text-xs text-heritage-woodLight/80 mt-1.5 pl-1">
-                Gợi ý: <span className="underline cursor-pointer hover:text-heritage-goldDark">Kinh Cúng Tứ Thời</span>, <span className="underline cursor-pointer hover:text-heritage-goldDark">Lịch sóc vọng</span>, <span className="underline cursor-pointer hover:text-heritage-goldDark">Tòa Thánh Bến Tre</span>
+                Gợi ý: <span className="underline cursor-pointer hover:text-heritage-goldDark">Kinh Cúng Tứ Thời</span>, <span className="underline cursor-pointer hover:text-heritage-goldDark">Lịch sóc vọng</span>, <span className="underline cursor-pointer hover:text-heritage-goldDark">Thánh Ngôn Hiệp Tuyển</span>
               </p>
             </div>
           </div>
@@ -196,7 +196,7 @@ export default function HomePage() {
         </div>
 
         <p className="text-sm text-heritage-paper/85 leading-relaxed max-w-4xl">
-          Mỗi bài kinh văn, tài liệu lịch sử hay thông tin địa danh lưu trữ trên thư viện đều được đối chiếu cẩn trọng với các ấn bản in xưa và tài liệu lưu trữ chính thức của Hội Thánh Cao Đài Ban Chỉnh Đạo. Bản scan tư liệu gốc luôn được đính kèm song song để độc giả có thể tự mình tra cứu, kiểm chứng và bảo đảm tính trung thực của văn bản tiền nhân để lại.
+          Mỗi bài kinh văn, tài liệu lịch sử hay thông tin địa danh lưu trữ trên thư viện đều được đối chiếu cẩn trọng với các ấn bản in xưa và tài liệu lưu trữ chính thức. Bản scan tư liệu gốc luôn được đính kèm song song để độc giả có thể tự mình tra cứu, kiểm chứng và bảo đảm tính trung thực của văn bản tiền nhân để lại.
         </p>
 
         <div className="pt-2 flex flex-wrap gap-6 text-xs text-heritage-paper/80 border-t border-heritage-paper/15">

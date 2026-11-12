@@ -13,8 +13,10 @@
 
 ## 1. Tầm Nhìn & Mục Tiêu Nghiệp Vụ (Product Vision & Business Objectives)
 
-### 1.1. Tuyên bố tầm nhìn
-Xây dựng một nền tảng thư viện số, tra cứu và lưu trữ tri thức chuyên biệt, chuẩn xác và có nguồn gốc rõ ràng về **Hội Thánh Cao Đài Ban Chỉnh Đạo** (Tòa Thánh Bến Tre / An Hội), lấy việc bảo tồn di sản văn hóa, kinh văn lịch sử và kết nối cộng đồng tín đồ làm trọng tâm.
+### 1.1. Tuyên bố tầm nhìn & Nhận diện thương hiệu
+- **Tên hiển thị đối ngoại (User-Facing Brand):** **Thư Viện Số Cao Đài** (Tên tiếng Anh: **CaoDai Digital Library**), gắn liền với biểu tượng thiêng liêng chung là **Thiên Nhãn** và 3 màu sắc chủ đạo **Tam Giáo** (Vàng - Xanh - Đỏ).
+- **Trọng tâm phát triển cốt lõi (Core Focus):** Trong giai đoạn đầu, hệ thống tập trung sâu sắc và toàn diện vào việc số hóa, tra cứu và bảo tồn kinh sách, lịch Đạo, hệ thống Thánh sở và đạo sử của **Hội Thánh Cao Đài Ban Chỉnh Đạo** (Tòa Thánh Bến Tre / An Hội).
+- **Định hướng mở rộng tương lai (Branch-Ready Architecture):** Kiến trúc dữ liệu và hệ thống được thiết kế mở rộng linh hoạt (multi-organization units), cho phép tích hợp và phát triển thêm các chi phái khác của Đạo Cao Đài trong các giai đoạn tiếp theo mà không làm xáo trộn kiến trúc nền tảng.
 
 ### 1.2. Tuyên bố pháp lý & trung lập
 - Nền tảng tự giới thiệu trung lập là dự án nghiên cứu, số hóa và lưu trữ tư liệu độc lập.

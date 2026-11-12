@@ -19,9 +19,9 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: 'Thư Viện Số Cao Đài Ban Chỉnh Đạo',
-  description: 'Nền tảng tra cứu, lưu trữ và bảo tồn kinh sách, lịch Đạo và cơ sở thờ tự Hội Thánh Cao Đài Ban Chỉnh Đạo.',
-  keywords: ['Cao Đài', 'Ban Chỉnh Đạo', 'Tòa Thánh Bến Tre', 'Thiên Nhãn', 'Kinh Cúng Tứ Thời', 'Lịch Đạo'],
+  title: 'Thư Viện Số Cao Đài | CaoDai Digital Library',
+  description: 'Nền tảng tra cứu, lưu trữ và bảo tồn kinh sách, lịch Đạo và cơ sở thờ tự Đạo Cao Đài (Đại Đạo Tam Kỳ Phổ Độ).',
+  keywords: ['Cao Đài', 'Đại Đạo Tam Kỳ Phổ Độ', 'Thư viện số Cao Đài', 'Thiên Nhãn', 'Kinh Cúng Tứ Thời', 'Lịch Đạo'],
 };
 
 export default function RootLayout({
@@ -51,7 +51,7 @@ export default function RootLayout({
                   Thư Viện Số
                 </span>
                 <span className="block text-xs uppercase tracking-wider text-heritage-goldDark font-semibold">
-                  Cao Đài Ban Chỉnh Đạo
+                  Đạo Cao Đài
                 </span>
               </div>
             </Link>
@@ -128,11 +128,11 @@ export default function RootLayout({
                 <div className="flex items-center space-x-3">
                   <CaoDaiEmblem className="w-8 h-8" />
                   <span className="font-serif font-bold text-heritage-wood text-base">
-                    Thư Viện Số Cao Đài Ban Chỉnh Đạo
+                    Thư Viện Số Cao Đài
                   </span>
                 </div>
                 <p className="text-xs text-heritage-woodLight leading-relaxed max-w-md">
-                  Nền tảng bảo tồn và phổ biến kinh sách, thánh giáo, đạo sử và danh bạ cơ sở thờ tự thuộc Hội Thánh Cao Đài Ban Chỉnh Đạo (Tòa Thánh Bến Tre).
+                  Nền tảng số hóa, bảo tồn và phổ biến kinh sách, thánh giáo, đạo sử và danh bạ cơ sở thờ tự Đạo Cao Đài (Đại Đạo Tam Kỳ Phổ Độ).
                 </p>
                 <div className="flex items-center space-x-2 text-[11px] text-heritage-woodLight">
                   <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#EAB308]" title="Phái Thái - Vàng" />
@@ -195,7 +195,7 @@ export default function RootLayout({
             </div>
 
             <div className="border-t border-heritage-border/60 mt-8 pt-4 text-center text-xs text-heritage-woodLight">
-              © {new Date().getFullYear()} Thư Viện Số Cao Đài Ban Chỉnh Đạo • Tòa Thánh Bến Tre (An Hội)
+              © {new Date().getFullYear()} Thư Viện Số Cao Đài • Đại Đạo Tam Kỳ Phổ Độ
             </div>
           </div>
         </footer>
