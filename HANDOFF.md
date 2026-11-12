@@ -47,7 +47,8 @@
     * Tích hợp widget kiểm tra kết nối API tự động ([`ApiHealthWidget.tsx`](apps/web/src/components/ApiHealthWidget.tsx)) kết nối `GET /api/health` của Backend.
     * Đã xác nhận `npm run build --workspace=@caodai-bcd/web` thành công 100% (tải trang nhẹ ~99.1 kB, chuẩn `vercel-react-best-practices`).
   - **Bước 0.4 (Hoàn thành):**
-    * Khởi động thành công hạ tầng Docker Compose tại [`infra/docker-compose.yml`](infra/docker-compose.yml): PostgreSQL 16 kết hợp PostGIS (`postgis/postgis:16-3.4`), Redis 7 (`redis:7-alpine`), và MinIO S3 (`pgsty/minio:latest`).
+    * Khởi động thành công hạ tầng Docker Compose tại [`infra/docker-compose.yml`](infra/docker-compose.yml): PostgreSQL 16 kết hợp PostGIS (`postgis/postgis:16-3.4`), Redis 7 (`redis:7-alpine`), MinIO S3 (`pgsty/minio:latest`), và pgAdmin 4 Web (`dpage/pgadmin4:latest` tại cổng 5050).
+    * Thiết lập tự động cấu hình sẵn máy chủ PostgreSQL vào pgAdmin 4 qua [`infra/servers.json`](infra/servers.json).
     * Thực thi thành công Prisma Migration ban đầu (`20261112163558_init_auth_schema`) tạo các bảng Scoped RBAC, Audit Log, User Calendar Preferences và PostGIS geometry.
     * Khởi tạo kịch bản Seed data tại [`apps/api/prisma/seed.ts`](apps/api/prisma/seed.ts): Nạp đủ 6 vai trò chuẩn (`VISITOR`, `MEMBER`, `UNIT_ADMIN`, `LIBRARY_EDITOR`, `REVIEWER`, `SYSTEM_ADMIN`), 13 quyền hạn nền tảng và ánh xạ quyền hạn tương ứng.
     * Nâng cấp `HealthController` tích hợp kiểm tra kết nối database thực tế (`$queryRaw SELECT 1`), đo độ trễ truy vấn (latency 8ms) và phản hồi JSON chi tiết.
