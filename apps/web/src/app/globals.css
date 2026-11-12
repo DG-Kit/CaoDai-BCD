@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #FBF9F5;
+  --foreground: #2C1810;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/* Kiểu chữ trang trọng cho tiêu đề văn bản tôn giáo */
+h1, h2, h3, h4, .font-heritage-serif {
+  font-family: Georgia, Cambria, 'Times New Roman', Times, serif;
+  letter-spacing: -0.01em;
+}

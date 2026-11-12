@@ -39,19 +39,22 @@
     * Tạo gói thư viện chia sẻ [`packages/shared`](packages/shared) chứa các Enums cốt lõi (`UserRole`, `VerificationStatus`, `DocumentEditionStatus`, `FastingSchedule`...).
     * Thiết lập hạ tầng Docker Compose chuẩn tại [`infra/docker-compose.yml`](infra/docker-compose.yml) (PostgreSQL 16 + PostGIS, Redis 7, MinIO S3).
     * Thiết lập tệp biến môi trường mẫu [`.env.example`](.env.example) và cập nhật [`.gitignore`](.gitignore).
-  - **Bước 0.2 (Hoàn thành):**
-    * Khởi tạo khung dự án Backend NestJS tại [`apps/api`](apps/api) với Swagger OpenAPI, CORS và Global Validation Pipe.
-    * Thiết lập Prisma Schema nền tảng tại [`apps/api/prisma/schema.prisma`](apps/api/prisma/schema.prisma) (`User`, `Role`, `Permission`, `UserRoleAssignment`, `UserCalendarPreference`, `AuditLog`).
-    * Sinh thành công Prisma Client và build TypeScript không lỗi (`nest build`).
-    * Tạo endpoint `GET /api/health` và viết Unit Test tự động đạt 100% pass (`jest`).
-  - **Trạng thái hiện tại:** **PHASE 0 - BƯỚC 0.2 HOÀN TẤT**.
+  - **Bước 0.3 (Hoàn thành):**
+    * Khởi tạo Frontend Web Boilerplate tại [`apps/web`](apps/web) với Next.js 14 (App Router) + TypeScript + Tailwind CSS.
+    * Tích hợp bảng màu di sản theo tiêu chuẩn Art Director (`impeccable`): `heritage-paper`, `heritage-parchment`, `heritage-gold`, `heritage-wood`.
+    * Xây dựng layout chính thức gồm thanh thông báo tôn chỉ trung lập ("Bản scan gốc là bằng chứng đối chiếu tối cao"), header điều hướng 6 phân hệ, footer học thuật.
+    * Tạo trang chủ Portal ([`apps/web/src/app/page.tsx`](apps/web/src/app/page.tsx)) giới thiệu trực quan 6 phân hệ cốt lõi.
+    * Tích hợp widget kiểm tra kết nối API tự động ([`ApiHealthWidget.tsx`](apps/web/src/components/ApiHealthWidget.tsx)) kết nối `GET /api/health` của Backend.
+    * Đã xác nhận `npm run build --workspace=@caodai-bcd/web` thành công 100% (tải trang nhẹ ~99.1 kB, chuẩn `vercel-react-best-practices`).
+  - **Trạng thái hiện tại:** **PHASE 0 - BƯỚC 0.3 HOÀN TẤT** (Toàn bộ nền tảng Monorepo + Shared + Backend NestJS + Frontend Next.js đã hoàn thành).
 
-### Công việc tiếp theo (Bước 0.3):
+### Công việc tiếp theo (Bước 0.4):
 
-1. **Khởi tạo Frontend Web Boilerplate (`apps/web`):**
-   - Thiết lập khung dự án Next.js 14/15 (App Router) + TypeScript + Tailwind CSS tại `apps/web`.
-   - Kết nối với `@caodai-bcd/shared`.
-   - Tạo trang chủ (Home Portal) và trang hiển thị trạng thái kết nối Backend Health.
+1. **Khởi động dịch vụ Docker Compose & Chạy Prisma Migration:**
+   - Chạy `npm run infra:up` (hoặc `docker compose -f infra/docker-compose.yml up -d`) để bật PostGIS, Redis và MinIO.
+   - Chạy `npx prisma migrate dev --name init_auth_schema` trong `apps/api` để tạo migration ban đầu vào PostgreSQL.
+   - Seed dữ liệu phân quyền ban đầu (các vai trò `VISITOR`, `MEMBER`, `UNIT_ADMIN`, `LIBRARY_EDITOR`, `REVIEWER`, `SYSTEM_ADMIN`).
+   - Kiểm tra kết nối từ Backend sang Database thực tế qua `/api/health`.
 
 ---
 

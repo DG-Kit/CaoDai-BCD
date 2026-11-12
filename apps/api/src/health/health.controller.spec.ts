@@ -24,3 +24,4 @@ describe('HealthController', () => {
     expect(result).toHaveProperty('uptimeSeconds');
   });
 });
+
