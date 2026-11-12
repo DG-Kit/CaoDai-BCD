@@ -21,7 +21,8 @@
   - Cấu hình và tinh gọn toàn bộ 24 skills về duy nhất thư mục [`.agents/skills/`](.agents/skills) bao gồm đầy đủ các vai trò: BA, Architect, Designer, Developer, QA, QC/Tester và Code Reviewer.
   - Tạo sổ tay hướng dẫn chi tiết tại [`SKILLS_NOTE.md`](SKILLS_NOTE.md).
 - **Hoàn thành Rà soát Kick-off & Hệ thống Tài liệu Thiết Kế ([`docs/`](docs)):**
-  - Đã lập `BRD.md`, `BUSINESS_RULES.md`, `SYSTEM_ARCHITECTURE.md`, `DATABASE_SCHEMA.md` (22 bảng), `DEVELOPMENT_ROADMAP.md` (5 Phase), và các ADRs (`ADR-001` đến `ADR-005`).
+  - Đã lập `BRD.md`, `BUSINESS_RULES.md`, `SYSTEM_ARCHITECTURE.md`, `DATABASE_SCHEMA.md` (23 bảng), `DEVELOPMENT_ROADMAP.md` (5 Phase), và các ADRs (`ADR-001` đến `ADR-005`).
+  - **Cập nhật mới (2026-11-12):** Bổ sung vào Phân hệ Lịch Đạo nghiệp vụ lựa chọn các ngày ăn chay (Lục trai, Thập trai, Thiên Ngươn) và tùy chọn hiển thị Can Chi (ngày/tháng/năm) tại `BRD.md`, `BUSINESS_RULES.md` (`BR-CAL-03`, `BR-CAL-04`) và `DATABASE_SCHEMA.md` (`user_calendar_preferences`, `event_occurrences`).
   - **Quyết định đã thông qua:** Sử dụng cấu trúc Monorepo (`apps/api`, `apps/web`, `infra/`), dữ liệu kinh văn sẽ được người dùng cung cấp sau.
   - **Trạng thái hiện tại:** **ON HOLD / WAITING FOR USER SIGNAL** — Đang chờ người dùng kiểm tra xong thiết kế và ra lệnh bắt đầu triển khai Phase 0.
 

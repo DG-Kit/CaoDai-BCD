@@ -46,6 +46,36 @@ stateDiagram-v2
 ### BR-CAL-02: Quy tắc Nhuận & Lặp lại
 - Lịch âm Việt Nam có tháng nhuận. Quy tắc sự kiện phải khai báo rõ: *Có áp dụng cho tháng nhuận hay không?* (Mặc định: Các ngày lễ vía lớn chỉ cúng vào tháng chính, trừ khi có văn bản quy định riêng của Hội Thánh).
 
+### BR-CAL-03: Quy tắc Các Ngày Ăn Chay (Trai Kỳ)
+Hệ thống hỗ trợ 3 chế độ hiển thị ngày ăn chay (người dùng có thể bật/tắt hoặc chọn chế độ hiển thị trên giao diện):
+1. **Lục trai (6 ngày chay mỗi tháng):**
+   * *Tháng đủ (30 ngày):* Ngày mùng 8, 14, 15, 23, 29, 30 âm lịch.
+   * *Tháng thiếu (29 ngày):* Ngày mùng 8, 14, 15, 23, 28, 29 âm lịch (dời 2 ngày cuối lên 28, 29).
+2. **Thập trai (10 ngày chay mỗi tháng):**
+   * *Tháng đủ (30 ngày):* Ngày mùng 1, 8, 14, 15, 18, 23, 24, 28, 29, 30 âm lịch.
+   * *Tháng thiếu (29 ngày):* Ngày mùng 1, 8, 14, 15, 18, 23, 24, 27, 28, 29 âm lịch (dời 3 ngày cuối lên 27, 28, 29).
+3. **Ăn chay Thiên Ngươn (Tam Ngươn Trai Kỳ):**
+   * Là 3 mùa ăn chay lớn theo quy định giáo luật:
+     - *Thượng Ngươn:* Trọn tháng Giêng (từ mùng 1 đến hết ngày 30/29 tháng Giêng âm lịch).
+     - *Trung Ngươn:* Trọn tháng 7 (từ mùng 1 đến hết ngày 30/29 tháng 7 âm lịch).
+     - *Hạ Ngươn:* Trọn tháng 10 (từ mùng 1 đến hết ngày 30/29 tháng 10 âm lịch).
+     *(Ghi chú: Quy tắc chi tiết của từng kỳ Thiên Ngươn có thể tinh chỉnh theo văn bản quy chế chính thức của Ban Chỉnh Đạo).*
+4. **Hiển thị trực quan:**
+   * Các ngày chay được đánh dấu bằng ký hiệu/icon hoa sen hoặc màu sắc nhã nhặn (tôn trọng nguyên tắc trang nghiêm, không lòe loẹt).
+   * Lựa chọn chế độ ăn chay được lưu trong `user_calendar_preferences` (đối với tài khoản đăng nhập) hoặc `localStorage` (đối với khách vãng lai).
+
+### BR-CAL-04: Quy tắc Tính Toán & Hiển Thị Can Chi
+1. **Thuật toán Can Chi chuẩn:**
+   * Tính toán chính xác 10 Thiên Can (Giáp, Ất, Bính, Đinh, Mậu, Kỷ, Canh, Tân, Nhâm, Quý) kết hợp 12 Địa Chi (Tý, Sửu, Dần, Mão, Thìn, Tỵ, Ngọ, Mùi, Thân, Dậu, Tuất, Hợi) tạo thành chu kỳ Lục Thập Hoa Giáp (60 hoa giáp).
+   * Múi giờ chuẩn: `Asia/Ho_Chi_Minh` (UTC+7). Mốc chuyển ngày âm lịch tính từ 00:00 giờ (giờ Tý bắt đầu từ 23:00 hôm trước).
+2. **Chế độ hiển thị:**
+   * Cung cấp nút chuyển đổi (toggle) **"Hiển thị Can Chi"**.
+   * Khi bật:
+     - Ô ngày hiển thị **Can Chi của Ngày** (ví dụ: *Giáp Tý*).
+     - Đầu tháng hiển thị **Can Chi của Tháng** (ví dụ: *Tháng Bính Dần*).
+     - Đầu năm hiển thị **Can Chi của Năm** (ví dụ: *Năm Bính Ngọ*).
+   * Khi tắt: Chỉ hiển thị số ngày Dương và số ngày Âm để giao diện tối giản, thoáng đãng.
+
 ---
 
 ## 3. Quy Tắc Nghiệp Vụ Phân Hệ Thánh Sở & Bản Đồ (Worship Sites Rules)

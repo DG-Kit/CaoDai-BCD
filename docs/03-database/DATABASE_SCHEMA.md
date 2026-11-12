@@ -41,6 +41,7 @@ erDiagram
     USERS ||--o{ GENERATED_DOCUMENTS : owns
 
     USERS ||--o{ USER_ROLE_ASSIGNMENTS : assigned
+    USERS ||--o{ USER_CALENDAR_PREFERENCES : configures
     ROLES ||--o{ USER_ROLE_ASSIGNMENTS : defines
     ROLES ||--o{ ROLE_PERMISSIONS : grants
     PERMISSIONS ||--o{ ROLE_PERMISSIONS : contains
@@ -143,15 +144,39 @@ erDiagram
 
 ---
 
-### Domain 4: Lịch Đạo (Calendar Domain)
+### Domain 4: Lịch Đạo & Trai Kỳ (Calendar & Fasting Domain)
 
 #### Bảng `religious_events` (Định nghĩa sự kiện)
-
 - `id` (UUID), `name` (Tên ngày lễ/vía, vd: *Đại Lễ Khai Đạo*), `lunar_day` (Ngày âm: 15), `lunar_month` (Tháng âm: 10), `is_leap_month_applicable` (Boolean), `recurrence_type` (`ANNUAL`, `ONCE`, `MONTHLY_TRAM_SOC`), `description`, `source_reference`.
 
-#### Bảng `event_occurrences` (Lần diễn ra theo năm)
+#### Bảng `event_occurrences` (Lần diễn ra theo ngày & Dữ liệu Thiên văn / Can Chi)
+| Cột | Kiểu | Ràng buộc | Mô tả |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | PK | Khóa chính |
+| `event_id` | `UUID` | FK -> `religious_events.id`, NULL | Sự kiện lễ nếu có |
+| `solar_date` | `DATE` | NOT NULL, INDEX | Ngày dương lịch (vd: `2026-11-24`) |
+| `lunar_day` | `INT` | NOT NULL | Ngày âm lịch (1 - 30) |
+| `lunar_month` | `INT` | NOT NULL | Tháng âm lịch (1 - 12) |
+| `lunar_year` | `INT` | NOT NULL | Năm âm lịch |
+| `is_leap_month` | `BOOLEAN`| Default `false` | Có phải tháng âm nhuận không |
+| `can_chi_day` | `VARCHAR(30)` | NOT NULL | Can Chi Ngày (vd: *Canh Thân*) |
+| `can_chi_month`| `VARCHAR(30)` | NOT NULL | Can Chi Tháng (vd: *Kỷ Hợi*) |
+| `can_chi_year` | `VARCHAR(30)` | NOT NULL | Can Chi Năm (vd: *Bính Ngọ*) |
+| `is_luc_trai` | `BOOLEAN` | Default `false` | Có phải ngày Lục trai không (mùng 8, 14, 15, 23, 29, 30) |
+| `is_thap_trai`| `BOOLEAN` | Default `false` | Có phải ngày Thập trai không (1, 8, 14, 15, 18, 23, 24, 28, 29, 30) |
+| `is_thien_nguon`| `BOOLEAN`| Default `false` | Có thuộc mùa ăn chay Thiên Ngươn không |
+| `status` | `VARCHAR(30)` | Default `'CONFIRMED'` | `CONFIRMED`, `TENTATIVE` |
 
-- `id` (UUID), `event_id` (FK), `solar_date` (`DATE` dương lịch, vd: *2026-11-24*), `lunar_date_display` (Vd: *Rằm tháng 10 năm Bính Ngọ*), `start_time` (`TIME`), `status` (`CONFIRMED`, `TENTATIVE`).
+#### Bảng `user_calendar_preferences` (Tùy chọn hiển thị Lịch của Người dùng)
+| Cột | Kiểu | Ràng buộc | Mô tả |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | PK | Khóa chính |
+| `user_id` | `UUID` | FK -> `users.id`, UNIQUE | Thuộc tài khoản nào |
+| `show_can_chi` | `BOOLEAN` | Default `true` | Bật/Tắt hiển thị Can Chi trên ô lịch |
+| `fasting_schedule` | `VARCHAR(30)` | Default `'NONE'` | `NONE`, `LUC_TRAI`, `THAP_TRAI`, `THIEN_NGUON` |
+| `highlight_tram_soc` | `BOOLEAN` | Default `true` | Nổi bật ngày Sóc Vọng (Mùng 1 & Rằm) |
+| `updated_at` | `TIMESTAMPTZ` | Default `NOW()` | Thời điểm cập nhật tùy chọn |
+*(Ghi chú: Đối với người dùng chưa đăng nhập `VISITOR`, các tùy chọn này được lưu trong `localStorage` phía Frontend)*.
 
 ---
 

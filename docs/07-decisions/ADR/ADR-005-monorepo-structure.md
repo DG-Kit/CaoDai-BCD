@@ -33,3 +33,4 @@ CaoDai-BCD/
   * Chia sẻ trực tiếp các Interface/Type dữ liệu của Prisma và DTO giữa `api` và `web` mà không cần xuất bản package riêng.
   * Phù hợp hoàn hảo với quy trình chuyển đổi đa thiết bị qua Git đã quy định trong `AGENTS.md`.
 - **Hạn chế:** Cần cấu hình workspace (pnpm workspaces / npm workspaces) rõ ràng để tránh xung đột dependency giữa Next.js và NestJS.
+

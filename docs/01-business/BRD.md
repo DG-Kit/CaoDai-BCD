@@ -23,7 +23,7 @@ Xây dựng một nền tảng thư viện số, tra cứu và lưu trữ tri th
 
 ### 1.3. Mục tiêu cụ thể
 1. **Số hóa & Bảo tồn:** Lưu trữ bền vững các ấn bản Kinh Cúng Tứ Thời, Quan Hôn Tang Tế, Thánh Ngôn, Thánh Giáo, Đạo sử, Tạp chí và Văn bản Hội Thánh kèm bản scan gốc đối chiếu.
-2. **Lịch Đạo chính xác:** Tra cứu lịch âm – dương, ngày lễ, ngày vía chuẩn xác theo múi giờ `Asia/Ho_Chi_Minh` và nguồn kiểm duyệt của Ban Chỉnh Đạo.
+2. **Lịch Đạo chính xác & Tiện ích Trai kỳ:** Tra cứu lịch âm – dương, ngày lễ, ngày vía chuẩn xác theo múi giờ `Asia/Ho_Chi_Minh` và nguồn kiểm duyệt của Ban Chỉnh Đạo; hỗ trợ các bộ lọc hiển thị ngày ăn chay (Lục trai, Thập trai, Thiên Ngươn) và tùy chọn hiển thị Can Chi (ngày/tháng/năm).
 3. **Bản đồ Thánh sở:** Định vị địa lý và lưu trữ hồ sơ, lịch sử hành chính của Tòa Thánh, Họ đạo, Thánh Thất, Nhà tu thuộc Ban Chỉnh Đạo.
 4. **Hỗ trợ nghi lễ & hành chánh:** Soạn thảo, in ấn sớ văn, biểu mẫu nghi lễ theo mẫu chuẩn đã được xác minh.
 5. **Nghiên cứu & Học tập:** Xây dựng từ điển thuật ngữ, tiểu sử chức sắc tiền bối có trích dẫn nguồn lưu trữ minh bạch.
@@ -61,6 +61,8 @@ mindmap
       Lịch Âm Dương chuẩn VN
       Định nghĩa sự kiện vs Lần diễn ra
       Quy tắc lặp & Tháng nhuận
+      Trai kỳ (Lục trai, Thập trai, Thiên Ngươn)
+      Tùy chọn Can Chi Ngày/Tháng/Năm
       Lịch sự kiện tại cơ sở
     Hệ Thống Thánh Sở
       Tòa Thánh Bến Tre
