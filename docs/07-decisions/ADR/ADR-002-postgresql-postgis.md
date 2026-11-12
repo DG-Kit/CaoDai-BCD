@@ -26,3 +26,4 @@ Chọn **PostgreSQL 16 kết hợp tiện ích mở rộng PostGIS** làm hệ q
   * Hỗ trợ chuẩn ACID tuyệt đối cho dữ liệu kiểm toán (`audit_logs`) và phân quyền Scoped RBAC.
   * Tương thích hoàn hảo với Prisma ORM và hệ sinh thái Node.js/Docker.
 - **Hạn chế:** PostGIS yêu cầu hình ảnh Docker chuyên biệt (`postgis/postgis:16-3.4`), cần cấu hình đúng trong `docker-compose.yml`.
+

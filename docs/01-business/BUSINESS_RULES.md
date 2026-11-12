@@ -70,3 +70,4 @@ stateDiagram-v2
 ### BR-DOC-02: Quyền Riêng Tư Tài Liệu Cá Nhân
 - Dữ liệu sớ văn chứa thông tin cá nhân (Họ tên, tuổi tác, địa chỉ gia quyến tín đồ).
 - **Quy tắc:** Dữ liệu này thuộc quyền riêng tư tuyệt đối của tài khoản tạo ra (`MEMBER`). `SYSTEM_ADMIN` và người dùng khác không được xem trừ khi người tạo chủ động chia sẻ hoặc gửi vào ban lễ vụ của cơ sở.
+

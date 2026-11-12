@@ -84,3 +84,4 @@ gantt
   - Từ điển thuật ngữ Cao Đài, giải nghĩa từ cổ, điển tích điển cố.
   - Dòng thời gian lịch sử (Timeline) và tiểu sử chức sắc tiền bối.
   - Trợ lý AI tra cứu trích dẫn (RAG): Chỉ trả lời dựa trên kho tư liệu Ban Chỉnh Đạo đã được xác minh (`VERIFIED`), bắt buộc kèm trích dẫn số trang/ấn bản, không tự suy đoán.
+

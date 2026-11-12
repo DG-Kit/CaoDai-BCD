@@ -20,12 +20,18 @@
   - Thiết lập [`.gitignore`](.gitignore) chuẩn cho dự án.
   - Cấu hình và tinh gọn toàn bộ 24 skills về duy nhất thư mục [`.agents/skills/`](.agents/skills) bao gồm đầy đủ các vai trò: BA, Architect, Designer, Developer, QA, QC/Tester và Code Reviewer.
   - Tạo sổ tay hướng dẫn chi tiết tại [`SKILLS_NOTE.md`](SKILLS_NOTE.md).
+- **Hoàn thành Rà soát Kick-off & Hệ thống Tài liệu Thiết Kế ([`docs/`](docs)):**
+  - Đã lập `BRD.md`, `BUSINESS_RULES.md`, `SYSTEM_ARCHITECTURE.md`, `DATABASE_SCHEMA.md` (22 bảng), `DEVELOPMENT_ROADMAP.md` (5 Phase), và các ADRs (`ADR-001` đến `ADR-005`).
+  - **Quyết định đã thông qua:** Sử dụng cấu trúc Monorepo (`apps/api`, `apps/web`, `infra/`), dữ liệu kinh văn sẽ được người dùng cung cấp sau.
+  - **Trạng thái hiện tại:** **ON HOLD / WAITING FOR USER SIGNAL** — Đang chờ người dùng kiểm tra xong thiết kế và ra lệnh bắt đầu triển khai Phase 0.
 
-### Công việc tiếp theo:
+### Công việc tiếp theo (Khi người dùng phê duyệt bắt đầu):
 
-1. Xác định kiến trúc kỹ thuật chi tiết (Backend, Frontend, Database PostgreSQL/PostGIS).
-2. Xây dựng tài liệu đặc tả chức năng đầu tiên (ví dụ: Phân hệ Thư viện Đạo hoặc Danh mục Thánh sở).
-3. Thiết lập khung dự án (project boilerplate/scaffolding) và môi trường kiểm thử.
+1. **Khởi động Phase 0 (Project Foundation):**
+   - Tạo cấu trúc Monorepo (`apps/api`, `apps/web`, `infra`).
+   - Cấu hình Docker Compose (PostgreSQL 16 + PostGIS, Redis, MinIO).
+   - Thiết lập Prisma Schema nền tảng và chạy migration ban đầu (`users`, `roles`, `permissions`, `audit_logs`).
+   - Cấu hình Authentication (JWT) và Scoped RBAC Guard.
 
 ---
 

@@ -100,3 +100,4 @@ mindmap
    - Tệp scan gốc tải lên là bất biến (immutable). Khi cần thay thế, hệ thống tạo bản ghi phiên bản mới (`revision`), không ghi đè file cũ để bảo toàn tính toàn vẹn lịch sử.
 4. **Không suy diễn giáo lý/kinh văn:**
    - Không dùng AI để tự sáng tác, diễn giải kinh văn hoặc tự suy diễn ngày lễ. AI chỉ phục vụ tìm kiếm, OCR bản nháp và định dạng văn bản.
+

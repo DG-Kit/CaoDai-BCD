@@ -26,3 +26,4 @@ Hệ thống sẽ được xây dựng theo mô hình **Modular Monolith** bằn
 - **Hạn chế & Giải pháp (Cons & Mitigation):**
   * Cần kỷ luật cao trong code để tránh việc các module import chéo gây phụ thuộc vòng (circular dependency). Sẽ sử dụng linter và kiểm tra cấu trúc module trong CI/CD.
   * Nếu sau này phân hệ OCR hoặc Composer tạo tải đột biến, có thể dễ dàng tách chúng thành Background Worker độc lập qua BullMQ mà không cần sửa đổi kiến trúc lõi.
+

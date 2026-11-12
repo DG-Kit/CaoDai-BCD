@@ -92,3 +92,4 @@ Backend chia thành các module nghiệp vụ độc lập, giao tiếp thông q
   * File gốc bất biến (bản scan PDF/JPG chất lượng cao).
   * File sinh ra (PDF tối ưu dung lượng, file DOCX tạo ra từ Composer).
 - **Redis:** Lưu Cache phiên đăng nhập, Rate Limiting và hàng đợi tác vụ nặng cho BullMQ.
+
