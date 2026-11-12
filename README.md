@@ -1,4 +1,5 @@
 # Ban Chỉnh Đạo Digital Library
+
 ### Nền Tảng Thư Viện Số & Lưu Trữ Tri Thức Cao Đài Ban Chỉnh Đạo
 
 > **Lưu ý về pháp lý & định danh:** Dự án hiện đang trong giai đoạn nghiên cứu, thiết kế và số hóa độc lập nhằm mục đích bảo tồn văn hóa, lịch sử và giáo lý. Dự án **không** tự nhận là trang thông tin điện tử chính thức, cơ quan phát ngôn hay đại diện của Hội Thánh Cao Đài Ban Chỉnh Đạo trừ khi có văn bản ủy quyền chính thức.
@@ -12,6 +13,7 @@
 Dự án ra đời nhằm mục tiêu ứng dụng công nghệ hiện đại vào việc bảo tồn các di sản văn hóa, kinh văn, đạo sử quý báu có nguồn gốc rõ ràng, cung cấp công cụ học tập và tra cứu đáng tin cậy cho tín đồ, nhà nghiên cứu và công chúng quan tâm.
 
 ### 🎯 Tầm nhìn & Mục tiêu cốt lõi:
+
 1. **Bảo tồn di sản:** Sưu tầm, số hóa, phân loại và lưu trữ lâu dài kinh sách, Thánh ngôn, Thánh giáo, đạo sử, tạp chí và văn bản lịch sử của Ban Chỉnh Đạo.
 2. **Tra cứu chuẩn xác:** Cung cấp công cụ tra cứu lịch Đạo (âm – dương), ngày lễ vía, kỷ niệm theo đúng quy tắc và nguồn áp dụng của Ban Chỉnh Đạo.
 3. **Bản đồ Thánh sở:** Xây dựng danh mục và bản đồ số định vị các cơ sở thờ tự (Tòa Thánh, Họ đạo, Thánh Thất, Nhà tu...) đã được xác minh thông tin địa giới và lịch sử.
@@ -83,9 +85,11 @@ flowchart TD
 ## 🤝 6. Đóng Góp & Phát Triển
 
 Dự án hoan nghênh sự chung tay đóng góp tư liệu, bản scan kinh sách, hình ảnh lịch sử và mã nguồn từ cộng đồng:
+
 1. Fork repository và tạo nhánh tính năng mới (`git checkout -b feature/ten-tinh-nang`).
 2. Tuân thủ quy trình Spec-Driven Development: Soạn thảo đặc tả (`spec`) và kế hoạch (`plan`) trước khi triển khai mã nguồn.
 3. Commit rõ ràng theo chuẩn Conventional Commits và tạo Pull Request.
 
 ---
+
 *Bản quyền nội dung tư liệu thuộc về các tác giả và đơn vị ban hành tương ứng.*

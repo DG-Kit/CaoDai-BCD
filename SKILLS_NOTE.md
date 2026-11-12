@@ -60,6 +60,7 @@ flowchart TD
 | **`claude-motion`** & **`motion-director`** | **Tạo video hoạt ảnh UI (Motion Graphics):** Dựng video ngắn (10–30s) demo tính năng sản phẩm bằng mã code, có thể gắn kịch bản lời bình và xuất ra MP4/GIF. | Khi cần video demo tính năng nhanh, video teaser giới thiệu sản phẩm. | Player video code trực tiếp, xuất file MP4 / GIF. |
 | **`dataviz`** | **Quy chuẩn đồ thị & Trực quan dữ liệu:** Cung cấp bộ công thức chọn màu sắc, cấu trúc biểu đồ (Chart/D3/Recharts/SVG) chuẩn thẩm mỹ, không bị rối mắt. | Tự động kích hoạt mỗi khi AI sắp vẽ bất kỳ biểu đồ, đồ thị hay bảng thống kê nào. | Code biểu đồ chuẩn UX và bảng màu tối ưu. |
 | **`release-skills`** | **Tự động hóa phát hành phiên bản:** Tự nhận diện file version, cập nhật changelog, bump version và hỗ trợ tạo GitHub Release. | Khi bạn yêu cầu "release", "tạo phiên bản mới", "cập nhật changelog", "bump version". | Tag phiên bản, GitHub Release notes, cập nhật changelog. |
+| **`impeccable`** | **Kiểm định & Tinh chỉnh Frontend Đỉnh cao (Art Director):** Chống "AI Slop", chuẩn hóa typography kinh văn, màu sắc trang nghiêm, audit khả năng tiếp cận (a11y), gọt giũa micro-interactions (`critique`, `polish`, `audit`, `harden`, `simplify`). | Tự động kích hoạt khi bắt đầu viết code giao diện thật (React/Next.js/CSS) hoặc khi yêu cầu review, gọt giũa UI. | File `DESIGN.md`, `PRODUCT.md`, báo cáo audit UX/a11y và code UI đạt chuẩn craftmanship. |
 
 ---
 
@@ -80,6 +81,7 @@ flowchart TD
 2. **Khi tính năng có liên quan đến Giao diện (UI/UX):**
    * AI sẽ chủ động **đề xuất tạo bản thiết kế trực quan bằng `claude-design`** để bạn xem trước màn hình trên trình duyệt trước khi viết code React/HTML.
    * Nếu có bảng số liệu/thống kê: Tự động dùng `dataviz` và `claude-dashboard`.
+   * **Khi chuyển sang viết code frontend thật:** AI tự động áp dụng tiêu chuẩn của **`impeccable`** để đảm bảo typography kinh văn thanh nhã, màu sắc trang nghiêm, chuẩn tương phản và không bị lỗi vỡ khung hình. Bạn có thể gọi `/impeccable critique` hoặc `/impeccable polish` để AI rà soát và gọt giũa giao diện.
 3. **Khi cần giải thích luồng kiến trúc/nghiệp vụ phức tạp:**
    * AI sẽ đề xuất phác thảo sơ đồ bằng `claude-whiteboard` để hai bên cùng nhìn vào một bức tranh chung.
 4. **Khi cần báo cáo hoặc trình bày:**
