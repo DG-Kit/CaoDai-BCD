@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+  <defs>
+    <radialGradient id="favAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FEF3C7" />
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.2" />
+    </radialGradient>
+    <linearGradient id="favBat" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+    <linearGradient id="favBut" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F87171" />
+      <stop offset="100%" stop-color="#991B1B" />
+    </linearGradient>
+    <linearGradient id="favPhat" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#0369A1" />
+    </linearGradient>
+  </defs>
+
+  {/* Nền tròn viền Tam Giáo (Vàng - Xanh - Đỏ) */}
+  <circle cx="50" cy="50" r="48" fill="#FBF9F5" stroke="#E2D9C8" stroke-width="2"/>
+  <path d="M50 2 A48 48 0 0 1 91.5 74" fill="none" stroke="#EAB308" stroke-width="4"/>
+  <path d="M91.5 74 A48 48 0 0 1 8.5 74" fill="none" stroke="#0284C7" stroke-width="4"/>
+  <path d="M8.5 74 A48 48 0 0 1 50 2" fill="none" stroke="#DC2626" stroke-width="4"/>
+
+  {/* Ánh hào quang trung tâm */}
+  <circle cx="50" cy="50" r="36" fill="url(#favAura)"/>
+
+  {/* 1. Cuốn Kinh Xuân Thu (Nho) */}
+  <rect x="30" y="58" width="40" height="18" rx="2" fill="#FFFBEB" stroke="#B45309" stroke-width="1.5"/>
+  <rect x="42" y="60" width="16" height="14" fill="#DC2626"/>
+  
+  {/* 2. Cổ Bút (Nho) */}
+  <g transform="rotate(40 46 44)">
+    <rect x="44.5" y="16" width="3.5" height="42" rx="1.5" fill="url(#favBut)" stroke="#7F1D1D" stroke-width="0.8"/>
+    <path d="M44.5 16 C44.5 13, 48 13, 48 16 Z" fill="#FBBF24"/>
+    <path d="M44.2 58 C45.5 63, 46.2 68, 46.2 70 C46.2 68, 47 63, 48.3 58 Z" fill="#1E293B"/>
+  </g>
+
+  {/* 3. Cây Phất Chủ (Tiên) */}
+  <g transform="rotate(-38 52 46)">
+    <rect x="48" y="14" width="3.5" height="40" rx="1.5" fill="url(#favPhat)" stroke="#0C4A6E" stroke-width="0.8"/>
+    <circle cx="49.7" cy="14" r="2.5" fill="#E2E8F0"/>
+    <path d="M48 54 C44 60, 42 68, 46 76 C42 69, 45 61, 49.5 54" fill="#F8FAFC" stroke="#94A3B8" stroke-width="0.8"/>
+    <path d="M50 54 C51 62, 54 70, 50 78 C54 71, 53 62, 51.5 54" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
+  </g>
+
+  {/* 4. Bình Bát Vu (Phật) */}
+  <path d="M36 43 C36 53, 42 60, 50 60 C58 60, 64 53, 64 43 Z" fill="url(#favBat)" stroke="#78350F" stroke-width="1.8"/>
+  <ellipse cx="50" cy="42.5" rx="14" ry="3.5" fill="#FEF08A" stroke="#B45309" stroke-width="1.2"/>
+</svg>

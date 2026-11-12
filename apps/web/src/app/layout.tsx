@@ -3,7 +3,8 @@ import { Lora, Be_Vietnam_Pro } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
 import { BookOpen, Calendar, MapPin, FileEdit, Search, Info } from 'lucide-react';
-import { CaoDaiEmblem, TamGiaoStripe } from '@/components/ThienNhan';
+import { TamGiaoStripe } from '@/components/ThienNhan';
+import { CoPhapEmblem } from '@/components/CoPhap';
 
 const lora = Lora({
   subsets: ['vietnamese', 'latin'],
@@ -21,7 +22,10 @@ const beVietnamPro = Be_Vietnam_Pro({
 export const metadata: Metadata = {
   title: 'Thư Viện Số Cao Đài | CaoDai Digital Library',
   description: 'Nền tảng tra cứu, lưu trữ và bảo tồn kinh sách, lịch Đạo và cơ sở thờ tự Đạo Cao Đài (Đại Đạo Tam Kỳ Phổ Độ).',
-  keywords: ['Cao Đài', 'Đại Đạo Tam Kỳ Phổ Độ', 'Thư viện số Cao Đài', 'Thiên Nhãn', 'Kinh Cúng Tứ Thời', 'Lịch Đạo'],
+  keywords: ['Cao Đài', 'Đại Đạo Tam Kỳ Phổ Độ', 'Thư viện số Cao Đài', 'Cổ Pháp', 'Thiên Nhãn', 'Kinh Cúng Tứ Thời', 'Lịch Đạo'],
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({
@@ -43,9 +47,9 @@ export default function RootLayout({
         {/* Thanh Điều Hướng Chính */}
         <header className="sticky top-0 z-40 bg-heritage-paper/95 backdrop-blur-sm border-b border-heritage-border shadow-xs">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
-            {/* Logo nhận diện: Biểu tượng Thiên Nhãn Cao Đài */}
+            {/* Logo nhận diện: Biểu tượng Cổ Pháp Tam Giáo Cao Đài */}
             <Link href="/" className="flex items-center space-x-3 group py-2">
-              <CaoDaiEmblem className="w-11 h-11 shrink-0 group-hover:scale-105 transition-transform" />
+              <CoPhapEmblem className="w-11 h-11 shrink-0 group-hover:scale-105 transition-transform" />
               <div>
                 <span className="block text-lg font-serif font-bold text-heritage-wood leading-tight group-hover:text-heritage-goldDark transition-colors">
                   Thư Viện Số
@@ -126,7 +130,7 @@ export default function RootLayout({
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="md:col-span-2 space-y-3">
                 <div className="flex items-center space-x-3">
-                  <CaoDaiEmblem className="w-8 h-8" />
+                  <CoPhapEmblem className="w-8 h-8" />
                   <span className="font-serif font-bold text-heritage-wood text-base">
                     Thư Viện Số Cao Đài
                   </span>
@@ -135,10 +139,10 @@ export default function RootLayout({
                   Nền tảng số hóa, bảo tồn và phổ biến kinh sách, thánh giáo, đạo sử và danh bạ cơ sở thờ tự Đạo Cao Đài (Đại Đạo Tam Kỳ Phổ Độ).
                 </p>
                 <div className="flex items-center space-x-2 text-[11px] text-heritage-woodLight">
-                  <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#EAB308]" title="Phái Thái - Vàng" />
-                  <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#0284C7]" title="Phái Thượng - Xanh" />
-                  <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#DC2626]" title="Phái Ngọc - Đỏ" />
-                  <span className="pl-1">Tam Giáo Đồng Quy • Vạn Thù Quy Nhất Bản</span>
+                  <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#EAB308]" title="Bình Bát Vu - Phật" />
+                  <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#0284C7]" title="Cây Phất Chủ - Tiên" />
+                  <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#DC2626]" title="Cổ Bút & Kinh Xuân Thu - Thánh" />
+                  <span className="pl-1">Tam Giáo Cổ Pháp • Vạn Thù Quy Nhất Bản</span>
                 </div>
               </div>
 
