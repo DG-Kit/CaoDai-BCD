@@ -44,7 +44,8 @@
     * Tích hợp bảng màu di sản theo tiêu chuẩn Art Director (`impeccable`): `heritage-paper`, `heritage-parchment`, `heritage-gold`, `heritage-wood` cùng bộ 3 màu sắc chủ đạo Tam Giáo Cao Đài (`caodai-yellow`, `caodai-blue`, `caodai-red`).
     * Thay thế toàn bộ biểu tượng Thiên Nhãn bằng bức tranh tả thực chất chì mỹ thuật do người dùng cung cấp (`apps/web/public/images/thien-nhan.jpg`), hiển thị trọn vẹn nét tôn nghiêm của chân mày, mí mắt và đồng tử tại Logo Header, Banner chính và chân trang.
     * **Điều chỉnh định vị hiển thị giao diện (User-Facing Brand):** Layout Web đối ngoại chính thức sử dụng tên **"Thư Viện Số Cao Đài"** (CaoDai Digital Library / Đại Đạo Tam Kỳ Phổ Độ); trong khi đó, phần lõi hệ thống và dữ liệu giai đoạn MVP vẫn giữ nguyên trọng tâm chuyên biệt vào **Hội Thánh Cao Đài Ban Chỉnh Đạo** (Tòa Thánh Bến Tre), sẵn sàng mở rộng các chi phái khác trong tương lai.
-    * Đã khắc phục triệt để lỗi font tách dấu tiếng Việt (thay thế Georgia bằng `Lora` và `Times New Roman` tối ưu glyph tiếng Việt).
+    * Khắc phục triệt để lỗi Webpack Persistent Cache trên Windows (`ENOENT: rename 0.pack.gz_ -> 0.pack.gz` gây 500/404 mất CSS khi F5 dev server) bằng cách cấu hình `config.cache = { type: 'memory' }` trong `apps/web/next.config.mjs`.
+    * Đã kiểm thử `npm run build --workspace=@caodai-bcd/web` sạch 100%, tải trang ổn định và không bị lỗi vặt.
     * Đã tinh chỉnh toàn bộ nội dung trang chủ: Loại bỏ toàn bộ các từ ngữ kỹ thuật/developer, thay bằng giao diện đọc tra cứu thuần túy, thân thiện với bạn đọc, tín đồ và nhà nghiên cứu (tìm kiếm kinh sách, lịch sóc vọng ăn chay, danh bạ Thánh Thất, soạn sớ văn gia đạo).
     * Xây dựng layout chính thức gồm thanh thông báo tôn chỉ trung lập ("Bản scan gốc là bằng chứng đối chiếu tối cao"), header điều hướng 6 phân hệ, footer học thuật.
     * Tạo trang chủ Portal ([`apps/web/src/app/page.tsx`](apps/web/src/app/page.tsx)) giới thiệu trực quan 6 phân hệ cốt lõi.
