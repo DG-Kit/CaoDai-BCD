@@ -1,0 +1,161 @@
+// Prisma Schema cho Ban Chinh Dao Digital Library
+// Hỗ trợ PostgreSQL 16 + PostGIS Extension
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ==========================================
+// 1. NGƯỜI DÙNG & XÁC THỰC (Users & Auth)
+// ==========================================
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+}
+
+model User {
+  id           String      @id @default(uuid()) @db.Uuid
+  email        String      @unique @db.VarChar(255)
+  passwordHash String      @map("password_hash") @db.VarChar(255)
+  fullName     String      @map("full_name") @db.VarChar(150)
+  phoneNumber  String?     @map("phone_number") @db.VarChar(20)
+  status       UserStatus  @default(ACTIVE)
+  createdAt    DateTime    @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  deletedAt    DateTime?   @map("deleted_at") @db.Timestamptz
+
+  // Quan hệ
+  roleAssignments     UserRoleAssignment[]
+  auditLogs           AuditLog[]
+  calendarPreferences UserCalendarPreference?
+
+  @@map("users")
+}
+
+// ==========================================
+// 2. PHÂN QUYỀN CÓ PHẠM VI (Scoped RBAC)
+// ==========================================
+
+enum RoleCode {
+  VISITOR
+  MEMBER
+  UNIT_ADMIN
+  LIBRARY_EDITOR
+  REVIEWER
+  SYSTEM_ADMIN
+}
+
+model Role {
+  id          String    @id @default(uuid()) @db.Uuid
+  code        RoleCode  @unique
+  name        String    @db.VarChar(100)
+  description String?   @db.Text
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  // Quan hệ
+  rolePermissions RolePermission[]
+  userAssignments UserRoleAssignment[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String   @id @default(uuid()) @db.Uuid
+  code        String   @unique @db.VarChar(100)
+  module      String   @db.VarChar(50)
+  description String?  @db.Text
+
+  // Quan hệ
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId       String     @map("role_id") @db.Uuid
+  permissionId String     @map("permission_id") @db.Uuid
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model UserRoleAssignment {
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+  roleId      String   @map("role_id") @db.Uuid
+  scopeUnitId String?  @map("scope_unit_id") @db.Uuid
+  scopeSiteId String?  @map("scope_site_id") @db.Uuid
+  assignedBy  String?  @map("assigned_by") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@map("user_role_assignments")
+}
+
+// ==========================================
+// 3. TÙY CHỌN LỊCH CÁ NHÂN & TRAI KỲ
+// ==========================================
+
+enum FastingScheduleMode {
+  NONE
+  LUC_TRAI
+  THAP_TRAI
+  THIEN_NGUON
+}
+
+model UserCalendarPreference {
+  id                String              @id @default(uuid()) @db.Uuid
+  userId            String              @unique @map("user_id") @db.Uuid
+  showCanChi        Boolean             @default(true) @map("show_can_chi")
+  fastingSchedule   FastingScheduleMode @default(NONE) @map("fasting_schedule")
+  highlightTramSoc  Boolean             @default(true) @map("highlight_tram_soc")
+  updatedAt         DateTime            @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_calendar_preferences")
+}
+
+// ==========================================
+// 4. KIỂM TOÁN HỆ THỐNG (Audit Logging)
+// ==========================================
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  PUBLISH
+  LOGIN
+  LOGOUT
+}
+
+model AuditLog {
+  id            String      @id @default(uuid()) @db.Uuid
+  userId        String?     @map("user_id") @db.Uuid
+  action        AuditAction
+  entityName    String      @map("entity_name") @db.VarChar(50)
+  entityId      String?     @map("entity_id") @db.VarChar(100)
+  oldValuesJson Json?       @map("old_values_json")
+  newValuesJson Json?       @map("new_values_json")
+  ipAddress     String?     @map("ip_address") @db.VarChar(45)
+  userAgent     String?     @map("user_agent") @db.Text
+  createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamptz
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([entityName, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}

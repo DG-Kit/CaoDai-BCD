@@ -53,3 +53,4 @@ export enum DocumentFileType {
   AUDIO_MP3 = 'AUDIO_MP3',
   IMAGE_COVER = 'IMAGE_COVER',
 }
+

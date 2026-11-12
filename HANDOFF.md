@@ -39,14 +39,19 @@
     * Tạo gói thư viện chia sẻ [`packages/shared`](packages/shared) chứa các Enums cốt lõi (`UserRole`, `VerificationStatus`, `DocumentEditionStatus`, `FastingSchedule`...).
     * Thiết lập hạ tầng Docker Compose chuẩn tại [`infra/docker-compose.yml`](infra/docker-compose.yml) (PostgreSQL 16 + PostGIS, Redis 7, MinIO S3).
     * Thiết lập tệp biến môi trường mẫu [`.env.example`](.env.example) và cập nhật [`.gitignore`](.gitignore).
-  - **Trạng thái hiện tại:** **PHASE 0 - BƯỚC 0.1 HOÀN TẤT** (Đi từng lát cắt nhỏ, kiểm thử trước khi sang bước tiếp).
+  - **Bước 0.2 (Hoàn thành):**
+    * Khởi tạo khung dự án Backend NestJS tại [`apps/api`](apps/api) với Swagger OpenAPI, CORS và Global Validation Pipe.
+    * Thiết lập Prisma Schema nền tảng tại [`apps/api/prisma/schema.prisma`](apps/api/prisma/schema.prisma) (`User`, `Role`, `Permission`, `UserRoleAssignment`, `UserCalendarPreference`, `AuditLog`).
+    * Sinh thành công Prisma Client và build TypeScript không lỗi (`nest build`).
+    * Tạo endpoint `GET /api/health` và viết Unit Test tự động đạt 100% pass (`jest`).
+  - **Trạng thái hiện tại:** **PHASE 0 - BƯỚC 0.2 HOÀN TẤT**.
 
-### Công việc tiếp theo (Bước 0.2):
+### Công việc tiếp theo (Bước 0.3):
 
-1. **Khởi tạo Backend API Boilerplate (`apps/api`):**
-   - Thiết lập khung dự án NestJS + TypeScript trong `apps/api`.
-   - Cấu hình Prisma ORM, kết nối PostgreSQL/PostGIS.
-   - Thiết lập Health Check Endpoint (`/health`).
+1. **Khởi tạo Frontend Web Boilerplate (`apps/web`):**
+   - Thiết lập khung dự án Next.js 14/15 (App Router) + TypeScript + Tailwind CSS tại `apps/web`.
+   - Kết nối với `@caodai-bcd/shared`.
+   - Tạo trang chủ (Home Portal) và trang hiển thị trạng thái kết nối Backend Health.
 
 ---
 
