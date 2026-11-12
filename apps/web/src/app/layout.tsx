@@ -3,6 +3,7 @@ import { Lora, Be_Vietnam_Pro } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
 import { BookOpen, Calendar, MapPin, FileEdit, Search, Info } from 'lucide-react';
+import { CaoDaiEmblem, TamGiaoStripe } from '@/components/ThienNhan';
 
 const lora = Lora({
   subsets: ['vietnamese', 'latin'],
@@ -20,7 +21,7 @@ const beVietnamPro = Be_Vietnam_Pro({
 export const metadata: Metadata = {
   title: 'Thư Viện Số Cao Đài Ban Chỉnh Đạo',
   description: 'Nền tảng tra cứu, lưu trữ và bảo tồn kinh sách, lịch Đạo và cơ sở thờ tự Hội Thánh Cao Đài Ban Chỉnh Đạo.',
-  keywords: ['Cao Đài', 'Ban Chỉnh Đạo', 'Tòa Thánh Bến Tre', 'Thư viện số', 'Kinh Cúng Tứ Thời', 'Lịch Đạo'],
+  keywords: ['Cao Đài', 'Ban Chỉnh Đạo', 'Tòa Thánh Bến Tre', 'Thiên Nhãn', 'Kinh Cúng Tứ Thời', 'Lịch Đạo'],
 };
 
 export default function RootLayout({
@@ -31,24 +32,25 @@ export default function RootLayout({
   return (
     <html lang="vi" className={`${lora.variable} ${beVietnamPro.variable}`}>
       <body className="min-h-screen flex flex-col bg-heritage-paper text-heritage-wood font-sans selection:bg-heritage-gold/20 selection:text-heritage-wood">
+        {/* Dải 3 màu sắc chủ đạo Tam Giáo Cao Đài (Vàng - Xanh - Đỏ) */}
+        <TamGiaoStripe className="h-1.5 w-full" />
+
         {/* Thông báo tôn chỉ nghiên cứu & bảo tồn */}
         <div className="bg-heritage-parchment border-b border-heritage-border text-xs text-heritage-woodLight text-center py-2 px-4">
           Dự án sưu tầm, số hóa và lưu trữ tư liệu phục vụ nghiên cứu & học tập • Căn cứ theo các bản in và tư liệu lịch sử
         </div>
 
         {/* Thanh Điều Hướng Chính */}
-        <header className="sticky top-0 z-40 bg-heritage-paper/95 backdrop-blur-sm border-b border-heritage-border">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            {/* Logo & Tên dự án */}
-            <Link href="/" className="flex items-center space-x-3 group">
-              <div className="w-10 h-10 rounded-full bg-heritage-gold/15 border border-heritage-gold/30 flex items-center justify-center text-heritage-gold group-hover:scale-105 transition-transform">
-                <BookOpen className="w-5 h-5" />
-              </div>
+        <header className="sticky top-0 z-40 bg-heritage-paper/95 backdrop-blur-sm border-b border-heritage-border shadow-xs">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+            {/* Logo nhận diện: Biểu tượng Thiên Nhãn Cao Đài */}
+            <Link href="/" className="flex items-center space-x-3 group py-2">
+              <CaoDaiEmblem className="w-11 h-11 shrink-0 group-hover:scale-105 transition-transform" />
               <div>
-                <span className="block text-lg font-serif font-bold text-heritage-wood leading-tight">
+                <span className="block text-lg font-serif font-bold text-heritage-wood leading-tight group-hover:text-heritage-goldDark transition-colors">
                   Thư Viện Số
                 </span>
-                <span className="block text-xs uppercase tracking-wider text-heritage-goldDark font-medium">
+                <span className="block text-xs uppercase tracking-wider text-heritage-goldDark font-semibold">
                   Cao Đài Ban Chỉnh Đạo
                 </span>
               </div>
@@ -117,23 +119,27 @@ export default function RootLayout({
 
         {/* Footer Trang Nhã */}
         <footer className="bg-heritage-parchment border-t border-heritage-border mt-auto">
+          {/* Dải 3 màu viền đáy cờ Đạo */}
+          <TamGiaoStripe className="h-1 w-full" />
+          
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="md:col-span-2 space-y-3">
-                <div className="flex items-center space-x-2">
-                  <div className="w-7 h-7 rounded-full bg-heritage-gold/20 flex items-center justify-center text-heritage-goldDark">
-                    <BookOpen className="w-4 h-4" />
-                  </div>
-                  <span className="font-serif font-bold text-heritage-wood">
+                <div className="flex items-center space-x-3">
+                  <CaoDaiEmblem className="w-8 h-8" />
+                  <span className="font-serif font-bold text-heritage-wood text-base">
                     Thư Viện Số Cao Đài Ban Chỉnh Đạo
                   </span>
                 </div>
                 <p className="text-xs text-heritage-woodLight leading-relaxed max-w-md">
                   Nền tảng bảo tồn và phổ biến kinh sách, thánh giáo, đạo sử và danh bạ cơ sở thờ tự thuộc Hội Thánh Cao Đài Ban Chỉnh Đạo (Tòa Thánh Bến Tre).
                 </p>
-                <p className="text-[11px] text-heritage-woodLight/80">
-                  Dự án phi lợi nhuận phục vụ nghiên cứu và gìn giữ văn hóa tín ngưỡng truyền thống.
-                </p>
+                <div className="flex items-center space-x-2 text-[11px] text-heritage-woodLight">
+                  <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#EAB308]" title="Phái Thái - Vàng" />
+                  <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#0284C7]" title="Phái Thượng - Xanh" />
+                  <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#DC2626]" title="Phái Ngọc - Đỏ" />
+                  <span className="pl-1">Tam Giáo Đồng Quy • Vạn Thù Quy Nhất Bản</span>
+                </div>
               </div>
 
               <div>
@@ -189,7 +195,7 @@ export default function RootLayout({
             </div>
 
             <div className="border-t border-heritage-border/60 mt-8 pt-4 text-center text-xs text-heritage-woodLight">
-              © {new Date().getFullYear()} Thư Viện Số Cao Đài Ban Chỉnh Đạo • Gìn giữ di sản tiền nhân
+              © {new Date().getFullYear()} Thư Viện Số Cao Đài Ban Chỉnh Đạo • Tòa Thánh Bến Tre (An Hội)
             </div>
           </div>
         </footer>

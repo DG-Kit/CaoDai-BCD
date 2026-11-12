@@ -21,6 +21,12 @@ const config: Config = {
           crimson: '#881337',    // Màu điểm xuyết son truyền thống
           cyan: '#0C4A6E',       // Xanh dương thâm trầm
         },
+        // Ba màu sắc chủ đạo Tam Giáo của Đạo Cao Đài
+        caodai: {
+          yellow: '#EAB308', // Vàng: Thái Thanh (Phật giáo - Từ Bi)
+          blue: '#0284C7',   // Xanh lam: Thượng Thanh (Tiên giáo - Thanh Tịnh)
+          red: '#DC2626',    // Đỏ son: Ngọc Thanh (Nho giáo - Công Bình)
+        },
       },
       fontFamily: {
         serif: ['var(--font-serif)', '"Times New Roman"', 'Times', 'serif'],
