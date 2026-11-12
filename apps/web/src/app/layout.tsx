@@ -1,10 +1,24 @@
 import type { Metadata } from 'next';
+import { Lora, Be_Vietnam_Pro } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
-import { BookOpen, Calendar, MapPin, FileEdit, Search, ShieldCheck } from 'lucide-react';
+import { BookOpen, Calendar, MapPin, FileEdit, Search, Info } from 'lucide-react';
+
+const lora = Lora({
+  subsets: ['vietnamese', 'latin'],
+  variable: '--font-serif',
+  display: 'swap',
+});
+
+const beVietnamPro = Be_Vietnam_Pro({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['vietnamese', 'latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
-  title: 'Ban Chỉnh Đạo Digital Library | Thư Viện Số Cao Đài Ban Chỉnh Đạo',
+  title: 'Thư Viện Số Cao Đài Ban Chỉnh Đạo',
   description: 'Nền tảng tra cứu, lưu trữ và bảo tồn kinh sách, lịch Đạo và cơ sở thờ tự Hội Thánh Cao Đài Ban Chỉnh Đạo.',
   keywords: ['Cao Đài', 'Ban Chỉnh Đạo', 'Tòa Thánh Bến Tre', 'Thư viện số', 'Kinh Cúng Tứ Thời', 'Lịch Đạo'],
 };
@@ -15,11 +29,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="vi">
-      <body className="min-h-screen flex flex-col bg-heritage-paper text-heritage-wood selection:bg-heritage-gold/20 selection:text-heritage-wood">
-        {/* Thanh Thông Báo Tôn Chỉ Trung Lập */}
-        <div className="bg-heritage-parchment border-b border-heritage-border text-xs text-heritage-woodLight text-center py-1.5 px-4">
-          Dự án nghiên cứu, số hóa và bảo tồn di sản văn hóa độc lập • Bản scan gốc là bằng chứng đối chiếu tối cao
+    <html lang="vi" className={`${lora.variable} ${beVietnamPro.variable}`}>
+      <body className="min-h-screen flex flex-col bg-heritage-paper text-heritage-wood font-sans selection:bg-heritage-gold/20 selection:text-heritage-wood">
+        {/* Thông báo tôn chỉ nghiên cứu & bảo tồn */}
+        <div className="bg-heritage-parchment border-b border-heritage-border text-xs text-heritage-woodLight text-center py-2 px-4">
+          Dự án sưu tầm, số hóa và lưu trữ tư liệu phục vụ nghiên cứu & học tập • Căn cứ theo các bản in và tư liệu lịch sử
         </div>
 
         {/* Thanh Điều Hướng Chính */}
@@ -32,22 +46,22 @@ export default function RootLayout({
               </div>
               <div>
                 <span className="block text-lg font-serif font-bold text-heritage-wood leading-tight">
-                  Ban Chỉnh Đạo
+                  Thư Viện Số
                 </span>
                 <span className="block text-xs uppercase tracking-wider text-heritage-goldDark font-medium">
-                  Digital Library
+                  Cao Đài Ban Chỉnh Đạo
                 </span>
               </div>
             </Link>
 
-            {/* Menu Các Phân Hệ Chính */}
+            {/* Menu Các Phân Hệ Dành Cho Độc Giả */}
             <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 text-sm font-medium">
               <Link
                 href="/library"
                 className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-heritage-wood hover:bg-heritage-parchment hover:text-heritage-goldDark transition-colors"
               >
                 <BookOpen className="w-4 h-4 text-heritage-goldDark" />
-                <span>Thư Viện Đạo</span>
+                <span>Kinh Sách</span>
               </Link>
 
               <Link
@@ -55,7 +69,7 @@ export default function RootLayout({
                 className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-heritage-wood hover:bg-heritage-parchment hover:text-heritage-goldDark transition-colors"
               >
                 <Calendar className="w-4 h-4 text-heritage-goldDark" />
-                <span>Lịch Đạo</span>
+                <span>Lịch Đạo & Ngày Chay</span>
               </Link>
 
               <Link
@@ -63,7 +77,7 @@ export default function RootLayout({
                 className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-heritage-wood hover:bg-heritage-parchment hover:text-heritage-goldDark transition-colors"
               >
                 <MapPin className="w-4 h-4 text-heritage-goldDark" />
-                <span>Thánh Sở</span>
+                <span>Thánh Sở & Họ Đạo</span>
               </Link>
 
               <Link
@@ -79,18 +93,18 @@ export default function RootLayout({
                 className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-heritage-wood hover:bg-heritage-parchment hover:text-heritage-goldDark transition-colors"
               >
                 <Search className="w-4 h-4 text-heritage-goldDark" />
-                <span>Nghiên Cứu</span>
+                <span>Đạo Sử & Khảo Cứu</span>
               </Link>
             </nav>
 
-            {/* Nút Đăng Nhập / Quản Trị */}
+            {/* Mục Giới thiệu / Hướng dẫn */}
             <div className="flex items-center space-x-3">
               <Link
-                href="/admin"
+                href="/about"
                 className="text-xs uppercase tracking-wider font-semibold text-heritage-woodLight hover:text-heritage-goldDark flex items-center space-x-1 border border-heritage-border rounded-md px-2.5 py-1.5 hover:bg-heritage-parchment transition-colors"
               >
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Kiểm Duyệt</span>
+                <Info className="w-3.5 h-3.5" />
+                <span>Giới Thiệu</span>
               </Link>
             </div>
           </div>
@@ -101,19 +115,81 @@ export default function RootLayout({
           {children}
         </main>
 
-        {/* Chân Trang */}
-        <footer className="bg-heritage-parchment border-t border-heritage-border py-8 text-sm text-heritage-woodLight">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div>
-              <p className="font-serif font-bold text-heritage-wood">
-                Ban Chỉnh Đạo Digital Library
-              </p>
-              <p className="text-xs text-heritage-woodLight mt-1">
-                Bảo tồn di sản, kinh sách và dữ liệu lịch sử Hội Thánh Cao Đài Ban Chỉnh Đạo.
-              </p>
+        {/* Footer Trang Nhã */}
+        <footer className="bg-heritage-parchment border-t border-heritage-border mt-auto">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              <div className="md:col-span-2 space-y-3">
+                <div className="flex items-center space-x-2">
+                  <div className="w-7 h-7 rounded-full bg-heritage-gold/20 flex items-center justify-center text-heritage-goldDark">
+                    <BookOpen className="w-4 h-4" />
+                  </div>
+                  <span className="font-serif font-bold text-heritage-wood">
+                    Thư Viện Số Cao Đài Ban Chỉnh Đạo
+                  </span>
+                </div>
+                <p className="text-xs text-heritage-woodLight leading-relaxed max-w-md">
+                  Nền tảng bảo tồn và phổ biến kinh sách, thánh giáo, đạo sử và danh bạ cơ sở thờ tự thuộc Hội Thánh Cao Đài Ban Chỉnh Đạo (Tòa Thánh Bến Tre).
+                </p>
+                <p className="text-[11px] text-heritage-woodLight/80">
+                  Dự án phi lợi nhuận phục vụ nghiên cứu và gìn giữ văn hóa tín ngưỡng truyền thống.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-serif font-semibold text-sm text-heritage-wood mb-3">
+                  Tra Cứu
+                </h4>
+                <ul className="space-y-2 text-xs text-heritage-woodLight">
+                  <li>
+                    <Link href="/library" className="hover:text-heritage-goldDark">
+                      Kinh Cúng Tứ Thời
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/library" className="hover:text-heritage-goldDark">
+                      Thánh Ngôn & Thánh Giáo
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/calendar" className="hover:text-heritage-goldDark">
+                      Lịch Âm Dương & Ăn Chay
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/worship-sites" className="hover:text-heritage-goldDark">
+                      Danh Bạ Thánh Thất
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-serif font-semibold text-sm text-heritage-wood mb-3">
+                  Thông Tin
+                </h4>
+                <ul className="space-y-2 text-xs text-heritage-woodLight">
+                  <li>
+                    <Link href="/about" className="hover:text-heritage-goldDark">
+                      Tôn Chỉ & Mục Tiêu
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/composer" className="hover:text-heritage-goldDark">
+                      Hướng Dẫn Soạn Sớ Văn
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/terms" className="hover:text-heritage-goldDark">
+                      Quy Định Sử Dụng Tài Liệu
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div className="text-xs text-heritage-woodLight/80 text-center md:text-right">
-              Phiên bản 0.1.0 • Xây dựng theo phương pháp Spec-Driven Development
+
+            <div className="border-t border-heritage-border/60 mt-8 pt-4 text-center text-xs text-heritage-woodLight">
+              © {new Date().getFullYear()} Thư Viện Số Cao Đài Ban Chỉnh Đạo • Gìn giữ di sản tiền nhân
             </div>
           </div>
         </footer>
@@ -121,4 +197,3 @@ export default function RootLayout({
     </html>
   );
 }
-

@@ -42,6 +42,8 @@
   - **Bước 0.3 (Hoàn thành):**
     * Khởi tạo Frontend Web Boilerplate tại [`apps/web`](apps/web) với Next.js 14 (App Router) + TypeScript + Tailwind CSS.
     * Tích hợp bảng màu di sản theo tiêu chuẩn Art Director (`impeccable`): `heritage-paper`, `heritage-parchment`, `heritage-gold`, `heritage-wood`.
+    * Đã khắc phục triệt để lỗi font tách dấu tiếng Việt (thay thế Georgia bằng `Lora` và `Times New Roman` tối ưu glyph tiếng Việt).
+    * Đã tinh chỉnh toàn bộ nội dung trang chủ: Loại bỏ toàn bộ các từ ngữ kỹ thuật/developer, thay bằng giao diện đọc tra cứu thuần túy, thân thiện với bạn đọc, tín đồ và nhà nghiên cứu (tìm kiếm kinh sách, lịch sóc vọng ăn chay, danh bạ Thánh Thất, soạn sớ văn gia đạo).
     * Xây dựng layout chính thức gồm thanh thông báo tôn chỉ trung lập ("Bản scan gốc là bằng chứng đối chiếu tối cao"), header điều hướng 6 phân hệ, footer học thuật.
     * Tạo trang chủ Portal ([`apps/web/src/app/page.tsx`](apps/web/src/app/page.tsx)) giới thiệu trực quan 6 phân hệ cốt lõi.
     * Tích hợp widget kiểm tra kết nối API tự động ([`ApiHealthWidget.tsx`](apps/web/src/components/ApiHealthWidget.tsx)) kết nối `GET /api/health` của Backend.

@@ -23,8 +23,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
-        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        serif: ['var(--font-serif)', '"Times New Roman"', 'Times', 'serif'],
+        sans: ['var(--font-sans)', 'system-ui', '-apple-system', 'sans-serif'],
       },
     },
   },
@@ -32,4 +32,3 @@ const config: Config = {
 };
 
 export default config;
-
