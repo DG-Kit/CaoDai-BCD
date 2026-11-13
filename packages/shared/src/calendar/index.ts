@@ -10,6 +10,7 @@ export * from './lunar';
 export * from './canchi';
 export * from './hoangdao';
 export * from './fasting';
+export * from './events';
 
 const DAY_OF_WEEK_NAMES = [
   'Chủ Nhật',

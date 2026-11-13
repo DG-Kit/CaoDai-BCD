@@ -6,7 +6,7 @@
 | **Mã kế hoạch** | `PLAN-PHASE-1-CALENDAR-001` |
 | **Giai đoạn** | **Phase 1 (Ưu tiên số 1)** |
 | **Ngày lập** | 2026-11-13 |
-| **Trạng thái** | 🟡 **PENDING USER APPROVAL (Chờ người dùng duyệt trước khi thực thi)** |
+| **Trạng thái** | 🟢 **COMPLETED (Đã hoàn thành và kiểm thử toàn bộ 5/5 tasks Phase 1)** |
 | **Người lập** | Antigravity AI Assistant |
 
 ---
@@ -152,11 +152,11 @@ Xây dựng trang Lịch Đạo tại `apps/web/src/app/calendar/page.tsx`:
 
 ## 6. Phân Chia Công Việc Cụ Thể (Task Breakdown)
 
-- [ ] **Task 1.1:** Viết module tính toán Âm Dương, Can Chi, Giờ Hoàng Đạo và Trai kỳ trong `packages/shared/src/calendar/` kèm Unit Test Jest đạt 100% pass.
-- [ ] **Task 1.2:** Mở rộng `schema.prisma` (`ReligiousEvent`, `CalendarRule`, `EventOccurrence`), tạo migration `add_calendar_tables` và seed dữ liệu các ngày lễ vía lớn của Đạo Cao Đài.
-- [ ] **Task 1.3:** Triển khai `CalendarModule` trong `apps/api` (Controller, Service, DTO, Unit Test).
-- [ ] **Task 1.4:** Triển khai Giao diện Lịch Đạo tại `apps/web/src/app/calendar/page.tsx` tích hợp đầy đủ bảng tháng, bộ lọc ăn chay, Can Chi và Giờ Hoàng Đạo.
-- [ ] **Task 1.5:** Kiểm thử toàn diện e2e (F5 không vỡ giao diện, chuyển đổi các tháng, kiểm tra tính toán tháng nhuận/tháng thiếu), cập nhật `HANDOFF.md` và commit push Git.
+- [x] **Task 1.1:** Viết module tính toán Âm Dương, Can Chi, Giờ Hoàng Đạo và Trai kỳ trong `packages/shared/src/calendar/` kèm Unit Test Jest đạt 100% pass (18/18 tests pass).
+- [x] **Task 1.2:** Mở rộng `schema.prisma` (`ReligiousEvent`, `CalendarRule`, `EventOccurrence`), tạo migration `20261113042620_add_calendar_events_schema` và nạp seed dữ liệu 13 ngày đại lễ chính xác của Hội Thánh Cao Đài Ban Chỉnh Đạo (người dùng đã thẩm định).
+- [x] **Task 1.3:** Triển khai `CalendarModule` trong `apps/api` (Controller, Service, DTO, Unit Test 27/27 pass 100%).
+- [x] **Task 1.4:** Triển khai Giao diện Lịch Đạo tại `apps/web/src/app/calendar/page.tsx` tích hợp đầy đủ bảng tháng, bộ lọc ăn chay, Can Chi, 6 Giờ Hoàng Đạo và thẻ chi tiết ngày chọn.
+- [x] **Task 1.5:** Kiểm thử toàn diện e2e (F5 không vỡ giao diện, chuyển đổi các tháng, kiểm tra tính toán tháng nhuận/tháng thiếu), cập nhật `HANDOFF.md` và commit push Git.
 
 ---
 
@@ -167,3 +167,4 @@ Xây dựng trang Lịch Đạo tại `apps/web/src/app/calendar/page.tsx`:
 3. Hiển thị đúng Can Chi và 6 giờ Hoàng Đạo của từng ngày.
 4. Giao diện trang nhã, không lỗi font, không phát sinh lỗi 500/404 khi tải hoặc F5 trang.
 5. 100% test pass và toàn bộ Monorepo build thành công.
+

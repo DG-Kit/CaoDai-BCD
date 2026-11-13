@@ -79,3 +79,4 @@ export function getFullCanChi(jd: number, lunarMonth: number, lunarYear: number)
     year: getCanChiYear(lunarYear),
   };
 }
+

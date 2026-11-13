@@ -160,3 +160,72 @@ model AuditLog {
   @@map("audit_logs")
 }
 
+// ==========================================
+// 5. PHÂN HỆ LỊCH ĐẠO & SỰ KIỆN (Religious Calendar)
+// ==========================================
+
+enum EventCategory {
+  MAJOR_HOLIDAY        // Đại lễ tối cao
+  COMMEMORATION        // Lễ kỷ niệm tiền bối, biến cố lịch sử
+  TRADITIONAL_FESTIVAL // Lễ hội truyền thống
+}
+
+model ReligiousEvent {
+  id          String        @id @default(uuid()) @db.Uuid
+  code        String        @unique @db.VarChar(100)
+  title       String        @db.VarChar(255)
+  description String?       @db.Text
+  category    EventCategory @default(MAJOR_HOLIDAY)
+  isRecurring Boolean       @default(true) @map("is_recurring")
+
+  rules       CalendarRule[]
+  occurrences EventOccurrence[]
+
+  createdAt   DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime      @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@map("religious_events")
+}
+
+model CalendarRule {
+  id              String         @id @default(uuid()) @db.Uuid
+  eventId         String         @map("event_id") @db.Uuid
+  event           ReligiousEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  
+  isLunar         Boolean        @default(true) @map("is_lunar")
+  lunarMonth      Int?           @map("lunar_month")
+  lunarDayStart   Int?           @map("lunar_day_start")
+  lunarDayEnd     Int?           @map("lunar_day_end")
+  solarMonth      Int?           @map("solar_month")
+  solarDayStart   Int?           @map("solar_day_start")
+  solarDayEnd     Int?           @map("solar_day_end")
+  applyLeapMonth  Boolean        @default(false) @map("apply_leap_month")
+  dateRangeStr    String?        @map("date_range_str") @db.VarChar(100) // Ví dụ: "08 – 09/01 Âm lịch"
+
+  createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamptz
+
+  @@map("calendar_rules")
+}
+
+model EventOccurrence {
+  id             String         @id @default(uuid()) @db.Uuid
+  eventId        String         @map("event_id") @db.Uuid
+  event          ReligiousEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  solarDate      DateTime       @map("solar_date") @db.Date
+  lunarDateStr   String         @map("lunar_date_str") @db.VarChar(50)
+  canChiDay      String?        @map("can_chi_day") @db.VarChar(50)
+  canChiMonth    String?        @map("can_chi_month") @db.VarChar(50)
+  canChiYear     String?        @map("can_chi_year") @db.VarChar(50)
+  
+  isMajorHoliday Boolean        @default(false) @map("is_major_holiday")
+  notes          String?        @db.Text
+
+  createdAt      DateTime       @default(now()) @map("created_at") @db.Timestamptz
+
+  @@unique([eventId, solarDate])
+  @@index([solarDate])
+  @@map("event_occurrences")
+}
+
+

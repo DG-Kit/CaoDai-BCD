@@ -105,3 +105,4 @@ export function checkFastingDay(
 
   return { isFasting: false, schedule };
 }
+

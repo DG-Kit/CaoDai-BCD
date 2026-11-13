@@ -1,4 +1,4 @@
-import { PrismaClient, RoleCode } from '@prisma/client';
+import { PrismaClient, RoleCode, EventCategory } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -144,6 +144,220 @@ async function main() {
       });
     }
     console.log(`✓ Gán ${permCodes.length} quyền cho vai trò [${roleCode}]`);
+  }
+
+  // 4. Danh sách 13 Ngày Đại Lễ & Kỷ Niệm Chính Thức Của Hội Thánh Cao Đài Ban Chỉnh Đạo (Đã thẩm định)
+  console.log('--- Khởi tạo 13 Ngày Đại Lễ / Kỷ Niệm Ban Chỉnh Đạo ---');
+  const religiousEvents = [
+    {
+      code: 'VIA_DUC_CHI_TON',
+      title: 'Đại lễ Vía Đức Chí Tôn',
+      category: EventCategory.MAJOR_HOLIDAY,
+      description: 'Đại lễ Vía Đức Ngọc Hoàng Thượng Đế (Đức Chí Tôn - Đấng Đại Từ Phụ).',
+      rule: {
+        isLunar: true,
+        lunarMonth: 1,
+        lunarDayStart: 8,
+        lunarDayEnd: 9,
+        dateRangeStr: '08 – 09/01 Âm lịch',
+      },
+    },
+    {
+      code: 'THUONG_NGUON',
+      title: 'Đại lễ Thượng Nguơn',
+      category: EventCategory.MAJOR_HOLIDAY,
+      description: 'Đại lễ Thượng Nguơn - Cầu an đầu năm.',
+      rule: {
+        isLunar: true,
+        lunarMonth: 1,
+        lunarDayStart: 14,
+        lunarDayEnd: 15,
+        dateRangeStr: '14 – 15/01 Âm lịch',
+      },
+    },
+    {
+      code: 'VIA_THAI_THUONG_DAO_TO',
+      title: 'Đại lễ Vía Đức Thái Thượng Đạo Tổ',
+      category: EventCategory.MAJOR_HOLIDAY,
+      description: 'Đại lễ Vía Đức Thái Thượng Đạo Tổ (Lão Tử - Đạo giáo).',
+      rule: {
+        isLunar: true,
+        lunarMonth: 2,
+        lunarDayStart: 14,
+        lunarDayEnd: 15,
+        dateRangeStr: '14 – 15/02 Âm lịch',
+      },
+    },
+    {
+      code: 'KY_NIEM_GIAO_TONG_DAC_DAO',
+      title: 'Lễ Kỷ niệm Đức Giáo Tông Nguyễn Ngọc Tương đắc đạo',
+      category: EventCategory.COMMEMORATION,
+      description: 'Kỷ niệm ngày Đức Giáo Tông Nguyễn Ngọc Tương đắc đạo.',
+      rule: {
+        isLunar: true,
+        lunarMonth: 2,
+        lunarDayStart: 24,
+        lunarDayEnd: 25,
+        dateRangeStr: '24 – 25/02 Âm lịch',
+      },
+    },
+    {
+      code: 'KY_NIEM_GIAO_TONG_THO_PHONG',
+      title: 'Lễ Kỷ niệm Đức Giáo Tông Nguyễn Ngọc Tương thọ phong lý Giáo Tông nơi Thiên Đình',
+      category: EventCategory.COMMEMORATION,
+      description: 'Kỷ niệm ngày Đức Giáo Tông Nguyễn Ngọc Tương thọ phong lý Giáo Tông nơi Thiên Đình.',
+      rule: {
+        isLunar: true,
+        lunarMonth: 3,
+        lunarDayStart: 13,
+        lunarDayEnd: 13,
+        dateRangeStr: '13/03 Âm lịch',
+      },
+    },
+    {
+      code: 'PHAT_DAN_THICH_CA',
+      title: 'Đại lễ Phật Đản Đức Thích Ca Mâu Ni',
+      category: EventCategory.MAJOR_HOLIDAY,
+      description: 'Đại lễ Kỷ niệm Phật Đản Đức Thích Ca Mâu Ni (Phật giáo).',
+      rule: {
+        isLunar: true,
+        lunarMonth: 4,
+        lunarDayStart: 7,
+        lunarDayEnd: 8,
+        dateRangeStr: '07 – 08/04 Âm lịch',
+      },
+    },
+    {
+      code: 'KY_NIEM_RA_TINH_GIAO_TONG',
+      title: 'Lễ Kỷ niệm "Ra Tịnh" của Đức Giáo Tông',
+      category: EventCategory.COMMEMORATION,
+      description: 'Kỷ niệm ngày "Ra Tịnh" của Đức Giáo Tông Nguyễn Ngọc Tương.',
+      rule: {
+        isLunar: true,
+        lunarMonth: 5,
+        lunarDayStart: 15,
+        lunarDayEnd: 15,
+        dateRangeStr: '15/05 Âm lịch',
+      },
+    },
+    {
+      code: 'SINH_NHAT_GIAO_TONG',
+      title: 'Đại lễ Sinh nhật Đức Giáo Tông Nguyễn Ngọc Tương',
+      category: EventCategory.COMMEMORATION,
+      description: 'Đại lễ Kỷ niệm ngày sinh nhật của Đức Giáo Tông Nguyễn Ngọc Tương.',
+      rule: {
+        isLunar: true,
+        lunarMonth: 5,
+        lunarDayStart: 25,
+        lunarDayEnd: 26,
+        dateRangeStr: '25 – 26/05 Âm lịch',
+      },
+    },
+    {
+      code: 'KY_NIEM_THUONG_CHUONG_PHAP_DANG_TIEN',
+      title: 'Lễ Kỷ niệm Đức Thượng Chưởng Pháp Lê Bá Trang đăng tiên',
+      category: EventCategory.COMMEMORATION,
+      description: 'Kỷ niệm ngày Đức Thượng Chưởng Pháp Lê Bá Trang đăng tiên.',
+      rule: {
+        isLunar: true,
+        lunarMonth: 5,
+        lunarDayStart: 29,
+        lunarDayEnd: 29,
+        dateRangeStr: '29/05 Âm lịch',
+      },
+    },
+    {
+      code: 'TRUNG_NGUON',
+      title: 'Đại lễ Trung Nguơn',
+      category: EventCategory.MAJOR_HOLIDAY,
+      description: 'Đại lễ Trung Nguơn - Cầu siêu xá tội vong nhân.',
+      rule: {
+        isLunar: true,
+        lunarMonth: 7,
+        lunarDayStart: 14,
+        lunarDayEnd: 15,
+        dateRangeStr: '14 – 15/07 Âm lịch',
+      },
+    },
+    {
+      code: 'VIA_DUC_DIEU_TRI_KIM_MAU',
+      title: 'Đại lễ Vía Đức Diêu Trì Kim Mẫu, Trung thu Tết nhi đồng',
+      category: EventCategory.MAJOR_HOLIDAY,
+      description: 'Đại lễ Hội Yến Diêu Trì Cung và Tết Trung Thu Nhi Đồng.',
+      rule: {
+        isLunar: true,
+        lunarMonth: 8,
+        lunarDayStart: 14,
+        lunarDayEnd: 15,
+        dateRangeStr: '14 – 15/08 Âm lịch',
+      },
+    },
+    {
+      code: 'HA_NGUON_KHAI_DAO',
+      title: 'Đại lễ Hạ Nguơn - Kỷ niệm Khai đạo',
+      category: EventCategory.MAJOR_HOLIDAY,
+      description: 'Đại lễ Hạ Nguơn và Kỷ niệm Ngày Hoằng Khai Đại Đạo Tam Kỳ Phổ Độ.',
+      rule: {
+        isLunar: true,
+        lunarMonth: 10,
+        lunarDayStart: 14,
+        lunarDayEnd: 15,
+        dateRangeStr: '14 – 15/10 Âm lịch',
+      },
+    },
+    {
+      code: 'GIANG_SINH_GIA_TO',
+      title: 'Đại lễ Giáng sinh Đức Gia Tô Giáo Chủ',
+      category: EventCategory.MAJOR_HOLIDAY,
+      description: 'Đại lễ Kỷ niệm Giáng sinh Đức Gia Tô Giáo Chủ (Chúa Giê-su - Kitô giáo).',
+      rule: {
+        isLunar: false,
+        solarMonth: 12,
+        solarDayStart: 24,
+        solarDayEnd: 25,
+        dateRangeStr: '24 – 25/12 Dương lịch',
+      },
+    },
+  ];
+
+  for (const item of religiousEvents) {
+    const event = await prisma.religiousEvent.upsert({
+      where: { code: item.code },
+      update: {
+        title: item.title,
+        category: item.category,
+        description: item.description,
+        isRecurring: true,
+      },
+      create: {
+        code: item.code,
+        title: item.title,
+        category: item.category,
+        description: item.description,
+        isRecurring: true,
+      },
+    });
+
+    // Cập nhật hoặc tạo quy tắc ngày (CalendarRule)
+    await prisma.calendarRule.deleteMany({
+      where: { eventId: event.id },
+    });
+
+    await prisma.calendarRule.create({
+      data: {
+        eventId: event.id,
+        isLunar: item.rule.isLunar,
+        lunarMonth: item.rule.lunarMonth,
+        lunarDayStart: item.rule.lunarDayStart,
+        lunarDayEnd: item.rule.lunarDayEnd,
+        solarMonth: item.rule.solarMonth,
+        solarDayStart: item.rule.solarDayStart,
+        solarDayEnd: item.rule.solarDayEnd,
+        dateRangeStr: item.rule.dateRangeStr,
+      },
+    });
+
+    console.log(`✓ Đã nạp sự kiện: [${item.code}] ${item.title} (${item.rule.dateRangeStr})`);
   }
 
   console.log('--- Hoàn tất khởi tạo dữ liệu nền tảng thành công! ---');

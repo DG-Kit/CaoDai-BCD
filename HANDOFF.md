@@ -63,21 +63,45 @@
 
 ---
 
-## 2. Kế hoạch tiếp theo (Đang thực hiện Phase 1: Phân Hệ Lịch Đạo & Ngày Chay)
+## 2. Tiến độ Phase 1: Phân Hệ Lịch Đạo & Ngày Chay (Hoàn thành 100%)
 
 Theo kế hoạch chi tiết [`docs/06-planning/PHASE_1_CALENDAR_PLAN.md`](docs/06-planning/PHASE_1_CALENDAR_PLAN.md):
 
 - [x] **Task 1.1 (Hoàn thành):**
   * Xây dựng module thuật toán Âm Dương (chuẩn thiên văn GMT+7 Hồ Ngọc Đức), Can Chi Ngày/Tháng/Năm, 6 Giờ Hoàng Đạo mỗi ngày và logic tính bù ngày ăn chay (Lục trai, Thập trai, Thiên ngươn) khi gặp tháng thiếu trong [`packages/shared/src/calendar/`](packages/shared/src/calendar).
   * Viết bộ Unit Test Jest toàn diện tại [`apps/api/src/calendar/calendar-math.spec.ts`](apps/api/src/calendar/calendar-math.spec.ts) đạt 100% pass (18/18 tests passed).
-  * Build toàn bộ Monorepo thành công (`npm run build`).
 
-- [ ] **Task 1.2 (Tiếp theo):**
-  * Mở rộng `schema.prisma` thêm 3 bảng Lịch Đạo (`religious_events`, `calendar_rules`, `event_occurrences`).
-  * Thực thi migration `add_calendar_tables` và seed dữ liệu các ngày Đại Lễ, ngày Vía lớn của Đạo Cao Đài.
-- [ ] **Task 1.3:** Triển khai `CalendarModule` trong Backend NestJS (`apps/api`).
-- [ ] **Task 1.4:** Triển khai Giao diện trang Lịch Đạo tại `apps/web/src/app/calendar/page.tsx`.
-- [ ] **Task 1.5:** Kiểm thử toàn diện e2e và bàn giao nghiệm thu.
+- [x] **Task 1.2 (Hoàn thành):**
+  * Mở rộng `schema.prisma` thêm 3 bảng Lịch Đạo: `ReligiousEvent`, `CalendarRule`, `EventOccurrence`.
+  * Thực thi migration `20261113042620_add_calendar_events_schema` vào cơ sở dữ liệu PostgreSQL.
+  * Cập nhật `apps/api/prisma/seed.ts` nạp chính xác danh sách **13 Ngày Đại Lễ & Kỷ Niệm chính thức** của Hội Thánh Cao Đài Ban Chỉnh Đạo do người dùng trực tiếp thẩm định.
+  * Đã chạy `prisma db seed` thành công vào DB và kiểm tra xác nhận qua Docker `psql`.
+
+- [x] **Task 1.3 (Hoàn thành):**
+  * Triển khai `CalendarModule`, `CalendarService`, `CalendarController`, `GetMonthCalendarDto`, `GetDayCalendarDto` trong `apps/api/src/calendar/`.
+  * Cung cấp các API: `GET /api/calendar/month`, `GET /api/calendar/day`, `GET /api/calendar/events`.
+  * Viết bộ Unit Test cho Service và Controller; toàn bộ 27/27 tests trong `apps/api` pass 100%.
+
+- [x] **Task 1.4 (Hoàn thành):**
+  * Xây dựng giao diện trang Lịch Đạo tại [`apps/web/src/app/calendar/page.tsx`](apps/web/src/app/calendar/page.tsx) với thiết kế di sản truyền thống:
+    - Bảng lịch 7 ngày/tuần (Thứ Hai đến Chủ Nhật), đánh dấu ngày Sóc (Mùng Một) và Vọng (Rằm 15).
+    - Bộ lọc ăn chay linh hoạt: Không chọn, Lục Trai (6 ngày/tháng, tự động bù ngày khi tháng thiếu), Thập Trai (10 ngày/tháng, tự động bù ngày), Thiên Ngươn (Trọn tháng Giêng, tháng 7, tháng 10).
+    - Tùy chọn bật/tắt hiển thị Can Chi.
+    - Thẻ chi tiết ngày chọn ([`DayDetailCard.tsx`](apps/web/src/components/calendar/DayDetailCard.tsx)): Hiển thị ngày Dương, ngày Âm (chỉ báo tháng đủ/thiếu, tháng nhuận), Can Chi 3 cấp (Ngày - Tháng - Năm), danh sách 6 Giờ Hoàng Đạo trong ngày và trạng thái ngày chay / ngày đại lễ.
+    - Bảng tham chiếu danh mục 13 ngày đại lễ chính thức của Ban Chỉnh Đạo ([`ReligiousEventsReference.tsx`](apps/web/src/components/calendar/ReligiousEventsReference.tsx)).
+
+- [x] **Task 1.5 (Hoàn thành):**
+  * Đã kiểm thử build toàn bộ Monorepo (`@caodai-bcd/shared`, `@caodai-bcd/api`, `@caodai-bcd/web`) thành công 100%.
+  * Cập nhật tài liệu tiến độ `HANDOFF.md`, sẵn sàng bàn giao và đồng bộ Git.
+
+---
+
+## 3. Kế hoạch tiếp theo (Chuẩn bị Phase 2: Phân Hệ Thư Viện Đạo - Core Library)
+
+Sau khi hoàn tất Phân hệ Lịch Đạo (Phase 1), các bước tiếp theo theo lộ trình:
+1. Tiếp nhận tài liệu kinh văn / bản scan mẫu từ người dùng.
+2. Lập kế hoạch chi tiết Phase 2 (Spec-Kit Plan) cho phân hệ Kinh Sách & Thư Viện Đạo để người dùng phê duyệt trước khi triển khai.
+3. Thiết kế schema cho Tác phẩm, Ấn bản, File đính kèm (PDF/Scan/Audio), và Mục lục kinh văn.
 
 ---
 

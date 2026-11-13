@@ -13,6 +13,7 @@ out/
 coverage/
 *.tsbuildinfo
 .env
+.env.example
 .env.local
 .env.*.local
 *.lock
