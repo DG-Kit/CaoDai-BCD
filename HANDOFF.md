@@ -63,15 +63,21 @@
 
 ---
 
-## 2. Kế hoạch tiếp theo (Khởi động Phase 1: Phân Hệ Lịch Đạo & Ngày Chay)
+## 2. Kế hoạch tiếp theo (Đang thực hiện Phase 1: Phân Hệ Lịch Đạo & Ngày Chay)
 
-Theo yêu cầu điều chỉnh chiến lược của người dùng, phân hệ **Lịch Đạo & Ngày Chay** được đưa lên làm **Ưu tiên số 1 (Phase 1)**, tài liệu kế hoạch chi tiết đã được lập tại [`docs/06-planning/PHASE_1_CALENDAR_PLAN.md`](docs/06-planning/PHASE_1_CALENDAR_PLAN.md) và [`docs/06-planning/DEVELOPMENT_ROADMAP.md`](docs/06-planning/DEVELOPMENT_ROADMAP.md):
+Theo kế hoạch chi tiết [`docs/06-planning/PHASE_1_CALENDAR_PLAN.md`](docs/06-planning/PHASE_1_CALENDAR_PLAN.md):
 
-1. **Bước 1.1:** Xây dựng module thuật toán Âm Dương (GMT+7 Hồ Ngọc Đức), Can Chi Ngày/Tháng/Năm, 6 Giờ Hoàng Đạo và thuật toán tính bù ngày ăn chay khi tháng thiếu tại `packages/shared/src/calendar/`.
-2. **Bước 1.2:** Mở rộng Prisma Schema (`religious_events`, `calendar_rules`, `event_occurrences`), chạy migration và seed dữ liệu các ngày đại lễ vía lớn của Đạo Cao Đài.
-3. **Bước 1.3:** Triển khai module NestJS `CalendarModule` trong `apps/api`.
-4. **Bước 1.4:** Triển khai giao diện Lịch Đạo tại `apps/web/src/app/calendar/page.tsx` với bảng lịch tháng, bộ lọc ăn chay, Can Chi và Giờ Hoàng Đạo.
-5. **Bước 1.5:** Kiểm thử toàn diện e2e và bàn giao nghiệm thu.
+- [x] **Task 1.1 (Hoàn thành):**
+  * Xây dựng module thuật toán Âm Dương (chuẩn thiên văn GMT+7 Hồ Ngọc Đức), Can Chi Ngày/Tháng/Năm, 6 Giờ Hoàng Đạo mỗi ngày và logic tính bù ngày ăn chay (Lục trai, Thập trai, Thiên ngươn) khi gặp tháng thiếu trong [`packages/shared/src/calendar/`](packages/shared/src/calendar).
+  * Viết bộ Unit Test Jest toàn diện tại [`apps/api/src/calendar/calendar-math.spec.ts`](apps/api/src/calendar/calendar-math.spec.ts) đạt 100% pass (18/18 tests passed).
+  * Build toàn bộ Monorepo thành công (`npm run build`).
+
+- [ ] **Task 1.2 (Tiếp theo):**
+  * Mở rộng `schema.prisma` thêm 3 bảng Lịch Đạo (`religious_events`, `calendar_rules`, `event_occurrences`).
+  * Thực thi migration `add_calendar_tables` và seed dữ liệu các ngày Đại Lễ, ngày Vía lớn của Đạo Cao Đài.
+- [ ] **Task 1.3:** Triển khai `CalendarModule` trong Backend NestJS (`apps/api`).
+- [ ] **Task 1.4:** Triển khai Giao diện trang Lịch Đạo tại `apps/web/src/app/calendar/page.tsx`.
+- [ ] **Task 1.5:** Kiểm thử toàn diện e2e và bàn giao nghiệm thu.
 
 ---
 
