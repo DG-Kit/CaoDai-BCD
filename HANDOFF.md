@@ -86,10 +86,14 @@ Theo kế hoạch chi tiết [`docs/06-planning/PHASE_1_CALENDAR_PLAN.md`](docs/
   * **Nâng cấp Bảng Lịch Lớn (Big Calendar Grid):**
     - Tăng kích thước ô ngày từ 104px lên 155px–165px, hiển thị thoáng đãng và dễ đọc.
     - Hiển thị trực diện nhãn **`[🌑 Sóc • Mùng 1]`** (nền tối chữ trắng) và **`[🌕 Vọng • Rằm 15]`** (nền vàng kim) ngay trong từng ô lịch thay vì chỉ là dấu chấm nhỏ.
-    - **Tái cấu trúc Bố cục Toàn Bề Ngang (Full-Width Grid UX):** Đưa Bảng Lịch chiếm trọn 100% bề ngang màn hình (`max-w-[1680px]`), mỗi cột ngày rộng rãi (~220px) giúp xem ngày lễ, sóc vọng, can chi cực kỳ thông thoáng.
-    - **Sắp xếp lại 2 Box chuyên sâu phía dưới Bảng Lịch:**
-      + Box Trái (7 cột): Thẻ chi tiết ngày đang chọn & Lưới 12 khung giờ Hoàng Đạo/Hắc Đạo.
-      + Box Phải (5 cột): Bảng tra cứu danh mục ngày đại lễ & lễ quốc gia song hành.
+    - **Tối ưu Bảng Lịch Tròn Trong 1 Khung Hình & Responsive Toàn Diện (Full Viewport Fit):**
+      + Bảng lịch tràn toàn bộ bề ngang (lên tới `1720px`), chiều cao được tối ưu hóa gọn gàng để trọn vẹn trong một khung màn hình máy tính mà không cần cuộn dọc dài.
+      + Trên mobile: Các ô lịch hiển thị thông minh, ngày Dương to rõ, ngày Âm tinh tế, chỉ báo Sóc/Vọng/Chay/Lễ thu gọn bằng huy hiệu và chấm màu trực quan, chống vỡ giao diện.
+    - **Tích Hợp Modal Pop-Up Chi Tiết Ngày ([`DayDetailModal.tsx`](apps/web/src/components/calendar/DayDetailModal.tsx)):**
+      + Khi người dùng nhấn vào bất kỳ ngày nào trên bảng lịch (desktop lẫn mobile), một cửa sổ Pop-up trang nhã xuất hiện ngay trên màn hình.
+      + Pop-up hiển thị đầy đủ: Ngày Dương lịch, Ngày Âm lịch (tháng đủ/thiếu/nhuận), Can Chi 3 cấp (Ngày/Tháng/Năm), Trai kỳ ăn chay, Danh sách chi tiết các ngày lễ tôn giáo/quốc gia, và **Lưới 12 Khung Giờ (Hoàng Đạo & Hắc Đạo)** với bộ lọc chuyển đổi.
+    - **Thêm Thanh Điều Hướng Responsive Mobile ([`Navbar.tsx`](apps/web/src/components/Navbar.tsx)):**
+      + Bổ sung nút Hamburger toggle và menu trượt mượt mà (Mobile Drawer) trên điện thoại di động, giúp truy cập nhanh chóng toàn bộ 6 phân hệ.
     - Hiển thị nhãn ngày lễ trọn vẹn, không bị cắt cụt; phân biệt rõ nét:
       + ✨ Lễ Đạo Cao Đài (`caodai-red` / `heritage-gold`).
       + 🇻🇳 Lễ Lớn & Kỷ Niệm Nhà Nước Việt Nam (nền đỏ tươi cờ hoa).

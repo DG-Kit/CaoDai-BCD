@@ -32,100 +32,118 @@ export function CalendarDayCell({
       type="button"
       onClick={onSelect}
       className={`
-        relative flex flex-col justify-between p-2 sm:p-2.5 min-h-[130px] sm:min-h-[155px] xl:min-h-[165px] text-left rounded-xl transition-all border
+        group relative flex flex-col justify-between p-1.5 sm:p-2 
+        min-h-[68px] sm:min-h-[88px] lg:min-h-[98px] xl:min-h-[108px]
+        text-left rounded-xl transition-all border
         ${
           isSelected
-            ? 'bg-amber-100/80 border-heritage-goldDark ring-2 ring-heritage-goldDark shadow-md z-10'
+            ? 'bg-amber-100/90 border-heritage-goldDark ring-2 ring-heritage-goldDark shadow-md z-10'
             : isToday
-            ? 'bg-amber-50/70 border-heritage-gold ring-2 ring-heritage-gold/80 shadow-xs hover:bg-amber-100/50'
+            ? 'bg-amber-50/80 border-heritage-gold ring-2 ring-heritage-gold/80 shadow-xs hover:bg-amber-100/60'
             : 'bg-white/95 border-heritage-border/70 hover:bg-heritage-parchment/60 hover:border-heritage-gold/50 shadow-2xs'
         }
       `}
     >
-      {/* 1. Hàng trên cùng: Số ngày Dương Lịch & Số ngày Âm Lịch */}
+      {/* 1. Hàng trên: Số ngày Dương Lịch & Số ngày Âm Lịch */}
       <div className="flex items-start justify-between w-full">
         <span
           className={`
-            text-xl sm:text-2xl font-serif font-bold leading-none tracking-tight
+            text-base sm:text-lg lg:text-xl font-serif font-bold leading-none tracking-tight
             ${isSunday ? 'text-caodai-red' : isSaturday ? 'text-heritage-cyan' : 'text-heritage-wood'}
           `}
         >
           {day.solarDay}
         </span>
 
-        <div className="text-right">
-          <div
-            className={`text-xs sm:text-sm font-bold ${
+        <div className="text-right flex items-center gap-1">
+          <span
+            className={`text-[11px] sm:text-xs font-bold leading-none ${
               isSoc || isVong ? 'text-heritage-goldDark' : 'text-heritage-woodLight'
             }`}
           >
-            {isSoc ? `M.1/${day.lunar.month}` : day.lunar.day} ÂL
-          </div>
+            {isSoc ? `1/${day.lunar.month}` : day.lunar.day}
+          </span>
+          <span className="hidden sm:inline text-[10px] text-stone-400">ÂL</span>
         </div>
       </div>
 
-      {/* 2. Hàng Trạng Thái Sóc / Vọng / Ăn Chay (Hiển thị trực diện chữ trong ô) */}
-      <div className="flex flex-wrap items-center gap-1 my-1">
+      {/* 2. Chỉ Báo Nổi Bật: Sóc / Vọng / Ăn Chay (Desktop hiện chữ, Mobile hiện chấm gọn) */}
+      <div className="flex flex-wrap items-center gap-1 my-0.5">
+        {/* Sóc Mùng 1 */}
         {isSoc && (
-          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] sm:text-[11px] font-bold bg-slate-800 text-white shadow-2xs">
-            🌑 Sóc • Mùng 1
-          </span>
+          <>
+            <span className="hidden sm:inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-bold bg-slate-800 text-white shadow-2xs">
+              🌑 Sóc
+            </span>
+            <span className="sm:hidden w-2 h-2 rounded-full bg-slate-800" title="Sóc (Mùng 1)" />
+          </>
         )}
+
+        {/* Vọng Rằm 15 */}
         {isVong && (
-          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] sm:text-[11px] font-bold bg-amber-400 text-amber-950 border border-amber-600 shadow-2xs">
-            🌕 Vọng • Rằm 15
-          </span>
+          <>
+            <span className="hidden sm:inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-400 text-amber-950 border border-amber-600 shadow-2xs">
+              🌕 Vọng
+            </span>
+            <span className="sm:hidden w-2 h-2 rounded-full bg-amber-400 border border-amber-600" title="Vọng (Rằm 15)" />
+          </>
         )}
+
+        {/* Ngày Ăn Chay */}
         {day.isFastingDay && (
-          <span
-            title={day.fastingNote || 'Ngày Ăn Chay'}
-            className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] sm:text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-2xs"
-          >
-            Chay
-          </span>
+          <>
+            <span
+              title={day.fastingNote || 'Ngày Ăn Chay'}
+              className="hidden sm:inline-flex items-center px-1 py-0.2 rounded text-[9px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300"
+            >
+              Chay
+            </span>
+            <span className="sm:hidden w-2 h-2 rounded-full bg-emerald-500" title="Ngày Ăn Chay" />
+          </>
         )}
       </div>
 
-      {/* 3. Nội Dung Ngày Lễ Trong Ngày (Hiển thị đầy đủ, to rõ, dễ đọc) */}
-      <div className="w-full flex-1 my-1 space-y-1 overflow-hidden">
-        {events.slice(0, 2).map((ev) => {
+      {/* 3. Sự Kiện / Ngày Lễ Trong Ngày */}
+      <div className="w-full my-0.5 space-y-0.5 overflow-hidden">
+        {events.slice(0, 1).map((ev) => {
           const isNational = ev.category === 'NATIONAL_HOLIDAY';
-          const isMajorReligious = ev.category === 'MAJOR_HOLIDAY';
+          const isMajor = ev.category === 'MAJOR_HOLIDAY';
 
           return (
             <div
               key={ev.code}
               title={`${ev.title} (${ev.dateRangeStr})`}
               className={`
-                text-[10px] sm:text-xs font-semibold px-1.5 py-1 rounded leading-snug line-clamp-2
+                truncate text-[9px] sm:text-[10px] lg:text-[11px] font-semibold px-1 py-0.5 rounded leading-tight
                 ${
                   isNational
-                    ? 'bg-red-700 text-white shadow-2xs border border-red-800'
-                    : isMajorReligious
+                    ? 'bg-red-700 text-white shadow-2xs'
+                    : isMajor
                     ? 'bg-caodai-red/10 text-caodai-red border border-caodai-red/30'
                     : 'bg-amber-100 text-heritage-goldDark border border-amber-300'
                 }
               `}
             >
-              {isNational ? '🇻🇳 ' : '✨ '}
-              {ev.title}
+              <span className="hidden sm:inline">{isNational ? '🇻🇳 ' : '✨ '}</span>
+              {ev.title.replace('Đại lễ ', '').replace('Lễ Kỷ niệm ', '')}
             </div>
           );
         })}
-        {events.length > 2 && (
-          <div className="text-[10px] font-medium text-heritage-goldDark text-center italic">
-            +{events.length - 2} sự kiện khác
+
+        {events.length > 1 && (
+          <div className="text-[9px] font-semibold text-heritage-goldDark text-center leading-none">
+            +{events.length - 1} lễ
           </div>
         )}
       </div>
 
       {/* 4. Hàng đáy: Can Chi Ngày */}
-      <div className="flex items-center justify-between w-full pt-1 border-t border-heritage-border/50 text-[10px] sm:text-[11px] text-heritage-woodLight">
+      <div className="flex items-center justify-between w-full pt-0.5 border-t border-heritage-border/40 text-[9px] sm:text-[10px] text-heritage-woodLight">
         <span className="font-medium text-heritage-goldDark truncate">
-          {showCanChi ? `Ngày ${day.canChi.day}` : ''}
+          {showCanChi ? day.canChi.day : ''}
         </span>
-        <span className="text-[10px] text-stone-400">
-          {day.solarDate.split('-')[1]}/{day.solarDate.split('-')[2]}
+        <span className="text-[9px] text-stone-400 group-hover:text-heritage-gold transition-colors">
+          Chi tiết ➜
         </span>
       </div>
     </button>

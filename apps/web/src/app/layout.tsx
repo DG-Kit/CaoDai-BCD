@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { Lora, Be_Vietnam_Pro } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
-import { BookOpen, Calendar, MapPin, FileEdit, Search, Info } from 'lucide-react';
 import { TamGiaoStripe } from '@/components/ThienNhan';
 import { CoPhapEmblem } from '@/components/CoPhap';
+import { Navbar } from '@/components/Navbar';
 
 const lora = Lora({
   subsets: ['vietnamese', 'latin'],
@@ -44,80 +44,11 @@ export default function RootLayout({
           Dự án sưu tầm, số hóa và lưu trữ tư liệu phục vụ nghiên cứu & học tập • Căn cứ theo các bản in và tư liệu lịch sử
         </div>
 
-        {/* Thanh Điều Hướng Chính */}
-        <header className="sticky top-0 z-40 bg-heritage-paper/95 backdrop-blur-sm border-b border-heritage-border shadow-xs">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
-            {/* Logo nhận diện: Biểu tượng Cổ Pháp Tam Giáo Cao Đài */}
-            <Link href="/" className="flex items-center space-x-3 group py-2">
-              <CoPhapEmblem className="w-11 h-11 shrink-0 group-hover:scale-105 transition-transform" />
-              <div>
-                <span className="block text-lg font-serif font-bold text-heritage-wood leading-tight group-hover:text-heritage-goldDark transition-colors">
-                  Thư Viện Số
-                </span>
-                <span className="block text-xs uppercase tracking-wider text-heritage-goldDark font-semibold">
-                  Đạo Cao Đài
-                </span>
-              </div>
-            </Link>
-
-            {/* Menu Các Phân Hệ Dành Cho Độc Giả */}
-            <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 text-sm font-medium">
-              <Link
-                href="/library"
-                className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-heritage-wood hover:bg-heritage-parchment hover:text-heritage-goldDark transition-colors"
-              >
-                <BookOpen className="w-4 h-4 text-heritage-goldDark" />
-                <span>Kinh Sách</span>
-              </Link>
-
-              <Link
-                href="/calendar"
-                className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-heritage-wood hover:bg-heritage-parchment hover:text-heritage-goldDark transition-colors"
-              >
-                <Calendar className="w-4 h-4 text-heritage-goldDark" />
-                <span>Lịch Đạo & Ngày Chay</span>
-              </Link>
-
-              <Link
-                href="/worship-sites"
-                className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-heritage-wood hover:bg-heritage-parchment hover:text-heritage-goldDark transition-colors"
-              >
-                <MapPin className="w-4 h-4 text-heritage-goldDark" />
-                <span>Thánh Sở & Họ Đạo</span>
-              </Link>
-
-              <Link
-                href="/composer"
-                className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-heritage-wood hover:bg-heritage-parchment hover:text-heritage-goldDark transition-colors"
-              >
-                <FileEdit className="w-4 h-4 text-heritage-goldDark" />
-                <span>Soạn Sớ Văn</span>
-              </Link>
-
-              <Link
-                href="/research"
-                className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-heritage-wood hover:bg-heritage-parchment hover:text-heritage-goldDark transition-colors"
-              >
-                <Search className="w-4 h-4 text-heritage-goldDark" />
-                <span>Đạo Sử & Khảo Cứu</span>
-              </Link>
-            </nav>
-
-            {/* Mục Giới thiệu / Hướng dẫn */}
-            <div className="flex items-center space-x-3">
-              <Link
-                href="/about"
-                className="text-xs uppercase tracking-wider font-semibold text-heritage-woodLight hover:text-heritage-goldDark flex items-center space-x-1 border border-heritage-border rounded-md px-2.5 py-1.5 hover:bg-heritage-parchment transition-colors"
-              >
-                <Info className="w-3.5 h-3.5" />
-                <span>Giới Thiệu</span>
-              </Link>
-            </div>
-          </div>
-        </header>
+        {/* Thanh Điều Hướng Chính (Hỗ trợ Responsive Mobile Drawer) */}
+        <Navbar />
 
         {/* Nội Dung Trang */}
-        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="flex-1 w-full flex flex-col">
           {children}
         </main>
 

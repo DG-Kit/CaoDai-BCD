@@ -58,7 +58,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="space-y-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
       {/* Khối Banner Giới Thiệu Đầu Trang với Bức Họa Thiên Nhãn & Tam Giáo */}
       <section className="relative overflow-hidden rounded-2xl bg-heritage-parchment border border-heritage-border p-6 sm:p-10 lg:p-12 shadow-xs">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
