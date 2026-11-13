@@ -60,9 +60,9 @@ export function DayDetailModal({
       <div className="absolute inset-0" onClick={onClose} />
 
       {/* Modal Dialog Content */}
-      <div className="relative w-full max-w-2xl bg-heritage-paper border border-heritage-border rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] z-10 animate-in zoom-in-95 duration-150">
+      <div className="relative w-full max-w-2xl bg-heritage-paper border border-heritage-border rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] z-10 animate-in zoom-in-95 duration-150 transition-colors">
         {/* Header Modal */}
-        <div className="bg-heritage-parchment/90 border-b border-heritage-border px-5 py-4 flex items-center justify-between">
+        <div className="bg-heritage-parchment/90 border-b border-heritage-border px-5 py-4 flex items-center justify-between transition-colors">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-heritage-goldDark">
             <Calendar className="w-4 h-4 text-heritage-goldDark" />
             <span>Chi tiết ngày chọn</span>
@@ -71,7 +71,7 @@ export function DayDetailModal({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-stone-200 text-heritage-woodLight hover:text-heritage-wood transition-colors"
+            className="p-1.5 rounded-full hover:bg-stone-200 dark:hover:bg-stone-800 text-heritage-woodLight hover:text-heritage-wood transition-colors"
             aria-label="Đóng"
           >
             <X className="w-5 h-5" />
@@ -86,10 +86,10 @@ export function DayDetailModal({
               <span
                 className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
                   isSunday
-                    ? 'bg-caodai-red/10 text-caodai-red'
+                    ? 'bg-caodai-red/10 text-caodai-red dark:bg-rose-950/40 dark:text-rose-400'
                     : isSaturday
-                    ? 'bg-heritage-cyan/10 text-heritage-cyan'
-                    : 'bg-amber-100 text-heritage-wood'
+                    ? 'bg-heritage-cyan/10 text-heritage-cyan dark:bg-sky-950/40 dark:text-sky-400'
+                    : 'bg-amber-100 dark:bg-amber-950/50 text-heritage-wood'
                 }`}
               >
                 {day.dayOfWeekName}
@@ -111,7 +111,7 @@ export function DayDetailModal({
                 Ngày {day.lunar.day} tháng {day.lunar.month} {day.lunar.leap ? '(Nhuận) ' : ''}
                 năm {day.canChi.year} (Âm lịch)
               </span>
-              <span className="text-xs bg-amber-100/70 text-heritage-woodLight px-2 py-0.5 rounded">
+              <span className="text-xs bg-amber-100/70 dark:bg-amber-950/50 text-heritage-woodLight px-2 py-0.5 rounded">
                 Tháng {day.lunar.totalDaysInMonth === 30 ? 'đủ (30 ngày)' : 'thiếu (29 ngày)'}
               </span>
             </div>
@@ -123,19 +123,19 @@ export function DayDetailModal({
               Can Chi Cổ Truyền
             </div>
             <div className="grid grid-cols-3 gap-2 text-center">
-              <div className="bg-white border border-heritage-border rounded-xl p-2.5 shadow-2xs">
+              <div className="bg-white dark:bg-stone-900/80 border border-heritage-border rounded-xl p-2.5 shadow-2xs">
                 <div className="text-[11px] text-heritage-woodLight font-medium">Can Chi Ngày</div>
                 <div className="text-base font-serif font-bold text-heritage-wood mt-0.5">
                   {day.canChi.day}
                 </div>
               </div>
-              <div className="bg-white border border-heritage-border rounded-xl p-2.5 shadow-2xs">
+              <div className="bg-white dark:bg-stone-900/80 border border-heritage-border rounded-xl p-2.5 shadow-2xs">
                 <div className="text-[11px] text-heritage-woodLight font-medium">Can Chi Tháng</div>
                 <div className="text-base font-serif font-bold text-heritage-wood mt-0.5">
                   {day.canChi.month}
                 </div>
               </div>
-              <div className="bg-white border border-heritage-border rounded-xl p-2.5 shadow-2xs">
+              <div className="bg-white dark:bg-stone-900/80 border border-heritage-border rounded-xl p-2.5 shadow-2xs">
                 <div className="text-[11px] text-heritage-woodLight font-medium">Can Chi Năm</div>
                 <div className="text-base font-serif font-bold text-heritage-wood mt-0.5">
                   {day.canChi.year}
@@ -145,12 +145,12 @@ export function DayDetailModal({
           </div>
 
           {/* 3. Trạng Thái Ăn Chay (Trai Kỳ) */}
-          <div className="bg-white border border-heritage-border rounded-xl p-3.5 shadow-2xs">
+          <div className="bg-white dark:bg-stone-900/80 border border-heritage-border rounded-xl p-3.5 shadow-2xs">
             <div className="flex items-center gap-2">
               {day.isFastingDay ? (
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
               ) : (
-                <div className="w-2.5 h-2.5 rounded-full bg-stone-300" />
+                <div className="w-2.5 h-2.5 rounded-full bg-stone-300 dark:bg-stone-600" />
               )}
               <span className="text-xs font-semibold text-heritage-woodLight uppercase tracking-wider">
                 Trai Kỳ / Ngày Chay
@@ -158,7 +158,7 @@ export function DayDetailModal({
             </div>
             <div className="mt-1.5 text-sm text-heritage-wood">
               {day.isFastingDay ? (
-                <span className="font-semibold text-emerald-800">
+                <span className="font-semibold text-emerald-800 dark:text-emerald-300">
                   ✓ {day.fastingNote || 'Hôm nay là ngày ăn chay'}
                 </span>
               ) : (
@@ -173,7 +173,7 @@ export function DayDetailModal({
           {events.length > 0 && (
             <div className="space-y-2">
               <div className="flex items-center gap-1.5 text-xs font-semibold text-heritage-wood uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5 text-caodai-red" />
+                <Sparkles className="w-3.5 h-3.5 text-caodai-red dark:text-rose-400" />
                 Đại Lễ & Sự Kiện Trong Ngày
               </div>
               {events.map((ev) => {
@@ -185,10 +185,10 @@ export function DayDetailModal({
                     key={ev.code}
                     className={`p-3.5 rounded-xl border ${
                       isNational
-                        ? 'bg-red-50 border-red-300'
+                        ? 'bg-red-50 dark:bg-red-950/40 border-red-300 dark:border-red-900/60'
                         : isMajorReligious
-                        ? 'bg-caodai-red/5 border-caodai-red/30'
-                        : 'bg-amber-50 border-amber-300'
+                        ? 'bg-caodai-red/5 dark:bg-rose-950/30 border-caodai-red/30 dark:border-rose-900/50'
+                        : 'bg-amber-50 dark:bg-amber-950/30 border-amber-300 dark:border-amber-900/50'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2">
@@ -199,10 +199,10 @@ export function DayDetailModal({
                       <span
                         className={`text-[10px] font-bold px-2 py-0.5 rounded shrink-0 ${
                           isNational
-                            ? 'bg-red-700 text-white'
+                            ? 'bg-red-700 text-white dark:bg-red-900'
                             : isMajorReligious
-                            ? 'bg-caodai-red/10 text-caodai-red border border-caodai-red/30'
-                            : 'bg-amber-100 text-heritage-goldDark border border-amber-300'
+                            ? 'bg-caodai-red/10 text-caodai-red border border-caodai-red/30 dark:bg-rose-950/50 dark:text-rose-300'
+                            : 'bg-amber-100 text-heritage-goldDark border border-amber-300 dark:bg-amber-950/50 dark:text-amber-300'
                         }`}
                       >
                         {ev.dateRangeStr}
@@ -236,8 +236,8 @@ export function DayDetailModal({
                 onClick={() => setHoursFilter('ALL')}
                 className={`flex-1 py-1 text-xs rounded-lg font-semibold transition-colors ${
                   hoursFilter === 'ALL'
-                    ? 'bg-heritage-wood text-white shadow-2xs'
-                    : 'text-heritage-woodLight hover:bg-white'
+                    ? 'bg-heritage-wood text-heritage-paper shadow-2xs'
+                    : 'text-heritage-woodLight hover:bg-heritage-paper'
                 }`}
               >
                 Tất cả 12 Giờ
@@ -248,7 +248,7 @@ export function DayDetailModal({
                 className={`flex-1 py-1 text-xs rounded-lg font-semibold transition-colors flex items-center justify-center gap-1 ${
                   hoursFilter === 'HOANG_DAO'
                     ? 'bg-emerald-700 text-white shadow-2xs'
-                    : 'text-emerald-800 hover:bg-emerald-50'
+                    : 'text-emerald-800 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/50'
                 }`}
               >
                 <CheckCircle2 className="w-3 h-3" />
@@ -260,7 +260,7 @@ export function DayDetailModal({
                 className={`flex-1 py-1 text-xs rounded-lg font-semibold transition-colors flex items-center justify-center gap-1 ${
                   hoursFilter === 'HAC_DAO'
                     ? 'bg-stone-700 text-white shadow-2xs'
-                    : 'text-stone-600 hover:bg-stone-100'
+                    : 'text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800'
                 }`}
               >
                 <ShieldAlert className="w-3 h-3" />
@@ -275,8 +275,8 @@ export function DayDetailModal({
                   key={h.chi}
                   className={`p-2.5 rounded-xl border text-left shadow-2xs transition-all ${
                     h.isHoangDao
-                      ? 'bg-white border-emerald-300 ring-1 ring-emerald-200'
-                      : 'bg-stone-50 border-stone-200 text-stone-600'
+                      ? 'bg-white dark:bg-stone-900/80 border-emerald-300 dark:border-emerald-800 ring-1 ring-emerald-200 dark:ring-emerald-900/40'
+                      : 'bg-stone-50 dark:bg-stone-900/40 border-stone-200 dark:border-stone-800/80 text-stone-600 dark:text-stone-400'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -286,8 +286,8 @@ export function DayDetailModal({
                     <span
                       className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
                         h.isHoangDao
-                          ? 'bg-emerald-100 text-emerald-800'
-                          : 'bg-stone-200 text-stone-600'
+                          ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300'
+                          : 'bg-stone-200 dark:bg-stone-800 text-stone-600 dark:text-stone-400'
                       }`}
                     >
                       {h.isHoangDao ? 'Hoàng Đạo' : 'Hắc Đạo'}
@@ -318,7 +318,7 @@ export function DayDetailModal({
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2 rounded-xl text-sm font-semibold bg-heritage-wood text-white hover:bg-heritage-goldDark transition-colors shadow-2xs"
+            className="px-5 py-2 rounded-xl text-sm font-semibold bg-heritage-wood text-heritage-paper hover:bg-heritage-goldDark transition-colors shadow-2xs"
           >
             Đóng
           </button>
@@ -327,4 +327,3 @@ export function DayDetailModal({
     </div>
   );
 }
-

@@ -107,7 +107,26 @@ Theo kế hoạch chi tiết [`docs/06-planning/PHASE_1_CALENDAR_PLAN.md`](docs/
     - Bổ sung bộ lọc sự kiện trực tiếp trên thanh công cụ Lịch: *Tất cả*, *Lễ Đạo Cao Đài*, *Lễ Nhà Nước VN*.
   * **Khắc phục triệt để lỗi Webpack cache chunk `./135.js`:** Cấu hình `"dev": "npm run clean && next dev -p 3000"` trong `apps/web/package.json` tự động dọn cache trước khi boot.
 
-- [x] **Task 1.5 (Hoàn thành):**
+- [x] **Task 1.5 (Hoàn thành) — Tính Năng Dark Mode Toàn Diện Cho Website:**
+  * **Cấu hình Tailwind Dark Mode:** Kích hoạt `darkMode: 'class'` tại [`apps/web/tailwind.config.ts`](apps/web/tailwind.config.ts).
+  * **Hệ thống CSS Variables Đa Tầng:** Ánh xạ toàn bộ bảng màu di sản `heritage` sang CSS variables với kênh màu RGB và alpha opacity tại [`apps/web/src/app/globals.css`](apps/web/src/app/globals.css).
+  * **Phong cách Dark Mode Di Sản Cao Đài (Tam Trấn Dạ Đăng):** 
+    - Nền chính: Gỗ mun trầm ấm (`#12100E`).
+    - Khối thẻ/panel: Gỗ gụ thâm trầm (`#1D1916`) cùng viền đồng thau cổ (`#382F28`).
+    - Ánh sáng điểm xuyết: Vàng hoàng kim dạ đăng rực rỡ (`#F59E0B` / `#FBBF24`).
+    - Chữ đọc: Màu ngà voi cổ êm dịu mắt (`#F4EFE6`), chữ phụ xám tro nhạt (`#B8ACA0`).
+  * **Quản Lý Trạng Thái Giao Diện ([`ThemeProvider.tsx`](apps/web/src/components/ThemeProvider.tsx)):**
+    - Hỗ trợ 3 chế độ: Sáng (`light`), Tối (`dark`), Tự động theo hệ điều hành (`system`).
+    - Lưu trạng thái vào `localStorage` (`caodai-theme`), tự động lắng nghe sự kiện thay đổi của hệ thống (`matchMedia`).
+    - Script inline chạy tức thì trước khi render DOM chống chớp nháy màn hình (Zero FOUC).
+  * **Nút Bấm Chuyển Đổi Giao Diện ([`ThemeToggle.tsx`](apps/web/src/components/ThemeToggle.tsx)):**
+    - Tích hợp nút chuyển đổi Mặt Trời ☀️ / Mặt Trăng 🌙 với hiệu ứng xoay góc mượt mà trên Navbar (cả Desktop và Mobile Drawer).
+    - Tích hợp bộ điều khiển Segmented Control 3 tùy chọn (`Sáng` / `Tối` / `Hệ thống`) tại chân trang (Footer).
+  * **Hoàn Thiện Giao Diện Các Trang:**
+    - Cập nhật trang chủ (`/`), thanh Navbar, Footer, bảng Lịch Đạo (`/calendar`), danh mục 29 ngày lễ, và Modal Pop-up 12 Khung Giờ tương thích hoàn hảo cả 2 chế độ sáng và tối.
+  * Đã kiểm thử `npm run build --workspace=apps/web` thành công 100% không cảnh báo.
+
+- [x] **Task 1.6 (Hoàn thành):**
   * Đã kiểm thử build toàn bộ Monorepo (`@caodai-bcd/shared`, `@caodai-bcd/api`, `@caodai-bcd/web`) thành công 100%.
   * Cập nhật tài liệu tiến độ `HANDOFF.md`, sẵn sàng bàn giao và đồng bộ Git.
 

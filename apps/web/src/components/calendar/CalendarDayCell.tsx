@@ -37,10 +37,10 @@ export function CalendarDayCell({
         text-left rounded-xl transition-all border
         ${
           isSelected
-            ? 'bg-amber-100/90 border-heritage-goldDark ring-2 ring-heritage-goldDark shadow-md z-10'
+            ? 'bg-amber-100/90 dark:bg-amber-950/60 border-heritage-goldDark ring-2 ring-heritage-goldDark shadow-md z-10'
             : isToday
-            ? 'bg-amber-50/80 border-heritage-gold ring-2 ring-heritage-gold/80 shadow-xs hover:bg-amber-100/60'
-            : 'bg-white/95 border-heritage-border/70 hover:bg-heritage-parchment/60 hover:border-heritage-gold/50 shadow-2xs'
+            ? 'bg-amber-50/80 dark:bg-amber-950/30 border-heritage-gold ring-2 ring-heritage-gold/80 shadow-xs hover:bg-amber-100/60 dark:hover:bg-amber-900/40'
+            : 'bg-white/95 dark:bg-stone-900/70 border-heritage-border/70 dark:border-heritage-border/40 hover:bg-heritage-parchment/60 dark:hover:bg-stone-850 shadow-2xs'
         }
       `}
     >
@@ -49,7 +49,7 @@ export function CalendarDayCell({
         <span
           className={`
             text-base sm:text-lg lg:text-xl font-serif font-bold leading-none tracking-tight
-            ${isSunday ? 'text-caodai-red' : isSaturday ? 'text-heritage-cyan' : 'text-heritage-wood'}
+            ${isSunday ? 'text-caodai-red dark:text-rose-400' : isSaturday ? 'text-heritage-cyan dark:text-sky-400' : 'text-heritage-wood'}
           `}
         >
           {day.solarDay}
@@ -63,7 +63,7 @@ export function CalendarDayCell({
           >
             {isSoc ? `1/${day.lunar.month}` : day.lunar.day}
           </span>
-          <span className="hidden sm:inline text-[10px] text-stone-400">ÂL</span>
+          <span className="hidden sm:inline text-[10px] text-stone-400 dark:text-stone-500">ÂL</span>
         </div>
       </div>
 
@@ -72,20 +72,20 @@ export function CalendarDayCell({
         {/* Sóc Mùng 1 */}
         {isSoc && (
           <>
-            <span className="hidden sm:inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-bold bg-slate-800 text-white shadow-2xs">
+            <span className="hidden sm:inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-bold bg-slate-800 text-white dark:bg-stone-800 dark:border dark:border-stone-700 shadow-2xs">
               🌑 Sóc
             </span>
-            <span className="sm:hidden w-2 h-2 rounded-full bg-slate-800" title="Sóc (Mùng 1)" />
+            <span className="sm:hidden w-2 h-2 rounded-full bg-slate-800 dark:bg-stone-300" title="Sóc (Mùng 1)" />
           </>
         )}
 
         {/* Vọng Rằm 15 */}
         {isVong && (
           <>
-            <span className="hidden sm:inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-400 text-amber-950 border border-amber-600 shadow-2xs">
+            <span className="hidden sm:inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-400 text-amber-950 border border-amber-600 dark:bg-amber-500/30 dark:text-amber-200 dark:border-amber-500/60 shadow-2xs">
               🌕 Vọng
             </span>
-            <span className="sm:hidden w-2 h-2 rounded-full bg-amber-400 border border-amber-600" title="Vọng (Rằm 15)" />
+            <span className="sm:hidden w-2 h-2 rounded-full bg-amber-400 border border-amber-600 dark:bg-amber-300" title="Vọng (Rằm 15)" />
           </>
         )}
 
@@ -94,11 +94,11 @@ export function CalendarDayCell({
           <>
             <span
               title={day.fastingNote || 'Ngày Ăn Chay'}
-              className="hidden sm:inline-flex items-center px-1 py-0.2 rounded text-[9px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300"
+              className="hidden sm:inline-flex items-center px-1 py-0.2 rounded text-[9px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800"
             >
               Chay
             </span>
-            <span className="sm:hidden w-2 h-2 rounded-full bg-emerald-500" title="Ngày Ăn Chay" />
+            <span className="sm:hidden w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400" title="Ngày Ăn Chay" />
           </>
         )}
       </div>
@@ -117,10 +117,10 @@ export function CalendarDayCell({
                 truncate text-[9px] sm:text-[10px] lg:text-[11px] font-semibold px-1 py-0.5 rounded leading-tight
                 ${
                   isNational
-                    ? 'bg-red-700 text-white shadow-2xs'
+                    ? 'bg-red-700 text-white shadow-2xs dark:bg-red-900/90 dark:text-red-100'
                     : isMajor
-                    ? 'bg-caodai-red/10 text-caodai-red border border-caodai-red/30'
-                    : 'bg-amber-100 text-heritage-goldDark border border-amber-300'
+                    ? 'bg-caodai-red/10 text-caodai-red border border-caodai-red/30 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-900/50'
+                    : 'bg-amber-100 text-heritage-goldDark border border-amber-300 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-900/50'
                 }
               `}
             >
@@ -142,7 +142,7 @@ export function CalendarDayCell({
         <span className="font-medium text-heritage-goldDark truncate">
           {showCanChi ? day.canChi.day : ''}
         </span>
-        <span className="text-[9px] text-stone-400 group-hover:text-heritage-gold transition-colors">
+        <span className="text-[9px] text-stone-400 dark:text-stone-500 group-hover:text-heritage-gold transition-colors">
           Chi tiết ➜
         </span>
       </div>

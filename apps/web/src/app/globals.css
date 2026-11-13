@@ -3,8 +3,44 @@
 @tailwind utilities;
 
 :root {
-  --background: #FBF9F5;
-  --foreground: #2C1810;
+  /* Bảng màu Giao diện Sáng (Ánh sáng trang nghiêm, giấy kinh xưa) */
+  --heritage-paper-rgb: 251 249 245;       /* #FBF9F5 */
+  --heritage-parchment-rgb: 243 239 230;   /* #F3EFE6 */
+  --heritage-border-rgb: 226 217 200;      /* #E2D9C8 */
+  --heritage-gold-rgb: 194 120 3;          /* #C27803 */
+  --heritage-gold-dark-rgb: 154 91 2;      /* #9A5B02 */
+  --heritage-wood-rgb: 44 24 16;           /* #2C1810 */
+  --heritage-wood-light-rgb: 90 61 49;     /* #5A3D31 */
+  --heritage-crimson-rgb: 136 19 55;       /* #881337 */
+  --heritage-cyan-rgb: 12 74 110;          /* #0C4A6E */
+
+  --background: rgb(var(--heritage-paper-rgb));
+  --foreground: rgb(var(--heritage-wood-rgb));
+}
+
+.dark {
+  /* Bảng màu Giao diện Tối (Đêm rằm thanh tịnh, gỗ mun & ánh hoàng kim) */
+  --heritage-paper-rgb: 18 16 14;          /* #12100E - Gỗ mun trầm ấm */
+  --heritage-parchment-rgb: 29 25 22;      /* #1D1916 - Gỗ gụ thâm trầm */
+  --heritage-border-rgb: 56 47 40;         /* #382F28 - Viền đồng thau cổ */
+  --heritage-gold-rgb: 245 158 11;         /* #F59E0B - Hoàng kim dạ đăng */
+  --heritage-gold-dark-rgb: 251 191 36;     /* #FBBF24 - Hoàng kim rực rỡ */
+  --heritage-wood-rgb: 244 239 230;        /* #F4EFE6 - Chữ ngà voi êm mắt */
+  --heritage-wood-light-rgb: 184 172 160;  /* #B8ACA0 - Chữ xám tro nhạt */
+  --heritage-crimson-rgb: 251 113 133;     /* #FB7185 - Đỏ son dạ quang */
+  --heritage-cyan-rgb: 56 189 248;         /* #38BDF8 - Lam thiên thanh */
+
+  --background: rgb(var(--heritage-paper-rgb));
+  --foreground: rgb(var(--heritage-wood-rgb));
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 body {
@@ -14,6 +50,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
+}
+
+/* Chuyển sắc mượt mà khi đổi theme */
+body, header, nav, footer, div, button, input {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
 
 /* Kiểu chữ trang trọng cho tiêu đề - khắc phục triệt để lỗi tách dấu tiếng Việt */
