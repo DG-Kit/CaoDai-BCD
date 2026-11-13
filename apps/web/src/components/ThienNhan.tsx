@@ -38,17 +38,17 @@ export function ThienNhan({
  * Dùng cho các vị trí trang trọng như Hero section, trang giới thiệu
  */
 export function ThienNhanPortrait({
-  className = 'w-44 h-44',
+  className = 'w-48 h-48 sm:w-56 sm:h-56',
 }: {
   className?: string;
 }) {
   return (
-    <div className={`relative overflow-hidden rounded-2xl shadow-sm border border-heritage-border bg-heritage-paper ${className}`}>
+    <div className={`relative overflow-hidden border border-heritage-border bg-heritage-paper ${className}`}>
       <Image
         src="/images/thien-nhan.jpg"
         alt="Thiên Nhãn Thầy Ngự - Cao Đài Ban Chỉnh Đạo"
         fill
-        sizes="(max-width: 768px) 160px, 200px"
+        sizes="(max-width: 768px) 192px, 224px"
         className="object-cover object-center hover:scale-105 transition-transform duration-500"
         priority
       />

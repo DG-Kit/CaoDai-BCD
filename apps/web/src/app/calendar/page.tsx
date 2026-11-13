@@ -13,8 +13,6 @@ import { ReligiousEventsReference } from '@/components/calendar/ReligiousEventsR
 import {
   ChevronLeft,
   ChevronRight,
-  Sparkles,
-  Flag,
   BookMarked,
 } from 'lucide-react';
 
@@ -42,7 +40,7 @@ export default function CalendarPage() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [showReference, setShowReference] = useState<boolean>(false);
 
-  // Ngày được chọn (mặc định là ngày hôm nay)
+  // Ngày được chọn (mặc định là hôm nay)
   const todayStr = useMemo(() => {
     const m = today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : `${today.getMonth() + 1}`;
     const d = today.getDate() < 10 ? `0${today.getDate()}` : `${today.getDate()}`;
@@ -76,12 +74,12 @@ export default function CalendarPage() {
     setSelectedDateStr(todayStr);
   };
 
-  // Tính toán dữ liệu toàn bộ các ngày trong tháng
+  // Tính toán dữ liệu các ngày trong tháng
   const daysInMonth: DayCalendarInfo[] = useMemo(() => {
     return getMonthCalendarInfo(currentYear, currentMonth, fastingSchedule);
   }, [currentYear, currentMonth, fastingSchedule]);
 
-  // Tìm offset ngày đầu tiên trong tuần (Thứ Hai bắt đầu = 0)
+  // Offset ngày đầu tiên trong tuần (Thứ Hai bắt đầu = 0)
   const startDayOffset = useMemo(() => {
     if (!daysInMonth || daysInMonth.length === 0 || !daysInMonth[0]) return 0;
     return (daysInMonth[0].dayOfWeek + 6) % 7;
@@ -112,7 +110,7 @@ export default function CalendarPage() {
     return all;
   }, [selectedDayInfo, eventTypeFilter]);
 
-  // Tên tháng Âm lịch chủ đạo của tháng Dương này
+  // Tên tháng Âm lịch chủ đạo
   const primaryLunarMonthStr = useMemo(() => {
     if (!daysInMonth || daysInMonth.length === 0) return '';
     const midDay = daysInMonth[Math.floor(daysInMonth.length / 2)];
@@ -120,24 +118,24 @@ export default function CalendarPage() {
     return `Tháng ${midDay.lunar.month} năm ${midDay.canChi.year} (Âm lịch)`;
   }, [daysInMonth]);
 
-  // Xử lý khi nhấn vào một ngày trên lịch
+  // Nhấn vào một ngày
   const handleSelectDay = (solarDate: string) => {
     setSelectedDateStr(solarDate);
     setModalOpen(true);
   };
 
   return (
-    <div className="w-full max-w-[1720px] mx-auto px-2 sm:px-4 lg:px-8 py-3 sm:py-5 flex-1 flex flex-col justify-between space-y-3 sm:space-y-4 transition-colors">
-      {/* 1. Header Trang & Thanh Điều Khiển Tinh Gọn */}
-      <div className="bg-white/90 dark:bg-stone-900/80 border border-heritage-border rounded-2xl p-3 sm:p-4 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-3 transition-colors">
+    <div className="w-full max-w-[1720px] mx-auto px-3 sm:px-6 py-4 flex-1 flex flex-col justify-between space-y-4">
+      {/* 1. Header Trang & Thanh Điều Khiển Tinh Gọn (Màu Di Sản Trầm Mặc, Ấm Áp) */}
+      <div className="bg-heritage-paper border border-heritage-border p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         {/* Bộ chuyển tháng & Tiêu đề Tháng */}
-        <div className="flex items-center justify-between lg:justify-start gap-3">
-          <div className="flex items-center space-x-1">
+        <div className="flex items-center justify-between lg:justify-start gap-4">
+          <div className="flex items-center space-x-1 border border-heritage-border p-0.5 rounded-lg bg-heritage-subtle">
             <button
               type="button"
               onClick={handlePrevMonth}
               aria-label="Tháng trước"
-              className="p-2 rounded-xl border border-heritage-border hover:bg-heritage-parchment dark:hover:bg-stone-800 text-heritage-wood transition-colors shadow-2xs"
+              className="p-1.5 hover:bg-heritage-parchment text-heritage-wood rounded transition-colors"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -145,7 +143,7 @@ export default function CalendarPage() {
               type="button"
               onClick={handleNextMonth}
               aria-label="Tháng sau"
-              className="p-2 rounded-xl border border-heritage-border hover:bg-heritage-parchment dark:hover:bg-stone-800 text-heritage-wood transition-colors shadow-2xs"
+              className="p-1.5 hover:bg-heritage-parchment text-heritage-wood rounded transition-colors"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -155,7 +153,7 @@ export default function CalendarPage() {
             <div className="text-xl sm:text-2xl font-serif font-bold text-heritage-wood leading-none">
               Tháng {currentMonth} năm {currentYear}
             </div>
-            <div className="text-xs sm:text-sm text-heritage-goldDark font-semibold mt-0.5">
+            <div className="text-xs sm:text-sm font-medium text-heritage-woodLight mt-1">
               {primaryLunarMonthStr}
             </div>
           </div>
@@ -163,22 +161,22 @@ export default function CalendarPage() {
           <button
             type="button"
             onClick={handleToday}
-            className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-heritage-parchment dark:bg-stone-800 hover:bg-amber-100 dark:hover:bg-amber-950/50 text-heritage-wood border border-heritage-border transition-colors shadow-2xs"
+            className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-heritage-parchment hover:bg-heritage-subtle text-heritage-wood border border-heritage-border transition-colors"
           >
             Hôm Nay
           </button>
         </div>
 
         {/* Cụm Bộ Lọc Giữa: Lễ Đạo / Lễ Quốc Gia */}
-        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-          <div className="flex items-center gap-1 bg-heritage-parchment/80 dark:bg-stone-850 p-1 rounded-xl border border-heritage-border/70 text-xs">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center border border-heritage-border rounded-lg p-0.5 text-xs bg-heritage-subtle">
             <button
               type="button"
               onClick={() => setEventTypeFilter('ALL')}
-              className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${
+              className={`px-3 py-1 rounded-md font-semibold transition-all ${
                 eventTypeFilter === 'ALL'
                   ? 'bg-heritage-wood text-heritage-paper shadow-2xs'
-                  : 'text-heritage-wood hover:bg-white dark:hover:bg-stone-800'
+                  : 'text-heritage-woodLight hover:text-heritage-wood'
               }`}
             >
               Tất cả lễ
@@ -186,33 +184,32 @@ export default function CalendarPage() {
             <button
               type="button"
               onClick={() => setEventTypeFilter('RELIGIOUS')}
-              className={`px-2.5 py-1 rounded-lg font-semibold transition-all flex items-center gap-1 ${
+              className={`px-3 py-1 rounded-md font-semibold transition-all flex items-center gap-1.5 ${
                 eventTypeFilter === 'RELIGIOUS'
-                  ? 'bg-caodai-red text-white shadow-2xs'
-                  : 'text-heritage-wood hover:bg-white dark:hover:bg-stone-800'
+                  ? 'bg-heritage-seal text-white shadow-2xs'
+                  : 'text-heritage-woodLight hover:text-heritage-wood'
               }`}
             >
-              <Sparkles className="w-3 h-3" />
+              <span className="w-1.5 h-1.5 rounded-full bg-heritage-seal inline-block" />
               Lễ Đạo Cao Đài
             </button>
             <button
               type="button"
               onClick={() => setEventTypeFilter('NATIONAL')}
-              className={`px-2.5 py-1 rounded-lg font-semibold transition-all flex items-center gap-1 ${
+              className={`px-3 py-1 rounded-md font-semibold transition-all ${
                 eventTypeFilter === 'NATIONAL'
-                  ? 'bg-red-700 text-white shadow-2xs dark:bg-red-850'
-                  : 'text-heritage-wood hover:bg-white dark:hover:bg-stone-800'
+                  ? 'bg-heritage-wood text-heritage-paper shadow-2xs'
+                  : 'text-heritage-woodLight hover:text-heritage-wood'
               }`}
             >
-              <Flag className="w-3 h-3" />
-              Lễ Nhà Nước VN
+              Lễ Quốc Gia VN
             </button>
           </div>
         </div>
 
         {/* Cụm Bộ Lọc Phải: Chế độ Ăn Chay (Trai Kỳ) */}
-        <div className="flex flex-wrap items-center gap-1.5">
-          <span className="text-xs font-semibold text-heritage-woodLight mr-1 hidden xl:inline">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs font-semibold text-heritage-muted mr-1 hidden xl:inline">
             Trai kỳ:
           </span>
 
@@ -229,11 +226,11 @@ export default function CalendarPage() {
                 type="button"
                 onClick={() => setFastingSchedule(item.mode)}
                 className={`
-                  px-2.5 py-1 rounded-xl text-xs font-medium transition-all
+                  px-3 py-1 rounded-lg text-xs transition-all
                   ${
                     isActive
-                      ? 'bg-heritage-gold text-white font-semibold shadow-xs'
-                      : 'bg-heritage-parchment dark:bg-stone-850 text-heritage-wood hover:bg-amber-100 dark:hover:bg-stone-800 border border-heritage-border/70'
+                      ? 'bg-heritage-pine text-white font-bold'
+                      : 'bg-heritage-subtle text-heritage-woodLight hover:bg-heritage-parchment hover:text-heritage-wood border border-heritage-border font-medium'
                   }
                 `}
               >
@@ -243,31 +240,31 @@ export default function CalendarPage() {
           })}
 
           {/* Toggle Can Chi */}
-          <label className="flex items-center gap-1 ml-1 cursor-pointer text-xs font-medium text-heritage-woodLight select-none">
+          <label className="flex items-center gap-1.5 ml-2 cursor-pointer text-xs font-semibold text-heritage-woodLight select-none">
             <input
               type="checkbox"
               checked={showCanChi}
               onChange={(e) => setShowCanChi(e.target.checked)}
-              className="rounded border-heritage-border text-heritage-gold focus:ring-heritage-gold dark:bg-stone-800"
+              className="rounded border-heritage-border text-heritage-wood focus:ring-heritage-wood dark:bg-heritage-surface"
             />
-            <span className="hidden sm:inline">Can Chi</span>
+            <span>Can Chi</span>
           </label>
         </div>
       </div>
 
-      {/* 2. BẢNG LỊCH THÁNG TOÀN KHỔ (TRÒN TRONG 1 KHUNG HÌNH - RESPONSIVE TOÀN DIỆN) */}
-      <section className="bg-white/95 dark:bg-stone-900/80 border border-heritage-border rounded-2xl p-2.5 sm:p-4 shadow-sm flex-1 flex flex-col justify-between overflow-hidden transition-colors">
+      {/* 2. BẢNG LỊCH THÁNG (BẢNG LƯỚI NGUYÊN KHỐI ARCHITECTURAL GRID) */}
+      <section className="bg-heritage-paper border border-heritage-border p-2 sm:p-3 flex-1 flex flex-col justify-between overflow-hidden">
         {/* Hàng Tiêu Đề 7 Ngày Trong Tuần */}
-        <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center pb-2 border-b border-heritage-border/70 mb-2">
+        <div className="grid grid-cols-7 text-center pb-2 border-b border-heritage-border mb-2">
           {WEEKDAYS.map((wd, idx) => (
             <div
               key={wd}
-              className={`text-xs sm:text-sm font-serif font-bold py-1 rounded-lg ${
+              className={`text-xs sm:text-sm uppercase tracking-wider py-1.5 ${
                 idx === 6
-                  ? 'text-caodai-red dark:text-rose-400 bg-red-50/60 dark:bg-rose-950/30'
+                  ? 'text-caodai-vermilion font-bold'
                   : idx === 5
-                  ? 'text-heritage-cyan dark:text-sky-400 bg-sky-50/60 dark:bg-sky-950/30'
-                  : 'text-heritage-wood bg-stone-50/60 dark:bg-stone-800/40'
+                  ? 'text-caodai-indigo font-bold'
+                  : 'text-heritage-wood font-semibold'
               }`}
             >
               <span className="hidden sm:inline">{wd}</span>
@@ -276,13 +273,13 @@ export default function CalendarPage() {
           ))}
         </div>
 
-        {/* Lưới 7 Cột Ngày Trong Tháng */}
-        <div className="grid grid-cols-7 gap-1 sm:gap-2 flex-1">
+        {/* Lưới 7 Cột Ngày Trong Tháng (Khung lưới phẳng, 1px border) */}
+        <div className="grid grid-cols-7 gap-1 sm:gap-1.5 flex-1">
           {/* Các ô trống trước ngày 1 */}
           {Array.from({ length: startDayOffset }).map((_, i) => (
             <div
               key={`empty-${i}`}
-              className="min-h-[68px] sm:min-h-[88px] lg:min-h-[98px] xl:min-h-[108px] bg-heritage-parchment/15 dark:bg-stone-900/30 rounded-xl border border-dashed border-heritage-border/25"
+              className="min-h-[96px] sm:min-h-[112px] lg:min-h-[120px] bg-heritage-subtle/40 border border-dashed border-heritage-border/60"
             />
           ))}
 
@@ -316,36 +313,30 @@ export default function CalendarPage() {
           })}
         </div>
 
-        {/* Chú giải ký hiệu lịch & Nút Tra Cứu ở đáy bảng */}
-        <div className="mt-3 pt-2.5 border-t border-heritage-border/60 flex flex-wrap items-center justify-between gap-2 text-xs text-heritage-woodLight">
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-            <span className="flex items-center gap-1.5">
-              <span className="inline-block px-1.5 py-0.2 rounded text-[10px] font-bold bg-slate-800 text-white dark:bg-stone-800 dark:border dark:border-stone-700">
-                🌑 Sóc
+        {/* Chú giải ký hiệu lịch ở đáy bảng (Nhã nhặn, chữ chuẩn ≥ 12px) */}
+        <div className="mt-3 pt-3 border-t border-heritage-border flex flex-wrap items-center justify-between gap-3 text-xs text-heritage-woodLight">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 font-medium">
+            <span className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded text-xs font-bold bg-heritage-wood text-heritage-paper">
+                Sóc
               </span>
-              <span className="hidden sm:inline">Mùng 1 ÂL</span>
+              <span>Mùng 1 ÂL</span>
             </span>
-            <span className="flex items-center gap-1.5">
-              <span className="inline-block px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-400 text-amber-950 border border-amber-600 dark:bg-amber-500/30 dark:text-amber-200 dark:border-amber-500/60">
-                🌕 Vọng
+            <span className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded text-xs font-bold border border-caodai-vermilionBorder text-caodai-vermilion bg-caodai-vermilionSubtle">
+                Vọng
               </span>
-              <span className="hidden sm:inline">Rằm 15 ÂL</span>
+              <span>Rằm 15 ÂL</span>
             </span>
-            <span className="flex items-center gap-1.5">
-              <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">
+            <span className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded text-xs font-semibold bg-caodai-pineSubtle text-caodai-pine border border-caodai-pineBorder">
                 Chay
               </span>
-              <span className="hidden sm:inline">Ăn chay</span>
+              <span>Ngày ăn chay</span>
             </span>
-            <span className="flex items-center gap-1.5">
-              <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-caodai-red/10 text-caodai-red border border-caodai-red/30 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-900/50">
-                ✨ Lễ Đạo
-              </span>
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-red-700 text-white dark:bg-red-900">
-                🇻🇳 Lễ Quốc Gia
-              </span>
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-caodai-vermilion inline-block" />
+              <span>Đại Lễ Đạo</span>
             </span>
           </div>
 
@@ -353,23 +344,23 @@ export default function CalendarPage() {
             <button
               type="button"
               onClick={() => setShowReference(!showReference)}
-              className="inline-flex items-center gap-1 px-3 py-1 rounded-xl text-xs font-semibold bg-heritage-parchment dark:bg-stone-800 hover:bg-amber-100 dark:hover:bg-stone-700 text-heritage-wood border border-heritage-border transition-colors shadow-2xs"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-heritage-parchment hover:bg-heritage-subtle text-heritage-wood border border-heritage-border transition-colors"
             >
-              <BookMarked className="w-3.5 h-3.5 text-heritage-goldDark" />
+              <BookMarked className="w-4 h-4" />
               <span>{showReference ? 'Thu gọn danh mục lễ' : 'Tra cứu 29 ngày lễ lớn'}</span>
             </button>
           </div>
         </div>
       </section>
 
-      {/* 3. Khối Tra Cứu Sự Kiện (Mở ra khi bấm nút hoặc cuộn xuống) */}
+      {/* 3. Khối Tra Cứu Sự Kiện */}
       {showReference && (
         <section className="animate-in fade-in duration-200">
           <ReligiousEventsReference />
         </section>
       )}
 
-      {/* 4. MODAL POP-UP CHI TIẾT NGÀY KHI NHẤN VÀO BẤT KỲ NGÀY NÀO */}
+      {/* 4. MODAL POP-UP CHI TIẾT NGÀY */}
       <DayDetailModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}

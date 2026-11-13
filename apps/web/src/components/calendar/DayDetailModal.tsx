@@ -6,7 +6,6 @@ import {
   Calendar,
   Clock,
   Moon,
-  Sparkles,
   X,
   CheckCircle2,
   ShieldAlert,
@@ -46,7 +45,6 @@ export function DayDetailModal({
   if (!isOpen || !day) return null;
 
   const isSunday = day.dayOfWeek === 0;
-  const isSaturday = day.dayOfWeek === 6;
 
   const displayedHours = (day.allHours || []).filter((h) => {
     if (hoursFilter === 'HOANG_DAO') return h.isHoangDao;
@@ -55,23 +53,23 @@ export function DayDetailModal({
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
-      {/* Click outside to close backdrop */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/70 backdrop-blur-xs animate-in fade-in duration-150">
+      {/* Click outside to close */}
       <div className="absolute inset-0" onClick={onClose} />
 
-      {/* Modal Dialog Content */}
-      <div className="relative w-full max-w-2xl bg-heritage-paper border border-heritage-border rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] z-10 animate-in zoom-in-95 duration-150 transition-colors">
+      {/* Modal Dialog Content (Trang nhã, ấm áp, di sản) */}
+      <div className="relative w-full max-w-2xl bg-heritage-paper border border-heritage-border rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] z-10 animate-in zoom-in-95 duration-150">
         {/* Header Modal */}
-        <div className="bg-heritage-parchment/90 border-b border-heritage-border px-5 py-4 flex items-center justify-between transition-colors">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-heritage-goldDark">
-            <Calendar className="w-4 h-4 text-heritage-goldDark" />
+        <div className="bg-heritage-parchment border-b border-heritage-border px-5 py-3.5 flex items-center justify-between">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-heritage-wood">
+            <Calendar className="w-4 h-4 text-heritage-wood" />
             <span>Chi tiết ngày chọn</span>
           </div>
 
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-stone-200 dark:hover:bg-stone-800 text-heritage-woodLight hover:text-heritage-wood transition-colors"
+            className="p-1 rounded-lg hover:bg-heritage-subtle text-heritage-woodLight hover:text-heritage-wood transition-colors"
             aria-label="Đóng"
           >
             <X className="w-5 h-5" />
@@ -79,39 +77,37 @@ export function DayDetailModal({
         </div>
 
         {/* Scrollable Body */}
-        <div className="p-5 sm:p-6 overflow-y-auto space-y-5">
+        <div className="p-5 sm:p-6 overflow-y-auto space-y-6">
           {/* 1. Phần Tiêu Đề Ngày */}
           <div>
-            <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center justify-between mb-1.5">
               <span
-                className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                className={`px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${
                   isSunday
-                    ? 'bg-caodai-red/10 text-caodai-red dark:bg-rose-950/40 dark:text-rose-400'
-                    : isSaturday
-                    ? 'bg-heritage-cyan/10 text-heritage-cyan dark:bg-sky-950/40 dark:text-sky-400'
-                    : 'bg-amber-100 dark:bg-amber-950/50 text-heritage-wood'
+                    ? 'bg-heritage-sealSubtle text-heritage-seal border border-heritage-seal/20'
+                    : 'bg-heritage-parchment text-heritage-wood'
                 }`}
               >
                 {day.dayOfWeekName}
               </span>
-              <span className="text-xs text-heritage-goldDark font-semibold">
+              <span className="text-xs text-heritage-muted font-medium">
                 Múi giờ Việt Nam (GMT+7)
               </span>
             </div>
 
             {/* Ngày Dương Lịch */}
-            <div className="text-2xl sm:text-3xl font-serif font-bold text-heritage-wood">
+            <div className="text-2xl sm:text-3xl font-serif font-bold text-heritage-wood tracking-tight">
               Ngày {day.solarDay} tháng {day.solarMonth} năm {day.solarYear}
             </div>
 
-            {/* Ngày Âm Lịch */}
-            <div className="mt-1 flex flex-wrap items-center gap-2 text-sm sm:text-base text-heritage-goldDark font-medium">
-              <Moon className="w-4 h-4 shrink-0 text-heritage-gold" />
+            {/* Ngày Âm Lịch (font số đều đặn, hài hòa với chữ) */}
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm sm:text-base text-heritage-wood font-medium">
+              <Moon className="w-4 h-4 shrink-0 text-heritage-wood" />
               <span>
                 Ngày {day.lunar.day} tháng {day.lunar.month} {day.lunar.leap ? '(Nhuận) ' : ''}
                 năm {day.canChi.year} (Âm lịch)
               </span>
-              <span className="text-xs bg-amber-100/70 dark:bg-amber-950/50 text-heritage-woodLight px-2 py-0.5 rounded">
+              <span className="text-xs font-medium bg-heritage-parchment text-heritage-woodLight px-2 py-0.5 rounded border border-heritage-border">
                 Tháng {day.lunar.totalDaysInMonth === 30 ? 'đủ (30 ngày)' : 'thiếu (29 ngày)'}
               </span>
             </div>
@@ -119,25 +115,25 @@ export function DayDetailModal({
 
           {/* 2. Bộ Ba Can Chi */}
           <div>
-            <div className="text-xs font-semibold text-heritage-woodLight uppercase tracking-wider mb-2">
+            <div className="text-xs font-bold text-heritage-muted uppercase tracking-wider mb-2">
               Can Chi Cổ Truyền
             </div>
-            <div className="grid grid-cols-3 gap-2 text-center">
-              <div className="bg-white dark:bg-stone-900/80 border border-heritage-border rounded-xl p-2.5 shadow-2xs">
-                <div className="text-[11px] text-heritage-woodLight font-medium">Can Chi Ngày</div>
-                <div className="text-base font-serif font-bold text-heritage-wood mt-0.5">
+            <div className="grid grid-cols-3 gap-3 text-center">
+              <div className="bg-heritage-parchment border border-heritage-border rounded-lg p-3">
+                <div className="text-xs text-heritage-muted font-medium">Can Chi Ngày</div>
+                <div className="text-base sm:text-lg font-serif font-bold text-heritage-wood mt-1">
                   {day.canChi.day}
                 </div>
               </div>
-              <div className="bg-white dark:bg-stone-900/80 border border-heritage-border rounded-xl p-2.5 shadow-2xs">
-                <div className="text-[11px] text-heritage-woodLight font-medium">Can Chi Tháng</div>
-                <div className="text-base font-serif font-bold text-heritage-wood mt-0.5">
+              <div className="bg-heritage-parchment border border-heritage-border rounded-lg p-3">
+                <div className="text-xs text-heritage-muted font-medium">Can Chi Tháng</div>
+                <div className="text-base sm:text-lg font-serif font-bold text-heritage-wood mt-1">
                   {day.canChi.month}
                 </div>
               </div>
-              <div className="bg-white dark:bg-stone-900/80 border border-heritage-border rounded-xl p-2.5 shadow-2xs">
-                <div className="text-[11px] text-heritage-woodLight font-medium">Can Chi Năm</div>
-                <div className="text-base font-serif font-bold text-heritage-wood mt-0.5">
+              <div className="bg-heritage-parchment border border-heritage-border rounded-lg p-3">
+                <div className="text-xs text-heritage-muted font-medium">Can Chi Năm</div>
+                <div className="text-base sm:text-lg font-serif font-bold text-heritage-wood mt-1">
                   {day.canChi.year}
                 </div>
               </div>
@@ -145,20 +141,16 @@ export function DayDetailModal({
           </div>
 
           {/* 3. Trạng Thái Ăn Chay (Trai Kỳ) */}
-          <div className="bg-white dark:bg-stone-900/80 border border-heritage-border rounded-xl p-3.5 shadow-2xs">
+          <div className="bg-heritage-parchment border border-heritage-border rounded-lg p-4">
             <div className="flex items-center gap-2">
-              {day.isFastingDay ? (
-                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              ) : (
-                <div className="w-2.5 h-2.5 rounded-full bg-stone-300 dark:bg-stone-600" />
-              )}
-              <span className="text-xs font-semibold text-heritage-woodLight uppercase tracking-wider">
+              <div className={`w-2.5 h-2.5 rounded-full ${day.isFastingDay ? 'bg-heritage-pine' : 'bg-heritage-muted'}`} />
+              <span className="text-xs font-bold text-heritage-wood uppercase tracking-wider">
                 Trai Kỳ / Ngày Chay
               </span>
             </div>
-            <div className="mt-1.5 text-sm text-heritage-wood">
+            <div className="mt-2 text-sm text-heritage-wood">
               {day.isFastingDay ? (
-                <span className="font-semibold text-emerald-800 dark:text-emerald-300">
+                <span className="font-semibold text-heritage-pine">
                   ✓ {day.fastingNote || 'Hôm nay là ngày ăn chay'}
                 </span>
               ) : (
@@ -171,44 +163,31 @@ export function DayDetailModal({
 
           {/* 4. Sự Kiện / Lễ Đạo & Lễ Quốc Gia Trong Ngày */}
           {events.length > 0 && (
-            <div className="space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-semibold text-heritage-wood uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5 text-caodai-red dark:text-rose-400" />
+            <div className="space-y-2.5">
+              <div className="text-xs font-bold text-heritage-wood uppercase tracking-wider flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-heritage-seal" />
                 Đại Lễ & Sự Kiện Trong Ngày
               </div>
               {events.map((ev) => {
-                const isNational = ev.category === 'NATIONAL_HOLIDAY';
-                const isMajorReligious = ev.category === 'MAJOR_HOLIDAY';
+                const isMajor = ev.category === 'MAJOR_HOLIDAY';
 
                 return (
                   <div
                     key={ev.code}
-                    className={`p-3.5 rounded-xl border ${
-                      isNational
-                        ? 'bg-red-50 dark:bg-red-950/40 border-red-300 dark:border-red-900/60'
-                        : isMajorReligious
-                        ? 'bg-caodai-red/5 dark:bg-rose-950/30 border-caodai-red/30 dark:border-rose-900/50'
-                        : 'bg-amber-50 dark:bg-amber-950/30 border-amber-300 dark:border-amber-900/50'
-                    }`}
+                    className="p-3.5 rounded-lg border border-heritage-border bg-heritage-parchment"
                   >
-                    <div className="flex items-start justify-between gap-2">
-                      <span className="font-serif font-bold text-base text-heritage-wood leading-snug">
-                        {isNational ? '🇻🇳 ' : '✨ '}
-                        {ev.title}
-                      </span>
-                      <span
-                        className={`text-[10px] font-bold px-2 py-0.5 rounded shrink-0 ${
-                          isNational
-                            ? 'bg-red-700 text-white dark:bg-red-900'
-                            : isMajorReligious
-                            ? 'bg-caodai-red/10 text-caodai-red border border-caodai-red/30 dark:bg-rose-950/50 dark:text-rose-300'
-                            : 'bg-amber-100 text-heritage-goldDark border border-amber-300 dark:bg-amber-950/50 dark:text-amber-300'
-                        }`}
-                      >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-center gap-2">
+                        <span className={`w-2 h-2 rounded-full shrink-0 ${isMajor ? 'bg-heritage-seal' : 'bg-heritage-gold'}`} />
+                        <span className="font-serif font-bold text-base text-heritage-wood leading-snug">
+                          {ev.title}
+                        </span>
+                      </div>
+                      <span className="text-xs font-bold px-2.5 py-1 rounded bg-heritage-subtle text-heritage-wood border border-heritage-border shrink-0">
                         {ev.dateRangeStr}
                       </span>
                     </div>
-                    <p className="text-xs sm:text-sm text-heritage-woodLight mt-1.5 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-heritage-woodLight mt-2 pl-4 leading-relaxed">
                       {ev.description}
                     </p>
                   </div>
@@ -219,25 +198,25 @@ export function DayDetailModal({
 
           {/* 5. Danh Sách 12 Khung Giờ Trong Ngày */}
           <div>
-            <div className="flex items-center justify-between text-xs font-semibold text-heritage-woodLight uppercase tracking-wider mb-2">
+            <div className="flex items-center justify-between text-xs font-bold text-heritage-wood uppercase tracking-wider mb-2.5">
               <span className="flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-heritage-goldDark" />
+                <Clock className="w-4 h-4 text-heritage-wood" />
                 12 Khung Giờ Trong Ngày (Thập Nhị Thần Sát)
               </span>
-              <span className="text-[11px] text-heritage-goldDark font-normal">
-                (Chi Ngày: {day.canChi.day.split(' ')[1] || ''})
+              <span className="text-xs text-heritage-muted font-medium">
+                Chi Ngày: {day.canChi.day.split(' ')[1] || ''}
               </span>
             </div>
 
             {/* Tab Lọc Giờ */}
-            <div className="flex items-center gap-1 mb-2.5 bg-heritage-parchment p-1 rounded-xl border border-heritage-border/70">
+            <div className="flex items-center gap-1.5 mb-3 p-1 rounded-lg border border-heritage-border bg-heritage-subtle text-xs">
               <button
                 type="button"
                 onClick={() => setHoursFilter('ALL')}
-                className={`flex-1 py-1 text-xs rounded-lg font-semibold transition-colors ${
+                className={`flex-1 py-1.5 rounded font-bold transition-colors ${
                   hoursFilter === 'ALL'
                     ? 'bg-heritage-wood text-heritage-paper shadow-2xs'
-                    : 'text-heritage-woodLight hover:bg-heritage-paper'
+                    : 'text-heritage-woodLight hover:text-heritage-wood'
                 }`}
               >
                 Tất cả 12 Giờ
@@ -245,38 +224,38 @@ export function DayDetailModal({
               <button
                 type="button"
                 onClick={() => setHoursFilter('HOANG_DAO')}
-                className={`flex-1 py-1 text-xs rounded-lg font-semibold transition-colors flex items-center justify-center gap-1 ${
+                className={`flex-1 py-1.5 rounded font-bold transition-colors flex items-center justify-center gap-1 ${
                   hoursFilter === 'HOANG_DAO'
-                    ? 'bg-emerald-700 text-white shadow-2xs'
-                    : 'text-emerald-800 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/50'
+                    ? 'bg-heritage-wood text-heritage-paper shadow-2xs'
+                    : 'text-heritage-woodLight hover:text-heritage-wood'
                 }`}
               >
-                <CheckCircle2 className="w-3 h-3" />
-                6 Hoàng Đạo
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                6 Hoàng Đạo (Cát)
               </button>
               <button
                 type="button"
                 onClick={() => setHoursFilter('HAC_DAO')}
-                className={`flex-1 py-1 text-xs rounded-lg font-semibold transition-colors flex items-center justify-center gap-1 ${
+                className={`flex-1 py-1.5 rounded font-bold transition-colors flex items-center justify-center gap-1 ${
                   hoursFilter === 'HAC_DAO'
-                    ? 'bg-stone-700 text-white shadow-2xs'
-                    : 'text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800'
+                    ? 'bg-heritage-wood text-heritage-paper shadow-2xs'
+                    : 'text-heritage-woodLight hover:text-heritage-wood'
                 }`}
               >
-                <ShieldAlert className="w-3 h-3" />
-                6 Hắc Đạo
+                <ShieldAlert className="w-3.5 h-3.5" />
+                6 Hắc Đạo (Hung)
               </button>
             </div>
 
             {/* Lưới 12 Giờ */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
               {displayedHours.map((h) => (
                 <div
                   key={h.chi}
-                  className={`p-2.5 rounded-xl border text-left shadow-2xs transition-all ${
+                  className={`p-3 rounded-lg border text-left transition-all ${
                     h.isHoangDao
-                      ? 'bg-white dark:bg-stone-900/80 border-emerald-300 dark:border-emerald-800 ring-1 ring-emerald-200 dark:ring-emerald-900/40'
-                      : 'bg-stone-50 dark:bg-stone-900/40 border-stone-200 dark:border-stone-800/80 text-stone-600 dark:text-stone-400'
+                      ? 'bg-heritage-paper border-heritage-borderStrong'
+                      : 'bg-heritage-subtle/50 border-heritage-border text-heritage-woodLight'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -284,19 +263,19 @@ export function DayDetailModal({
                       Giờ {h.chi}
                     </span>
                     <span
-                      className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
+                      className={`text-xs font-bold px-2 py-0.5 rounded ${
                         h.isHoangDao
-                          ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300'
-                          : 'bg-stone-200 dark:bg-stone-800 text-stone-600 dark:text-stone-400'
+                          ? 'bg-heritage-wood text-heritage-paper'
+                          : 'bg-heritage-parchment text-heritage-muted'
                       }`}
                     >
                       {h.isHoangDao ? 'Hoàng Đạo' : 'Hắc Đạo'}
                     </span>
                   </div>
-                  <div className="text-[11px] font-semibold text-heritage-goldDark mt-0.5">
+                  <div className="text-xs font-semibold text-heritage-wood mt-1">
                     Sao {h.starName}
                   </div>
-                  <div className="text-[10px] text-heritage-woodLight">
+                  <div className="text-xs text-heritage-muted mt-0.5 font-sans">
                     {h.timeRange}
                   </div>
                 </div>
@@ -305,8 +284,8 @@ export function DayDetailModal({
           </div>
 
           {/* Ghi chú */}
-          <div className="flex items-start gap-2 pt-2 border-t border-heritage-border/50 text-[11px] text-heritage-woodLight italic">
-            <AlertCircle className="w-3.5 h-3.5 shrink-0 text-heritage-gold mt-0.5" />
+          <div className="flex items-start gap-2 pt-2 border-t border-heritage-border text-xs text-heritage-muted">
+            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
             <span>
               Lịch Đạo đối chiếu với dữ liệu chính thức của Hội Thánh Cao Đài Ban Chỉnh Đạo & Lễ Quốc Gia Việt Nam.
             </span>
@@ -314,11 +293,11 @@ export function DayDetailModal({
         </div>
 
         {/* Footer Modal */}
-        <div className="bg-heritage-parchment/60 border-t border-heritage-border px-5 py-3 flex justify-end">
+        <div className="bg-heritage-parchment border-t border-heritage-border px-5 py-3 flex justify-end">
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2 rounded-xl text-sm font-semibold bg-heritage-wood text-heritage-paper hover:bg-heritage-goldDark transition-colors shadow-2xs"
+            className="px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-heritage-wood text-heritage-paper hover:bg-heritage-woodLight transition-colors"
           >
             Đóng
           </button>

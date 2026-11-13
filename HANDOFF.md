@@ -126,9 +126,45 @@ Theo kế hoạch chi tiết [`docs/06-planning/PHASE_1_CALENDAR_PLAN.md`](docs/
     - Cập nhật trang chủ (`/`), thanh Navbar, Footer, bảng Lịch Đạo (`/calendar`), danh mục 29 ngày lễ, và Modal Pop-up 12 Khung Giờ tương thích hoàn hảo cả 2 chế độ sáng và tối.
   * Đã kiểm thử `npm run build --workspace=apps/web` thành công 100% không cảnh báo.
 
-- [x] **Task 1.6 (Hoàn thành):**
-  * Đã kiểm thử build toàn bộ Monorepo (`@caodai-bcd/shared`, `@caodai-bcd/api`, `@caodai-bcd/web`) thành công 100%.
-  * Cập nhật tài liệu tiến độ `HANDOFF.md`, sẵn sàng bàn giao và đồng bộ Git.
+- [x] **Task 1.7 (Hoàn thành) — Tái Cấu Trúc Toàn Diện UI/UX & Khắc Phục Undersized Text:**
+  * Khắc phục triệt để lỗi "UNDERSIZED FUNCTIONAL TEXT" (theo ảnh Audit UI của người dùng): Nâng toàn bộ các nhãn chức năng lên tối thiểu `text-xs` (12px) và `text-sm` (14px).
+  * Chuyển đổi lưới lịch thành Bảng Lưới Nguyên Khối (Architectural Grid) phẳng, loại bỏ cấu trúc card lồng card và loại bỏ các viền dạ quang neon AI-slop.
+
+- [x] **Task 1.8 (Hoàn thành) — Thiết Kế Lại Toàn Diện Hệ Màu Di Sản Cao Đài & Khắc Phục Lỗi Font Số Âm Lịch:**
+  * **Khắc phục triệt để phong cách trắng đen (loại bỏ cảm giác lạnh lẽo, đơn điệu không phù hợp chốn tôn giáo):**
+    - Thay thế toàn bộ phong cách trắng đen thuần túy (`zinc-900`/`white`) bằng **Bảng Màu Di Sản Cao Đài Bản Sắc (Heritage Warm Ink & Sacred Tam Giáo)**:
+      + **Nền Giấy Điệp / Giấy Dó Cổ (`--bg-canvas: #FDFBF7`, `--bg-surface: #F6F1E6`):** Sắc ngà ấm dịu mắt, gợi chiều sâu thư tịch kinh viện xưa, đọc lâu không mỏi.
+      + **Chữ Mực Nho & Gỗ Mun Trầm (`--text-primary: #231812`):** Nâu đen mực tàu cổ kính, tương phản cực cao $\ge 14.5:1$.
+      + **Bộ Ba Sắc Di Sản Tam Giáo Cổ Pháp:**
+        * **Vàng Hoàng Thổ Trầm (`--caodai-ochre: #A66E16`):** Tôn vinh y bát và đạo phục Phái Thái (Phật đạo), màu sắc điểm xuyết ấm áp, không chói chang.
+        * **Xanh Chàm Cổ (`--caodai-indigo: #1E3A66`):** Tôn vinh đạo phục Phái Thượng (Tiên đạo), dùng cho Thứ Bảy và các nhãn tri thức.
+        * **Đỏ Son Chu Sa (`--caodai-vermilion: #9E2A2B`):** Tôn vinh sắc phục Phái Ngọc (Nho đạo) và ấn triện truyền thống, dùng cho Chủ Nhật, Đại Lễ Đạo và nút hành động chính.
+        * **Xanh Rêu Thanh Trai (`--caodai-pine: #2D5A3D`):** Huy hiệu ngày ăn chay thanh nhã.
+    - **Dark Mode (Chốn Tổ Đình Thiền Môn Về Đêm):** Sắc gỗ mun trầm ấm (`#161311`), bề mặt gỗ trắc (`#221C18`), viền đồng thau cổ (`#3D332A`) và chữ ngà voi sáng êm mắt (`#F5EFE6`).
+  * **Khắc phục triệt để lỗi "font số âm lịch ở bảng lịch đang bị lỗi to hơn chữ":**
+    - Nguyên nhân: Trước đây số ngày âm được đặt trong thẻ riêng với font size/weight khác (`text-xs font-semibold` hoặc `font-bold`), trong khi chữ `ÂL` bị ép thành `text-[11px]` hoặc `text-[10px]` với màu nhạt, dẫn đến số trông to, cao và lấn át hẳn chữ `ÂL`.
+    - Giải pháp dứt điểm: Tích hợp cả số ngày âm và chữ `ÂL` trong **cùng 1 thẻ text duy nhất** (`<span className="font-sans text-xs font-semibold tabular-nums leading-none">`), sử dụng cùng font chữ `Plus Jakarta Sans` với cỡ chữ chuẩn mực 12px. Số và chữ giờ đây có cùng chiều cao x-height, tỷ lệ cân đối hoàn hảo và nhỏ hơn ~50% so với số ngày Dương lịch (`font-serif text-xl sm:text-2xl font-bold`).
+  * **Đồng bộ hóa 100% các bề mặt ứng dụng:**
+    - [`apps/web/src/app/globals.css`](apps/web/src/app/globals.css) & [`apps/web/tailwind.config.ts`](apps/web/tailwind.config.ts): Định nghĩa token chuẩn `caodai-*` và `heritage-*`.
+    - [`apps/web/src/components/calendar/CalendarDayCell.tsx`](apps/web/src/components/calendar/CalendarDayCell.tsx): Căn chỉnh tỷ lệ ngày Dương, ngày Âm, huy hiệu Sóc/Vọng/Chay và thanh ngày lễ.
+    - [`apps/web/src/app/calendar/page.tsx`](apps/web/src/app/calendar/page.tsx): Header Thứ Bảy (xanh chàm), Chủ Nhật (đỏ chu sa), T2-T6 (mực nho).
+    - [`apps/web/src/components/Navbar.tsx`](apps/web/src/components/Navbar.tsx): Nền ngà ấm, viền chỉ sách xưa, logo Cổ Pháp Tam Giáo tinh tế.
+    - [`apps/web/src/app/page.tsx`](apps/web/src/app/page.tsx): Khung Thiên Nhãn, thanh tìm kiếm đỏ chu sa, các card chuyên mục viền hoàng thổ trầm.
+    - [`apps/web/src/components/calendar/ReligiousEventsReference.tsx`](apps/web/src/components/calendar/ReligiousEventsReference.tsx) & [`ThemeToggle.tsx`](apps/web/src/components/ThemeToggle.tsx).
+  * Kiểm thử biên dịch `npm run build --workspace=apps/web` thành công 100% không lỗi.
+
+- [x] **Task 1.9 (Hoàn thành) — Khôi Phục Dải 3 Màu Tam Giáo, Kiến Trúc Phẳng Không Bo Góc & Nâng Cấp Font Tiếng Việt:**
+  * **Khôi phục dải 3 màu sắc chủ đạo Tam Giáo Cao Đài (Vàng - Xanh - Đỏ):**
+    - Đặt dải `TamGiaoStripe` (`h-1.5 w-full`) tại vị trí **đầu Header** (ngay trên đỉnh thanh Navbar, neo cố định sticky khi cuộn trang) và **đầu Footer** theo đúng biểu tượng thiêng liêng Cờ Đạo (Vàng: Thái Thanh / Xanh: Thượng Thanh / Đỏ: Ngọc Thanh).
+  * **Tái cấu trúc Trang Chủ ([`apps/web/src/app/page.tsx`](apps/web/src/app/page.tsx)) — Loại bỏ bo tròn & Card lồng card:**
+    - Loại bỏ hoàn toàn các góc bo tròn (`rounded-none`, 0px radius), chuyển sang phong cách kiến trúc phẳng, kẻ chỉ sách xưa đĩnh đạc và uy nghiêm.
+    - Tạo khoảng cách thoáng đãng và dễ thở giữa các ô chuyên mục (`gap-5 sm:gap-6`), mỗi ô có viền 1px độc lập thanh nhã (`border border-heritage-border`) với hiệu ứng hover vàng hoàng thổ trầm (`hover:border-caodai-ochre`).
+    - Loại bỏ triệt để cấu trúc card lồng card: Bức họa Thiên Nhãn hiển thị trực tiếp và trang trọng ở cột phải Hero mà không bọc thêm hộp card phụ bên ngoài; thanh tìm kiếm phẳng liền khối; các icon và nhãn thể loại trong từng ô chuyên mục hiển thị trực diện, không đóng khung hộp rườm rà.
+  * **Nâng cấp Hệ Thống Font Chữ Tiếng Việt ([`apps/web/src/app/layout.tsx`](apps/web/src/app/layout.tsx) & [`globals.css`](apps/web/src/app/globals.css)):**
+    - Thay thế font tiêu đề sang **`Lora`**: Khắc phục triệt để hiện tượng nét thanh mảnh vụn vỡ và dấu tiếng Việt bị ép chặt của Playfair Display; các dấu hỏi, ngã, nặng, sắc, huyền hiển thị tròn trịa, thanh thoát, dễ đọc.
+    - Thay thế font nội dung sang **`Be Vietnam Pro`**: Font được thiết kế chuyên biệt cho hệ chữ tiếng Việt, khoảng cách dấu tối ưu, độ thoáng dòng thoải mái (`line-height: 1.6`).
+    - Xóa bỏ `letter-spacing: -0.015em`, giúp các chữ cái và dấu thanh không bị dính vào nhau.
+  * Đã kiểm thử `npm run build --workspace=apps/web` thành công 100% (tải trang nhẹ ~101 kB).
 
 ---
 

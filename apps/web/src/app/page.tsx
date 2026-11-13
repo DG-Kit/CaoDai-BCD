@@ -9,7 +9,6 @@ import {
   ArrowRight,
   BookMarked,
   Sparkles,
-  Compass,
 } from 'lucide-react';
 import { ThienNhanPortrait } from '@/components/ThienNhan';
 
@@ -59,122 +58,115 @@ export default function HomePage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
-      {/* Khối Banner Giới Thiệu Đầu Trang với Bức Họa Thiên Nhãn & Tam Giáo */}
-      <section className="relative overflow-hidden rounded-2xl bg-heritage-parchment border border-heritage-border p-6 sm:p-10 lg:p-12 shadow-xs">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+      {/* Khối Banner Đầu Trang: Kiến Trúc Phẳng Nguyên Khối, Không Bo Tròn, Không Card Chồng Card */}
+      <section className="border border-heritage-border bg-heritage-paper p-6 sm:p-10 lg:p-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Cột Nội Dung Bên Trái */}
           <div className="lg:col-span-7 xl:col-span-8 space-y-5">
-            {/* Huy hiệu 3 màu Tam Giáo Đại Đạo Tam Kỳ Phổ Độ */}
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-heritage-paper border border-heritage-border text-xs font-semibold tracking-wide">
-              <span className="flex space-x-1 items-center">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#EAB308]" title="Màu Vàng: Phái Phật (Thái Thanh)" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#0284C7]" title="Màu Xanh: Phái Tiên (Thượng Thanh)" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#DC2626]" title="Màu Đỏ: Phái Thánh (Ngọc Thanh)" />
-              </span>
-              <span className="text-heritage-goldDark">Đại Đạo Tam Kỳ Phổ Độ • Thư Viện Tư Liệu Truyền Thống</span>
+            <div className="inline-flex items-center space-x-2 px-3 py-1 border border-heritage-border bg-heritage-parchment text-xs font-semibold tracking-wider uppercase text-caodai-ochre">
+              <span>Đại Đạo Tam Kỳ Phổ Độ • Thư Viện Tư Liệu Truyền Thống</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-heritage-wood leading-tight">
               Gìn giữ và lưu truyền di sản kinh văn, đạo sử Cao Đài
             </h1>
 
-            <p className="text-base sm:text-lg text-heritage-woodLight leading-relaxed">
+            <p className="text-base sm:text-lg text-heritage-woodLight leading-relaxed font-normal">
               Không gian lưu trữ, số hóa và phục vụ đồng đạo cùng quý độc giả tra cứu kinh sách, lịch Đạo, hệ thống Thánh sở và tư liệu lịch sử với nguồn gốc rõ ràng, tôn trọng nguyên tác.
             </p>
 
-            {/* Thanh Tìm Kiếm Nhanh */}
+            {/* Thanh Tìm Kiếm Nhanh: Liền mạch, góc vuông sắc nét, không lồng card */}
             <div className="pt-2 max-w-xl">
-              <div className="relative flex items-center shadow-xs">
-                <Search className="w-5 h-5 text-heritage-woodLight absolute left-3.5 pointer-events-none" />
+              <div className="flex items-stretch border border-heritage-border bg-heritage-parchment">
+                <div className="flex items-center pl-3.5 pr-1 text-heritage-muted pointer-events-none">
+                  <Search className="w-5 h-5" />
+                </div>
                 <input
                   type="text"
                   placeholder="Tìm tên bài kinh, thánh ngôn, ngày lễ, địa danh..."
-                  className="w-full bg-heritage-paper border border-heritage-border rounded-lg pl-11 pr-24 py-3 text-sm text-heritage-wood placeholder:text-heritage-woodLight/60 focus:outline-none focus:ring-2 focus:ring-heritage-gold/50 focus:border-heritage-gold transition-all"
+                  className="w-full bg-transparent px-3 py-3 text-sm text-heritage-wood placeholder:text-heritage-muted focus:outline-none font-sans font-medium"
                 />
                 <button
                   type="button"
-                  className="absolute right-1.5 bg-heritage-wood text-heritage-paper text-xs font-medium px-4 py-2 rounded-md hover:bg-heritage-goldDark transition-colors"
+                  className="bg-caodai-vermilion text-white text-xs font-bold uppercase tracking-wider px-6 py-3 hover:bg-caodai-vermilion/90 transition-colors shrink-0"
                 >
                   Tra cứu
                 </button>
               </div>
-              <p className="text-xs text-heritage-woodLight/80 mt-1.5 pl-1">
-                Gợi ý: <span className="underline cursor-pointer hover:text-heritage-goldDark">Kinh Cúng Tứ Thời</span>, <span className="underline cursor-pointer hover:text-heritage-goldDark">Lịch sóc vọng</span>, <span className="underline cursor-pointer hover:text-heritage-goldDark">Thánh Ngôn Hiệp Tuyển</span>
+              <p className="text-xs text-heritage-muted mt-2 pl-0.5 font-medium">
+                Gợi ý: <span className="underline cursor-pointer hover:text-caodai-vermilion">Kinh Cúng Tứ Thời</span>, <span className="underline cursor-pointer hover:text-caodai-vermilion">Lịch sóc vọng</span>, <span className="underline cursor-pointer hover:text-caodai-vermilion">Thánh Ngôn Hiệp Tuyển</span>
               </p>
             </div>
           </div>
 
-          {/* Cột Biểu Tượng Thiên Nhãn Tả Thực Trang Trọng Bên Phải */}
+          {/* Cột Bức Họa Thiên Nhãn: Hiển thị trực tiếp, trang trọng, không bọc thêm card phụ */}
           <div className="lg:col-span-5 xl:col-span-4 flex flex-col items-center justify-center">
-            <div className="relative p-5 rounded-2xl bg-heritage-paper border border-heritage-border shadow-md flex flex-col items-center text-center group">
-              <ThienNhanPortrait className="w-48 h-48 sm:w-56 sm:h-56" />
-              <div className="mt-3.5 space-y-0.5">
-                <span className="block font-serif font-bold text-base text-heritage-wood">
-                  Thiên Nhãn Thầy Ngự
-                </span>
-                <span className="block text-xs text-heritage-woodLight italic">
-                  &ldquo;Thầy là các con, các con là Thầy&rdquo;
-                </span>
-              </div>
+            <ThienNhanPortrait className="w-48 h-48 sm:w-56 sm:h-56" />
+            <div className="mt-4 text-center space-y-1">
+              <span className="block font-serif font-bold text-base text-heritage-wood">
+                Thiên Nhãn Thầy Ngự
+              </span>
+              <span className="block text-xs text-heritage-woodLight italic">
+                &ldquo;Thầy là các con, các con là Thầy&rdquo;
+              </span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Các Chuyên Mục Chính */}
+      {/* Các Chuyên Mục Chính: Bảng Lưới Kẻ Chỉ Thư Viện Nguyên Khối (Không Card Lồng Card) */}
       <section className="space-y-6">
         <div className="border-b border-heritage-border pb-3 flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-serif font-bold text-heritage-wood">
+            <h2 className="text-2xl font-serif font-bold text-heritage-wood tracking-tight">
               Chuyên Mục Tra Cứu
             </h2>
-            <p className="text-sm text-heritage-woodLight mt-1">
+            <p className="text-sm text-heritage-woodLight mt-1 font-sans">
               Mời quý độc giả và đồng đạo lựa chọn chuyên mục cần tìm hiểu
             </p>
           </div>
-          <Compass className="w-6 h-6 text-heritage-goldDark hidden sm:block" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Lưới các ô chuyên mục có khoảng cách thoáng đãng, góc vuông trang nhã, không card lồng card */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {categories.map((cat) => {
             const Icon = cat.icon;
             return (
               <div
                 key={cat.title}
-                className="group flex flex-col justify-between bg-heritage-paper rounded-xl border border-heritage-border p-5 hover:border-heritage-gold/50 hover:shadow-md transition-all duration-200"
+                className="border border-heritage-border bg-heritage-paper p-6 sm:p-7 flex flex-col justify-between hover:border-caodai-ochre hover:bg-heritage-parchment/40 transition-colors group"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="w-10 h-10 rounded-lg bg-heritage-parchment border border-heritage-border flex items-center justify-center text-heritage-goldDark group-hover:bg-heritage-gold group-hover:text-heritage-paper transition-colors">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <span className="text-xs font-medium text-heritage-goldDark bg-heritage-gold/10 px-2.5 py-0.5 rounded border border-heritage-gold/20">
+                  {/* Hàng đầu: Icon trực tiếp & Nhãn thể loại (Không lồng hộp bao quanh) */}
+                  <div className="flex items-center justify-between mb-4">
+                    <Icon className="w-6 h-6 text-caodai-ochre group-hover:scale-105 transition-transform" />
+                    <span className="text-xs font-bold uppercase tracking-wider text-caodai-ochre">
                       {cat.tag}
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-serif font-bold text-heritage-wood group-hover:text-heritage-goldDark transition-colors">
+                  <h3 className="text-lg font-serif font-bold text-heritage-wood group-hover:text-caodai-vermilion transition-colors">
                     {cat.title}
                   </h3>
 
-                  <p className="text-xs text-heritage-woodLight mt-2 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-heritage-woodLight mt-2.5 leading-relaxed font-normal">
                     {cat.description}
                   </p>
 
-                  <ul className="mt-4 space-y-1.5 border-t border-heritage-border/50 pt-3">
+                  <ul className="mt-4 space-y-1.5 border-t border-heritage-border/70 pt-3">
                     {cat.highlights.map((item) => (
-                      <li key={item} className="text-xs text-heritage-wood flex items-center space-x-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-heritage-gold shrink-0" />
+                      <li key={item} className="text-xs text-heritage-woodLight flex items-center space-x-2 font-medium">
+                        <span className="w-1.5 h-1.5 bg-caodai-ochre shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="mt-5 pt-3 border-t border-heritage-border/60">
+                <div className="mt-6 pt-3 border-t border-heritage-border/70">
                   <Link
                     href={cat.href}
-                    className="inline-flex items-center space-x-1.5 text-xs font-semibold text-heritage-goldDark hover:text-heritage-wood transition-colors"
+                    className="inline-flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-caodai-vermilion hover:underline"
                   >
                     <span>Xem nội dung</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -186,34 +178,34 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Cam Kết Tôn Trọng Nguyên Tác & Ý Nghĩa Tam Giáo */}
-      <section className="bg-heritage-wood text-heritage-paper rounded-2xl p-6 sm:p-8 space-y-4 shadow-sm">
-        <div className="flex items-center space-x-3">
-          <Sparkles className="w-5 h-5 text-heritage-gold" />
-          <h3 className="text-xl font-serif font-bold text-heritage-gold">
+      {/* Cam Kết Tôn Trọng Nguyên Tác: Góc vuông phẳng trang nhã */}
+      <section className="bg-heritage-wood text-heritage-paper border border-heritage-border p-6 sm:p-8 space-y-4">
+        <div className="flex items-center space-x-2">
+          <Sparkles className="w-5 h-5 text-caodai-ochre" />
+          <h3 className="text-xl font-serif font-bold tracking-tight">
             Tôn Chỉ Bảo Tồn Tư Liệu & Đạo Pháp
           </h3>
         </div>
 
-        <p className="text-sm text-heritage-paper/85 leading-relaxed max-w-4xl">
+        <p className="text-sm text-heritage-paper/90 leading-relaxed max-w-4xl font-normal">
           Mỗi bài kinh văn, tài liệu lịch sử hay thông tin địa danh lưu trữ trên thư viện đều được đối chiếu cẩn trọng với các ấn bản in xưa và tài liệu lưu trữ chính thức. Bản scan tư liệu gốc luôn được đính kèm song song để độc giả có thể tự mình tra cứu, kiểm chứng và bảo đảm tính trung thực của văn bản tiền nhân để lại.
         </p>
 
-        <div className="pt-2 flex flex-wrap gap-6 text-xs text-heritage-paper/80 border-t border-heritage-paper/15">
+        <div className="pt-2 flex flex-wrap gap-6 text-xs text-heritage-paper/80 border-t border-heritage-paper/20 font-medium">
           <div className="flex items-center space-x-2">
-            <span className="w-3 h-3 rounded-full bg-[#EAB308]" />
-            <span><strong>Phái Thái (Vàng):</strong> Phật giáo - Từ Bi</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-caodai-ochre" />
+            <span><strong>Phái Thái:</strong> Phật giáo - Từ Bi</span>
           </div>
           <div className="flex items-center space-x-2">
-            <span className="w-3 h-3 rounded-full bg-[#0284C7]" />
-            <span><strong>Phái Thượng (Xanh):</strong> Tiên giáo - Thanh Tịnh</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-caodai-indigo" />
+            <span><strong>Phái Thượng:</strong> Tiên giáo - Thanh Tịnh</span>
           </div>
           <div className="flex items-center space-x-2">
-            <span className="w-3 h-3 rounded-full bg-[#DC2626]" />
-            <span><strong>Phái Ngọc (Đỏ):</strong> Nho giáo - Công Bình</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-caodai-vermilion" />
+            <span><strong>Phái Ngọc:</strong> Nho giáo - Công Bình</span>
           </div>
-          <div className="flex items-center space-x-1.5 ml-auto text-heritage-paper/60">
-            <BookMarked className="w-4 h-4 text-heritage-gold" />
+          <div className="flex items-center space-x-1.5 ml-auto text-heritage-paper/70">
+            <BookMarked className="w-4 h-4" />
             <span>Vạn Thù Quy Nhất Bản</span>
           </div>
         </div>

@@ -3,35 +3,92 @@
 @tailwind utilities;
 
 :root {
-  /* Bảng màu Giao diện Sáng (Ánh sáng trang nghiêm, giấy kinh xưa) */
-  --heritage-paper-rgb: 251 249 245;       /* #FBF9F5 */
-  --heritage-parchment-rgb: 243 239 230;   /* #F3EFE6 */
-  --heritage-border-rgb: 226 217 200;      /* #E2D9C8 */
-  --heritage-gold-rgb: 194 120 3;          /* #C27803 */
-  --heritage-gold-dark-rgb: 154 91 2;      /* #9A5B02 */
-  --heritage-wood-rgb: 44 24 16;           /* #2C1810 */
-  --heritage-wood-light-rgb: 90 61 49;     /* #5A3D31 */
-  --heritage-crimson-rgb: 136 19 55;       /* #881337 */
-  --heritage-cyan-rgb: 12 74 110;          /* #0C4A6E */
+  /* ==========================================================================
+     HỆ MÀU DI SẢN CAO ĐÀI BAN CHỈNH ĐẠO (Ấm Áp, Tôn Nghiêm, Không Trắng Đen Lạnh)
+     - Khắc phục triệt để phong cách trắng đen đơn điệu
+     - Tôn vinh nét đẹp giấy ngà cổ truyền, mực nho và Tam Giáo Cổ Pháp
+     ========================================================================== */
+  
+  /* Nền Giấy Dó & Giấy Điệp Cổ (Ấm áp, êm mắt, chuẩn thư tịch cổ) */
+  --bg-canvas: #FDFBF7;          /* Màu giấy điệp ngà ấm dịu mắt, không lóa */
+  --bg-surface: #F6F1E6;         /* Màu bột gạo / Gỗ gụ sáng nhẹ */
+  --bg-subtle: #EFE8DA;          /* Bề mặt thẻ nhẹ, phân tầng thanh nhã */
+  --border-subtle: #E2D7C3;      /* Viền kẻ chỉ sách xưa mảnh 1px */
+  --border-strong: #968065;      /* Viền phân định gỗ gụ trầm */
+  
+  /* Chữ Mực Nho & Gỗ Mun Cổ (Tương phản cao, sắc nét, tôn nghiêm) */
+  --text-primary: #231812;       /* Nâu đen mực tàu cổ (Tương phản ≥ 14:1) */
+  --text-secondary: #5C493B;     /* Nâu gỗ trầm cổ điển (Tương phản ≥ 6.8:1) */
+  --text-muted: #7D6754;         /* Nâu xám chú giải (Tương phản ≥ 4.8:1) */
+  
+  /* Ba Sắc Di Sản Tam Giáo Cao Đài (Thái - Thượng - Ngọc) & Thanh Trai */
+  --caodai-ochre: #A66E16;         /* Vàng hoàng thổ trầm (Phái Thái / Phật giáo) */
+  --caodai-ochre-subtle: #FDF7EB;  /* Nền phớt vàng hoàng thổ */
+  --caodai-ochre-border: #E8CF96;  /* Viền vàng hoàng thổ */
+  
+  --caodai-indigo: #1E3A66;        /* Xanh chàm cổ (Phái Thượng / Tiên giáo) */
+  --caodai-indigo-subtle: #EFF5FC; /* Nền phớt xanh chàm */
+  --caodai-indigo-border: #BED6F0; /* Viền xanh chàm */
+  
+  --caodai-vermilion: #9E2A2B;     /* Đỏ son chu sa / Ấn triện (Phái Ngọc / Nho giáo) */
+  --caodai-vermilion-subtle: #FDF2F2; /* Nền phớt đỏ son chu sa */
+  --caodai-vermilion-border: #F0B8B8; /* Viền đỏ son chu sa */
+  
+  --caodai-pine: #2D5A3D;          /* Xanh rêu thanh trai (Ngày ăn chay) */
+  --caodai-pine-subtle: #EDF6F0;   /* Nền phớt thanh trai */
+  --caodai-pine-border: #B7DEC4;   /* Viền thanh trai */
 
-  --background: rgb(var(--heritage-paper-rgb));
-  --foreground: rgb(var(--heritage-wood-rgb));
+  /* Aliases cho components */
+  --seal-red: var(--caodai-vermilion);
+  --seal-red-subtle: var(--caodai-vermilion-subtle);
+  --ochre-gold: var(--caodai-ochre);
+  --ochre-gold-subtle: var(--caodai-ochre-subtle);
+  --indigo-blue: var(--caodai-indigo);
+  --pine-green: var(--caodai-pine);
+  --pine-green-subtle: var(--caodai-pine-subtle);
+
+  --background: var(--bg-canvas);
+  --foreground: var(--text-primary);
 }
 
 .dark {
-  /* Bảng màu Giao diện Tối (Đêm rằm thanh tịnh, gỗ mun & ánh hoàng kim) */
-  --heritage-paper-rgb: 18 16 14;          /* #12100E - Gỗ mun trầm ấm */
-  --heritage-parchment-rgb: 29 25 22;      /* #1D1916 - Gỗ gụ thâm trầm */
-  --heritage-border-rgb: 56 47 40;         /* #382F28 - Viền đồng thau cổ */
-  --heritage-gold-rgb: 245 158 11;         /* #F59E0B - Hoàng kim dạ đăng */
-  --heritage-gold-dark-rgb: 251 191 36;     /* #FBBF24 - Hoàng kim rực rỡ */
-  --heritage-wood-rgb: 244 239 230;        /* #F4EFE6 - Chữ ngà voi êm mắt */
-  --heritage-wood-light-rgb: 184 172 160;  /* #B8ACA0 - Chữ xám tro nhạt */
-  --heritage-crimson-rgb: 251 113 133;     /* #FB7185 - Đỏ son dạ quang */
-  --heritage-cyan-rgb: 56 189 248;         /* #38BDF8 - Lam thiên thanh */
+  /* Giao diện Tối: Chốn Tổ Đình Thiền Môn Về Đêm (Thanh tịnh, ấm cúng, không đen kịt) */
+  --bg-canvas: #161311;          /* Gỗ mun trầm ấm sâu sắc */
+  --bg-surface: #221C18;         /* Gỗ trắc cổ bề mặt */
+  --bg-subtle: #1A1613;          /* Bề mặt hạ bậc */
+  --border-subtle: #3D332A;      /* Viền đồng thau cổ 1px */
+  --border-strong: #8C7764;      /* Viền đồng sáng */
+  
+  --text-primary: #F5EFE6;       /* Chữ ngà voi sáng êm mắt (Tương phản ≥ 14:1) */
+  --text-secondary: #C7BAA9;     /* Xám ngà dễ đọc (Tương phản ≥ 7:1) */
+  --text-muted: #968877;         /* Nâu xám chú giải (Tương phản ≥ 4.8:1) */
+  
+  --caodai-ochre: #D69A33;       /* Vàng hoàng thổ trầm dạ minh */
+  --caodai-ochre-subtle: #2D1F08;/* Nền phớt vàng tối */
+  --caodai-ochre-border: #6B4912;
+  
+  --caodai-indigo: #4B7FC0;      /* Xanh chàm dạ quang */
+  --caodai-indigo-subtle: #102138;
+  --caodai-indigo-border: #1E3D66;
+  
+  --caodai-vermilion: #E5484D;   /* Đỏ chu sa dạ đăng */
+  --caodai-vermilion-subtle: #331113;
+  --caodai-vermilion-border: #6E1F22;
+  
+  --caodai-pine: #4DAA68;        /* Xanh ngọc lục bảo thanh trai */
+  --caodai-pine-subtle: #0F2918;
+  --caodai-pine-border: #1B4E2B;
 
-  --background: rgb(var(--heritage-paper-rgb));
-  --foreground: rgb(var(--heritage-wood-rgb));
+  --seal-red: var(--caodai-vermilion);
+  --seal-red-subtle: var(--caodai-vermilion-subtle);
+  --ochre-gold: var(--caodai-ochre);
+  --ochre-gold-subtle: var(--caodai-ochre-subtle);
+  --indigo-blue: var(--caodai-indigo);
+  --pine-green: var(--caodai-pine);
+  --pine-green-subtle: var(--caodai-pine-subtle);
+
+  --background: var(--bg-canvas);
+  --foreground: var(--text-primary);
 }
 
 html {
@@ -46,23 +103,24 @@ html.dark {
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-sans), "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
 }
 
-/* Chuyển sắc mượt mà khi đổi theme */
-body, header, nav, footer, div, button, input {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+/* Kiểu chữ tiêu đề Lora cổ điển, thanh thoát, dấu tiếng Việt tròn trịa, cực kỳ dễ đọc */
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif), "Lora", "Times New Roman", Times, serif;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "liga", "kern";
+  letter-spacing: 0;
+  line-height: 1.35;
 }
 
-/* Kiểu chữ trang trọng cho tiêu đề - khắc phục triệt để lỗi tách dấu tiếng Việt */
-h1, h2, h3, h4, .font-serif {
-  font-family: var(--font-serif), 'Times New Roman', Times, serif;
-  text-rendering: optimizeLegibility;
-  font-feature-settings: 'liga', 'kern';
-  letter-spacing: -0.01em;
+/* Chuyển sắc khi toggle theme */
+body, header, nav, footer, div, button {
+  transition-property: background-color, border-color, color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
