@@ -20,7 +20,7 @@ gantt
     section Giai đoạn 1 (Ưu Tiên Số 1)
     Phase 1 - Religious Calendar & Fasting Portal  :active, p1, after p0, 4w
     section Giai đoạn 2
-    Phase 2 - Worship Sites & Geographic Map      :p2, after p1, 4w
+    Phase 2 - Tổ Đình Bến Tre & Thánh Sở thu gọn :active, p2, after p1, 4w
     section Giai đoạn 3
     Phase 3 - Core Digital Library & Reader       :p3, after p2, 5w
     section Giai đoạn 4
@@ -59,8 +59,13 @@ gantt
 
 ---
 
-### 🔵 Phase 2: Worship Sites & Geographic Map (Thánh Sở & Bản Đồ Họ Đạo)
-* **Mục tiêu:** Bản đồ PostGIS định vị Tòa Thánh, Thánh Thất, Điện Thờ Phật Mẫu, Nhà tu thuộc Đạo Cao Đài.
+### 🔵 Phase 2: Tổ Đình Bến Tre & Thánh Sở Thu Gọn (Core Sacred Complex & Compact Directory)
+* **Mục tiêu:** Chuyển trọng tâm sang giới thiệu chuyên sâu Cụm Tổ Đình Bến Tre (Tòa Thánh Bến Tre, Điện Thờ Phật Mẫu, Nhà Tu Trung Thừa, Nhà Tu Thượng Thừa) theo 3 trụ cột **Lịch sử – Xây dựng – Đường đi đến**, đồng thời thu gọn danh mục Thánh Thất địa phương vào một phân mục nhỏ để đảm bảo tính bảo mật.
+* **Các tính năng:**
+  - **Cụm công trình trung tâm (Tổ Đình Bến Tre):** Trang giới thiệu chi tiết cho 4 công trình: *Tòa Thánh Bến Tre (An Hội)*, *Điện Thờ Phật Mẫu*, *Nhà Tu Trung Thừa*, *Nhà Tu Thượng Thừa* (mỗi công trình có 3 mục chuẩn: Lịch sử, Xây dựng, Đường đi đến, kèm trạng thái xác minh nguồn).
+  - **Phân mục Thánh Thất thu gọn:** Hiển thị danh mục rút gọn các Thánh Thất tiêu biểu đã xác minh (`PUBLIC_COMPACT`), không phô bày bản đồ GIS toàn mạng lưới 200+ cơ sở để bảo vệ an toàn thông tin.
+  - **Quản trị & Kiểm duyệt:** Lưu trữ địa chỉ hiện hành song song địa chỉ lịch sử và kiểm soát quyền hiển thị (`PUBLIC_FEATURED`, `PUBLIC_COMPACT`, `INTERNAL_ONLY`).
+* **Xem chi tiết:** [`PHASE_2_TOA_THANH_PLAN.md`](PHASE_2_TOA_THANH_PLAN.md)
 
 ---
 
@@ -69,17 +74,7 @@ gantt
 
 ---
 
-### 🔵 Phase 2: Religious Calendar & Temple Management (Lịch Đạo & Bản Đồ Thánh Sở)
-* **Mục tiêu:** Xây dựng cầu nối sinh hoạt cộng đồng qua lịch lễ và bản đồ định vị cơ sở thờ tự.
-* **Các tính năng:**
-  - Thuật toán chuyển đổi âm – dương lịch Việt Nam chuẩn múi giờ `Asia/Ho_Chi_Minh`.
-  - Danh mục ngày lễ, ngày vía thường niên của Ban Chỉnh Đạo.
-  - Danh mục Họ đạo, Thánh Thất, Nhà tu; lưu lịch sử địa chỉ cũ và mới; tọa độ GPS trên bản đồ MapLibre tương tác.
-  - Cơ chế gửi báo sai lệch/đề xuất cập nhật từ đơn vị cơ sở (`UNIT_ADMIN`) qua quy trình xét duyệt.
-
----
-
-### 🟣 Phase 3: Document Composer (Công Cụ Soạn Sớ Văn & Biểu Mẫu)
+### 🟠 Phase 4: Document Composer (Công Cụ Soạn Sớ Văn & Biểu Mẫu)
 * **Mục tiêu:** Chuẩn hóa việc soạn thảo và in ấn các biểu mẫu nghi lễ và hành chánh.
 * **Các tính năng:**
   - Quản lý phiên bản mẫu sớ văn được duyệt (Sớ cầu an, cầu siêu, chúc thánh...).
@@ -89,7 +84,7 @@ gantt
 
 ---
 
-### ⚪ Phase 4: Research, Learning & Advanced Features (Nghiên Cứu & Trí Tuệ Nhân Tạo)
+### ⚪ Phase 5: Research, Learning & Advanced Features (Nghiên Cứu & Trí Tuệ Nhân Tạo)
 * **Mục tiêu:** Mở rộng thành trung tâm nghiên cứu học Đạo chuyên sâu.
 * **Các tính năng:**
   - Từ điển thuật ngữ Cao Đài, giải nghĩa từ cổ, điển tích điển cố.

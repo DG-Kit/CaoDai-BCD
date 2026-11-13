@@ -88,28 +88,52 @@ erDiagram
 
 ---
 
-### Domain 2: Tổ Chức & Cơ Sở Thờ Tự (Worship Sites & GIS)
+### Domain 2: Tổ Đình Bến Tre & Cơ Sở Thờ Tự (Core Sacred Complex & Compact Directory)
 
 #### Bảng `organization_units` (Cây đơn vị cha-con)
 
-- `id` (UUID), `parent_id` (FK tự liên kết cho quan hệ cha-con), `name` (Tên đơn vị, ví dụ: *Họ Đạo An Hội*), `unit_type_id` (FK), `established_year`, `created_at`, `updated_at`.
+- `id` (UUID), `parent_id` (FK tự liên kết cho quan hệ cha-con), `name` (Tên đơn vị, ví dụ: *Hội Thánh Cao Đài Ban Chỉnh Đạo*, *Họ Đạo An Hội*), `unit_type` (`HOI_THANH`, `BAN_TRI_SU`, `HO_DAO`, `OTHER`), `established_year`, `created_at`, `updated_at`.
 
-#### Bảng `worship_sites` (Địa điểm thờ tự vật lý)
+#### Bảng `worship_sites` (Địa điểm thờ tự & Công trình trọng tâm)
 
-| Cột                                           | Kiểu                     | Ràng buộc                     | Mô tả                                                 |
-| :--------------------------------------------- | :------------------------ | :------------------------------ | :------------------------------------------------------ |
-| `id`                                         | `UUID`                  | PK                              | Khóa chính                                            |
-| `org_unit_id`                                | `UUID`                  | FK -> `organization_units.id` | Đơn vị quản lý cơ sở                             |
-| `name`                                       | `VARCHAR(200)`          | NOT NULL                        | Tên cơ sở (ví dụ: *Thánh Thất An Hội*)        |
-| `other_names`                                | `TEXT[]`                | NULL                            | Các tên gọi lịch sử khác                          |
-| `site_type`                                  | `VARCHAR(50)`           | NOT NULL                        | `TOA_THANH`, `THANH_THAT`, `NHA_TU`, `DIEN_THO` |
-| `current_address`                            | `TEXT`                  | NOT NULL                        | Địa chỉ hiện hành                                  |
-| `historic_address`                           | `TEXT`                  | NULL                            | Địa chỉ thời kỳ đầu / lịch sử                  |
-| `coordinates`                                | `GEOMETRY(Point, 4326)` | NULL                            | Tọa độ GPS không gian PostGIS (Kinh độ, Vĩ độ) |
-| `verification_status`                        | `VARCHAR(30)`           | Default `'UNVERIFIED'`        | `UNVERIFIED`, `VERIFIED`, `OFFICIALLY_CONFIRMED`  |
-| `verified_by`                                | `UUID`                  | FK -> `users.id`, NULL        | Người thực hiện thẩm định                        |
-| `verified_at`                                | `TIMESTAMPTZ`           | NULL                            | Thời điểm thẩm định                               |
-| `created_at`, `updated_at`, `deleted_at` | `TIMESTAMPTZ`           | Chuẩn audit                    |                                                         |
+| Cột | Kiểu | Ràng buộc | Mô tả |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | PK | Khóa chính |
+| `org_unit_id` | `UUID` | FK -> `organization_units.id`, NULL | Đơn vị quản lý cơ sở |
+| `slug` | `VARCHAR(120)` | UNIQUE, NOT NULL | Định danh URL (vd: `toa-thanh-ben-tre`, `dien-tho-phat-mau`) |
+| `name` | `VARCHAR(200)` | NOT NULL | Tên công trình/cơ sở |
+| `other_names` | `TEXT[]` | NULL | Các tên gọi lịch sử khác (vd: *Diêu Trì Bửu Điện*, *Tòa Thánh An Hội*) |
+| `site_type` | `VARCHAR(50)` | NOT NULL | `TOA_THANH`, `DIEN_THO_PHAT_MAU`, `NHA_TU_TRUNG_THUA`, `NHA_TU_THUONG_THUA`, `THANH_THAT`, `HO_DAO`, `OTHER_SITE` |
+| `is_featured_landmark` | `BOOLEAN` | Default `false` | `true` đối với 4 công trình trọng tâm tại Tổ Đình Bến Tre |
+| `visibility_level` | `VARCHAR(30)` | Default `'INTERNAL_ONLY'` | `PUBLIC_FEATURED`, `PUBLIC_COMPACT`, `INTERNAL_ONLY` (phân tầng bảo mật) |
+| `display_order` | `INT` | Default `0` | Thứ tự hiển thị ưu tiên |
+| `province` | `VARCHAR(100)` | NULL | Tỉnh/Thành phố hiện hành |
+| `current_address` | `TEXT` | NOT NULL | Địa chỉ hiện hành |
+| `historic_address` | `TEXT` | NULL | Địa chỉ thời kỳ đầu / lịch sử |
+| `directions_summary` | `TEXT` | NULL | Tóm tắt chỉ dẫn đường đi đến (dành cho công trình công khai) |
+| `latitude` | `DOUBLE PRECISION` | NULL | Vĩ độ (chỉ công khai cho `PUBLIC_FEATURED`) |
+| `longitude` | `DOUBLE PRECISION` | NULL | Kinh độ (chỉ công khai cho `PUBLIC_FEATURED`) |
+| `verification_status` | `VARCHAR(30)` | Default `'PENDING_VERIFICATION'` | `UNVERIFIED`, `PENDING_VERIFICATION`, `VERIFIED`, `OFFICIALLY_CONFIRMED` |
+| `source_note` | `TEXT` | NULL | Nguồn tài liệu đối chiếu |
+| `verified_by` | `UUID` | FK -> `users.id`, NULL | Người thực hiện thẩm định |
+| `verified_at` | `TIMESTAMPTZ` | NULL | Thời điểm thẩm định |
+| `created_at`, `updated_at`, `deleted_at` | `TIMESTAMPTZ` | Chuẩn audit | |
+
+#### Bảng `site_detail_sections` (Nội dung Lịch sử – Xây dựng – Đường đi đến)
+
+Lưu trữ nội dung chuyên sâu theo từng trụ cột cho 4 công trình trọng tâm tại Tổ Đình Bến Tre (`Tòa Thánh Bến Tre`, `Điện Thờ Phật Mẫu`, `Nhà Tu Trung Thừa`, `Nhà Tu Thượng Thừa`):
+
+| Cột | Kiểu | Ràng buộc | Mô tả |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | PK | Khóa chính |
+| `site_id` | `UUID` | FK -> `worship_sites.id`, NOT NULL | Công trình tương ứng |
+| `section_type` | `VARCHAR(30)` | NOT NULL | `HISTORY` (Lịch sử), `ARCHITECTURE` (Xây dựng), `DIRECTIONS` (Đường đi đến) |
+| `title` | `VARCHAR(200)` | NOT NULL | Tiêu đề mục con |
+| `content_markdown` | `TEXT` | NOT NULL | Nội dung chi tiết (hỗ trợ Markdown) |
+| `sort_order` | `INT` | Default `0` | Thứ tự sắp xếp trong cùng nhóm |
+| `source_citation` | `TEXT` | NULL | Trích dẫn nguồn tư liệu |
+| `verification_status` | `VARCHAR(30)` | Default `'PENDING_VERIFICATION'` | `UNVERIFIED`, `PENDING_VERIFICATION`, `VERIFIED`, `OFFICIALLY_CONFIRMED` |
+| `created_at`, `updated_at` | `TIMESTAMPTZ` | Chuẩn audit | |
 
 ---
 

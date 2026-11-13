@@ -229,4 +229,120 @@ model EventOccurrence {
   @@map("event_occurrences")
 }
 
+// ==========================================
+// 3. TỔ ĐÌNH BẾN TRE & CƠ SỞ THỜ TỰ (Phase 2)
+// ==========================================
+
+enum SiteType {
+  TOA_THANH
+  DIEN_THO_PHAT_MAU
+  VUON_KY_THO
+  NHA_TU_TRUNG_THUA
+  NHA_TU_THUONG_THUA
+  NHA_TU_TRUNG_THUA_NAM
+  NHA_TU_TRUNG_THUA_NU
+  NHA_TU_THUONG_THUA_NAM
+  NHA_TU_THUONG_THUA_NU
+  THANH_THAT
+  HO_DAO
+  OTHER_SITE
+}
+
+enum VisibilityLevel {
+  PUBLIC_FEATURED
+  PUBLIC_COMPACT
+  INTERNAL_ONLY
+}
+
+enum SiteSectionType {
+  HISTORY
+  ARCHITECTURE
+  DIRECTIONS
+}
+
+enum VerificationStatus {
+  UNVERIFIED
+  PENDING_VERIFICATION
+  VERIFIED
+  OFFICIALLY_CONFIRMED
+}
+
+model OrganizationUnit {
+  id              String             @id @default(uuid()) @db.Uuid
+  parentId        String?            @map("parent_id") @db.Uuid
+  parent          OrganizationUnit?  @relation("OrgUnitHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children        OrganizationUnit[] @relation("OrgUnitHierarchy")
+
+  name            String             @db.VarChar(200)
+  unitType        String             @map("unit_type") @db.VarChar(50) // HOI_THANH, BAN_TRI_SU, HO_DAO, OTHER
+  establishedYear Int?               @map("established_year")
+
+  worshipSites    WorshipSite[]
+
+  createdAt       DateTime           @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime           @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@map("organization_units")
+}
+
+model WorshipSite {
+  id                 String              @id @default(uuid()) @db.Uuid
+  orgUnitId          String?             @map("org_unit_id") @db.Uuid
+  orgUnit            OrganizationUnit?   @relation(fields: [orgUnitId], references: [id], onDelete: SetNull)
+
+  slug               String              @unique @db.VarChar(120)
+  name               String              @db.VarChar(200)
+  otherNames         String[]            @default([]) @map("other_names")
+  siteType           SiteType            @map("site_type")
+
+  isFeaturedLandmark Boolean             @default(false) @map("is_featured_landmark")
+  visibilityLevel    VisibilityLevel     @default(INTERNAL_ONLY) @map("visibility_level")
+  displayOrder       Int                 @default(0) @map("display_order")
+
+  province           String?             @db.VarChar(100)
+  currentAddress     String              @map("current_address") @db.Text
+  historicAddress    String?             @map("historic_address") @db.Text
+  directionsSummary  String?             @map("directions_summary") @db.Text
+  latitude           Float?
+  longitude          Float?
+  imageUrl           String?             @map("image_url") @db.VarChar(255)
+  imageCaption       String?             @map("image_caption") @db.VarChar(255)
+
+  verificationStatus VerificationStatus  @default(PENDING_VERIFICATION) @map("verification_status")
+  sourceNote         String?             @map("source_note") @db.Text
+  verifiedBy         String?             @map("verified_by") @db.Uuid
+  verifiedAt         DateTime?           @map("verified_at") @db.Timestamptz
+
+  sections           SiteDetailSection[]
+
+  createdAt          DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt          DateTime            @updatedAt @map("updated_at") @db.Timestamptz
+  deletedAt          DateTime?           @map("deleted_at") @db.Timestamptz
+
+  @@index([visibilityLevel, isFeaturedLandmark, displayOrder])
+  @@index([siteType])
+  @@map("worship_sites")
+}
+
+model SiteDetailSection {
+  id                 String             @id @default(uuid()) @db.Uuid
+  siteId             String             @map("site_id") @db.Uuid
+  site               WorshipSite        @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  sectionType        SiteSectionType    @map("section_type")
+  title              String             @db.VarChar(200)
+  contentMarkdown    String             @map("content_markdown") @db.Text
+  sortOrder          Int                @default(0) @map("sort_order")
+
+  sourceCitation     String?            @map("source_citation") @db.Text
+  verificationStatus VerificationStatus @default(PENDING_VERIFICATION) @map("verification_status")
+
+  createdAt          DateTime           @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt          DateTime           @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@index([siteId, sectionType, sortOrder])
+  @@map("site_detail_sections")
+}
+
+
 

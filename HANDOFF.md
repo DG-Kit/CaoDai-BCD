@@ -165,15 +165,35 @@ Theo kế hoạch chi tiết [`docs/06-planning/PHASE_1_CALENDAR_PLAN.md`](docs/
     - Thay thế font nội dung sang **`Be Vietnam Pro`**: Font được thiết kế chuyên biệt cho hệ chữ tiếng Việt, khoảng cách dấu tối ưu, độ thoáng dòng thoải mái (`line-height: 1.6`).
     - Xóa bỏ `letter-spacing: -0.015em`, giúp các chữ cái và dấu thanh không bị dính vào nhau.
   * Đã kiểm thử `npm run build --workspace=apps/web` thành công 100% (tải trang nhẹ ~101 kB).
+- **Điều chỉnh Thiết Kế Hệ Thống Phase 2 — Tổ Đình Bến Tre & Thánh Sở Thu Gọn (2026-11-13):**
+  * **Lý do nghiệp vụ & bảo mật:** Thu gọn danh mục các Thánh Thất địa phương thành một phân mục nhỏ có kiểm soát bảo mật; chuyển trọng tâm chính sang giới thiệu chuyên sâu Cụm Tổ Đình Bến Tre gồm 4 công trình: **Tòa Thánh Bến Tre (An Hội)**, **Điện Thờ Phật Mẫu**, **Nhà Tu Trung Thừa**, **Nhà Tu Thượng Thừa** theo 3 trụ cột **Lịch sử – Xây dựng – Đường đi đến**.
+  * **Cập nhật toàn bộ tài liệu đặc tả & kế hoạch:** [`docs/01-business/BRD.md`](docs/01-business/BRD.md), [`docs/01-business/BUSINESS_RULES.md`](docs/01-business/BUSINESS_RULES.md) (`BR-SITE-01..04`), [`docs/02-architecture/SYSTEM_ARCHITECTURE.md`](docs/02-architecture/SYSTEM_ARCHITECTURE.md), [`docs/03-database/DATABASE_SCHEMA.md`](docs/03-database/DATABASE_SCHEMA.md), [`docs/06-planning/DEVELOPMENT_ROADMAP.md`](docs/06-planning/DEVELOPMENT_ROADMAP.md), [`README.md`](README.md), và tạo mới [`docs/06-planning/PHASE_2_TOA_THANH_PLAN.md`](docs/06-planning/PHASE_2_TOA_THANH_PLAN.md).
+  * **Cập nhật Database (`apps/api/prisma/schema.prisma`):** Bổ sung `SiteType`, `VisibilityLevel` (`PUBLIC_FEATURED`, `PUBLIC_COMPACT`, `INTERNAL_ONLY`), `SiteSectionType` (`HISTORY`, `ARCHITECTURE`, `DIRECTIONS`), `VerificationStatus`, `OrganizationUnit`, `WorshipSite`, `SiteDetailSection`. Đã kiểm thử `npx prisma validate`.
+  * **Cập nhật UX/UI (`apps/web`):** Cập nhật [`Navbar.tsx`](apps/web/src/components/Navbar.tsx) và [`page.tsx`](apps/web/src/app/page.tsx) sang điều hướng `/to-dinh` (**Tòa Thánh Bến Tre**), bổ sung khung hình ảnh, giới thiệu các cơ quan Nội viện, Lễ viện, Dưỡng đường và tinh gọn đoạn mô tả box Tòa Thánh Bến Tre trên trang chủ vừa vặn 3 dòng.
+- **Triển khai Phase 2 — Tổ Đình Bến Tre & Thánh Sở Thu Gọn (2026-11-13):**
+  * **Seed Data (`apps/api/prisma/seed-sites.ts` & `seed.ts`):** Tạo seed cho 7 công trình trọng tâm tại Tòa Thánh Bến Tre (Tòa Thánh Bến Tre / Thánh thất An Hội cũ, Diêu Trì Bửu Điện, Vườn Kỳ Thọ, Nhà tu Trung thừa Nam, Nhà tu Trung thừa Nữ, Nhà tu Thượng thừa Nam, Nhà tu Thượng thừa Nữ) với 3 trụ cột `HISTORY`, `ARCHITECTURE`, `DIRECTIONS` và danh mục thu gọn `PUBLIC_COMPACT`.
+  * **Backend API (`apps/api/src/sites/`):** Xây dựng `SitesModule`, `SitesController`, `SitesService` và unit tests (`sites.service.spec.ts`) cung cấp 3 endpoints: `GET /api/sites/featured`, `GET /api/sites/featured/:slug`, `GET /api/sites/compact`.
+  * **Dữ liệu Tòa Thánh Bến Tre:** Đã nghiên cứu và nạp dữ liệu lịch sử, kiến trúc, đường đi chính xác (Hồ sơ Di tích cấp tỉnh 2017: Số 100C đường Trương Định, P.6, TP. Bến Tre; các mốc 1928 Thánh thất An Hội, 1934 Ban Chỉnh Đạo, 1935 Giáo Tông Nguyễn Ngọc Tương, 1947 khởi công Đền Thánh kiên cố; cấu trúc Tam Đài: Hiệp Thiên Đài lầu chuông lầu trống nóc chữ Vạn, Cửu Trùng Đài thềm tiến chín bậc bao lam sơn son thếp vàng, Bát Quái Đài phụng thờ Thiên Nhãn và Quả Càn Khôn).
+  * **Frontend (`apps/web/src/app/to-dinh/`):** Xây dựng trang `/to-dinh` và component [`ToDinhExplorer.tsx`](apps/web/src/components/sites/ToDinhExplorer.tsx) hiển thị trọn vẹn 7 công trình trọng tâm, gỡ bỏ phần cơ quan xung quanh theo yêu cầu, tích hợp khung hình ảnh tư liệu, 3 tab Lịch sử - Xây dựng - Đường đi đến, và mục Thánh Thất thu gọn ở cuối trang.
+  * **Tích hợp Ảnh Thực Tế (2026-11-14):**
+    - Tiếp nhận và lưu trữ 4 ảnh thực tế độ nét cao do người dùng cung cấp vào [`apps/web/public/images/`](apps/web/public/images/):
+      + `toa-thanh-ben-tre.jpg`: Ảnh chụp mặt tiền Tòa Thánh Bến Tre với hai tháp Kim Chung - Ngọc Cổ và bảo tháp sân tiền đình.
+      + `dieu-tri-buu-dien.jpg`: Ảnh toàn cảnh Diêu Trì Bửu Điện (Điện Thờ Phật Mẫu) uy nghi dưới vòm trời xanh.
+      + `dieu-tri-buu-dien-2.jpg`: Ảnh hành lang hàng cột hiên và cờ Đạo.
+      + `dieu-tri-buu-dien-3.jpg`: Ảnh cận cảnh các tầng tháp nhiều lớp và hoa văn chạm trổ mái đao.
+    - Nâng cấp [`ToDinhExplorer.tsx`](apps/web/src/components/sites/ToDinhExplorer.tsx) với tính năng Gallery: hỗ trợ xem ảnh chính kèm hàng thumbnail các góc ảnh thực tế khác nhau, hiển thị chú thích chi tiết tương ứng, tự động reset index khi chuyển công trình.
+    - Cả 2 workspace `apps/api` (30/30 tests passed) và `apps/web` (build thành công 100%) đều sạch và sẵn sàng.
+  * **Chạy Migration & Nạp Database PostgreSQL (2026-11-14):**
+    - Thực thi migration `20261113174027_add_worship_sites_phase2` tạo thành công các bảng `worship_sites`, `site_detail_sections`, `organization_units` và các enum liên quan vào database PostgreSQL (`caodai_digital_library`).
+    - Bổ sung trường `imageUrl` và `imageCaption` vào model `WorshipSite`.
+    - Chạy thành công toàn bộ `npx ts-node apps/api/prisma/seed.ts`, nạp trọn vẹn 7 công trình trọng tâm, các mục Lịch sử - Kiến trúc - Đường đi và 4 cơ sở Thánh Thất thu gọn vào CSDL thực tế.
 
 ---
 
-## 3. Kế hoạch tiếp theo (Chuẩn bị Phase 2: Phân Hệ Thư Viện Đạo - Core Library)
+## 3. Kế hoạch tiếp theo (Sẵn sàng sang Phase 3)
 
-Sau khi hoàn tất Phân hệ Lịch Đạo (Phase 1), các bước tiếp theo theo lộ trình:
-1. Tiếp nhận tài liệu kinh văn / bản scan mẫu từ người dùng.
-2. Lập kế hoạch chi tiết Phase 2 (Spec-Kit Plan) cho phân hệ Kinh Sách & Thư Viện Đạo để người dùng phê duyệt trước khi triển khai.
-3. Thiết kế schema cho Tác phẩm, Ấn bản, File đính kèm (PDF/Scan/Audio), và Mục lục kinh văn.
+1. Tiếp nhận tư liệu gốc từ người dùng để cập nhật thêm ảnh thực tế của 5 công trình còn lại khi có.
+2. Khởi động **Phase 3 (Thư Viện Đạo & Bộ Đọc Đối Chiếu Bản Scan Gốc)** khi bạn cung cấp bản scan hoặc danh mục kinh sách mẫu đầu tiên.
 
 ---
 

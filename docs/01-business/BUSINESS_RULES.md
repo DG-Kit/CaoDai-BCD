@@ -78,16 +78,30 @@ Hệ thống hỗ trợ 3 chế độ hiển thị ngày ăn chay (người dùn
 
 ---
 
-## 3. Quy Tắc Nghiệp Vụ Phân Hệ Thánh Sở & Bản Đồ (Worship Sites Rules)
+## 3. Quy Tắc Nghiệp Vụ Phân Hệ Tổ Đình & Thánh Sở (Core Complex & Worship Sites Rules)
 
 ### BR-SITE-01: Phân tách Đơn vị Tổ chức & Địa điểm Vật lý
 - **Đơn vị tổ chức (`OrganizationUnit`):** Cây tổ chức tôn giáo cha-con (Hội Thánh ➔ Ban Trị Sự / Họ đạo).
-- **Địa điểm vật lý (`WorshipSite`):** Cơ sở công trình cụ thể (Tòa Thánh, Thánh Thất, Điện Thờ, Nhà tu).
+- **Địa điểm vật lý (`WorshipSite`):** Cơ sở công trình cụ thể (Tòa Thánh, Điện Thờ Phật Mẫu, Nhà Tu Trung Thừa, Nhà Tu Thượng Thừa, Thánh Thất, Nhà tu khác).
 - Một đơn vị tổ chức có thể quản lý một hoặc nhiều địa điểm vật lý.
 
 ### BR-SITE-02: Lịch sử Địa giới Hành chính
 - Đơn vị hành chính của Việt Nam có sự sáp nhập, đổi tên theo thời kỳ lịch sử.
-- **Quy tắc:** Hệ thống lưu song song `Địa chỉ hiện hành` (cho bản đồ tra cứu Google Maps/MapLibre) và `Địa chỉ lịch sử / Địa danh thời điểm hình thành` (phục vụ đối chiếu văn bản cổ). Không được ghi đè làm mất địa danh lịch sử.
+- **Quy tắc:** Hệ thống lưu song song `Địa chỉ hiện hành` (phục vụ chỉ đường đến Tổ Đình) và `Địa chỉ lịch sử / Địa danh thời điểm hình thành` (phục vụ đối chiếu văn bản cổ). Không được ghi đè làm mất địa danh lịch sử.
+
+### BR-SITE-03: Phân tầng Hiển Thị & Bảo Mật Thông Tin Thánh Sở
+- Vì lý do bảo mật và quyền riêng tư của các cơ sở địa phương, hệ thống **không** công khai danh bạ chi tiết hay bản đồ GIS toàn bộ hơn 200 Thánh Thất.
+- Áp dụng trường `visibility_level` trên `WorshipSite`:
+  * `PUBLIC_FEATURED`: Các công trình trọng tâm tại Tổ Đình Bến Tre (**Tòa Thánh Bến Tre**, **Điện Thờ Phật Mẫu**, **Nhà Tu Trung Thừa**, **Nhà Tu Thượng Thừa**) được giới thiệu chi tiết công khai.
+  * `PUBLIC_COMPACT`: Các Thánh Thất/cơ sở tiêu biểu được phép công khai chỉ hiển thị ở dạng **mục thu gọn** (tên, tỉnh/thành, địa chỉ khái quát đã kiểm chứng), không phô bày dữ liệu nhạy cảm hay bản đồ chi tiết toàn mạng lưới.
+  * `INTERNAL_ONLY`: Dữ liệu danh bạ đầy đủ, thông tin liên hệ nội bộ hoặc cơ sở chưa xác minh chỉ hiển thị cho vai trò được phân quyền (`UNIT_ADMIN`, `REVIEWER`, `SYSTEM_ADMIN` trong phạm vi được giao).
+
+### BR-SITE-04: Cấu Trúc Nội Dung Chuẩn Cho Cụm Công Trình Trọng Tâm
+- Mỗi công trình trọng tâm tại Tổ Đình Bến Tre (`is_featured_landmark = true`) phải được tổ chức nội dung có cấu trúc rõ ràng gồm 3 trụ cột (`SiteSectionType`):
+  1. `HISTORY` (**Lịch sử**): Nguồn gốc hình thành, các mốc thời gian lịch sử, sự kiện gắn liền, kèm trích dẫn nguồn tài liệu.
+  2. `ARCHITECTURE` (**Xây dựng & Kiến trúc**): Quá trình xây dựng, trùng tu, đặc điểm kiến trúc, bài trí thờ tự.
+  3. `DIRECTIONS` (**Đường đi đến**): Địa chỉ hiện hành, tọa độ/chỉ dẫn đường đi đến, lưu ý tiếp đón/tham quan (nếu có xác minh).
+- Các thông tin chưa có nguồn kiểm chứng phải gắn trạng thái `PENDING_VERIFICATION`, tuyệt đối không suy diễn hoặc bịa đặt số liệu lịch sử/kiến trúc.
 
 ---
 

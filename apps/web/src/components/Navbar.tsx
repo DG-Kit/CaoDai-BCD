@@ -26,7 +26,7 @@ export function Navbar() {
     { href: '/', label: 'Trang Chủ', icon: Home },
     { href: '/library', label: 'Kinh Sách', icon: BookOpen },
     { href: '/calendar', label: 'Lịch Đạo & Ngày Chay', icon: Calendar },
-    { href: '/worship-sites', label: 'Thánh Sở & Họ Đạo', icon: MapPin },
+    { href: '/to-dinh', label: 'Tòa Thánh Bến Tre', icon: MapPin },
     { href: '/composer', label: 'Soạn Sớ Văn', icon: FileEdit },
     { href: '/research', label: 'Đạo Sử & Khảo Cứu', icon: Search },
   ];

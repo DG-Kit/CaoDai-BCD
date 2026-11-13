@@ -26,7 +26,7 @@
 ### 1.3. Mục tiêu cụ thể
 1. **Số hóa & Bảo tồn:** Lưu trữ bền vững các ấn bản Kinh Cúng Tứ Thời, Quan Hôn Tang Tế, Thánh Ngôn, Thánh Giáo, Đạo sử, Tạp chí và Văn bản Hội Thánh kèm bản scan gốc đối chiếu.
 2. **Lịch Đạo chính xác & Tiện ích Trai kỳ:** Tra cứu lịch âm – dương, ngày lễ, ngày vía chuẩn xác theo múi giờ `Asia/Ho_Chi_Minh` và nguồn kiểm duyệt của Ban Chỉnh Đạo; hỗ trợ các bộ lọc hiển thị ngày ăn chay (Lục trai, Thập trai, Thiên Ngươn) và tùy chọn hiển thị Can Chi (ngày/tháng/năm).
-3. **Bản đồ Thánh sở:** Định vị địa lý và lưu trữ hồ sơ, lịch sử hành chính của Tòa Thánh, Họ đạo, Thánh Thất, Nhà tu thuộc Ban Chỉnh Đạo.
+3. **Giới thiệu Tổ Đình Bến Tre & Danh mục Thánh sở thu gọn:** Giới thiệu chuyên sâu về cụm kiến trúc trung tâm tại Bến Tre gồm **Tòa Thánh Bến Tre (An Hội)**, **Điện Thờ Phật Mẫu**, **Nhà Tu Trung Thừa** và **Nhà Tu Thượng Thừa** (Lịch sử, Xây dựng, Đường đi đến). Do tính chất bảo mật, danh mục các Thánh Thất/Họ đạo địa phương được thu gọn thành một phân mục nhỏ có kiểm soát phạm vi hiển thị công khai.
 4. **Hỗ trợ nghi lễ & hành chánh:** Soạn thảo, in ấn sớ văn, biểu mẫu nghi lễ theo mẫu chuẩn đã được xác minh.
 5. **Nghiên cứu & Học tập:** Xây dựng từ điển thuật ngữ, tiểu sử chức sắc tiền bối có trích dẫn nguồn lưu trữ minh bạch.
 
@@ -66,12 +66,12 @@ mindmap
       Trai kỳ (Lục trai, Thập trai, Thiên Ngươn)
       Tùy chọn Can Chi Ngày/Tháng/Năm
       Lịch sự kiện tại cơ sở
-    Hệ Thống Thánh Sở
+    Tổ Đình & Thánh Sở
       Tòa Thánh Bến Tre
-      Họ đạo & Thánh Thất
-      Nhà tu & Cơ sở trực thuộc
-      Bản đồ số & Tọa độ GIS
-      Lịch sử địa giới hành chính
+      Điện Thờ Phật Mẫu
+      Nhà Tu Trung Thừa & Thượng Thừa
+      Lịch sử - Xây dựng - Đường đi đến
+      Danh mục Thánh Thất thu gọn (Bảo mật)
     Soạn Tài Liệu
       Mẫu sớ văn chuẩn duyệt
       Biểu mẫu Quan Hôn Tang Tế

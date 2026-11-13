@@ -1,4 +1,5 @@
 import { PrismaClient, RoleCode, EventCategory } from '@prisma/client';
+import { seedWorshipSites } from './seed-sites';
 
 const prisma = new PrismaClient();
 
@@ -611,6 +612,8 @@ async function main() {
 
     console.log(`✓ Đã nạp sự kiện quốc gia: [${item.code}] ${item.title} (${item.rule.dateRangeStr})`);
   }
+
+  await seedWorshipSites(prisma);
 
   console.log('--- Hoàn tất khởi tạo dữ liệu nền tảng thành công! ---');
 }

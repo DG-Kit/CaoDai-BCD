@@ -31,12 +31,12 @@ export default function HomePage() {
       highlights: ['Các ngày sóc vọng & đại lễ', 'Lịch ăn chay theo sở nguyện', 'Tra cứu Can Chi ngày tháng'],
     },
     {
-      title: 'Thánh Sở & Họ Đạo',
-      description: 'Danh mục và bản đồ chỉ đường đến Tòa Thánh, các Thánh Thất, Điện Thờ Phật Mẫu và cơ sở tu học tại các địa phương.',
+      title: 'Tòa Thánh Bến Tre',
+      description: 'Giới thiệu Tòa Thánh Bến Tre, Diêu Trì Bửu Điện, Vườn Kỳ Thọ cùng hệ thống Nhà Tu Nam Nữ về lịch sử, kiến trúc và đường đi đến.',
       icon: MapPin,
-      href: '/worship-sites',
-      tag: 'Địa Chỉ',
-      highlights: ['Tòa Thánh & Thánh Thất', 'Danh bạ cơ sở các tỉnh', 'Địa chỉ và chỉ đường'],
+      href: '/to-dinh',
+      tag: 'Di Tích & Đường Đi',
+      highlights: ['Tòa Thánh & Diêu Trì Bửu Điện', 'Vườn Kỳ Thọ & 4 Nhà Tu Nam Nữ', 'Lịch sử, Xây dựng & Đường đi đến'],
     },
     {
       title: 'Soạn Sớ Văn & Biểu Mẫu',

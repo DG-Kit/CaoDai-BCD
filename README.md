@@ -16,7 +16,7 @@ Dự án ra đời nhằm mục tiêu ứng dụng công nghệ hiện đại v�
 
 1. **Bảo tồn di sản:** Sưu tầm, số hóa, phân loại và lưu trữ lâu dài kinh sách, Thánh ngôn, Thánh giáo, đạo sử, tạp chí và văn bản lịch sử của Ban Chỉnh Đạo.
 2. **Tra cứu chuẩn xác:** Cung cấp công cụ tra cứu lịch Đạo (âm – dương), ngày lễ vía, kỷ niệm theo đúng quy tắc và nguồn áp dụng của Ban Chỉnh Đạo.
-3. **Bản đồ Thánh sở:** Xây dựng danh mục và bản đồ số định vị các cơ sở thờ tự (Tòa Thánh, Họ đạo, Thánh Thất, Nhà tu...) đã được xác minh thông tin địa giới và lịch sử.
+3. **Giới thiệu Tổ Đình Bến Tre & Thánh sở thu gọn:** Giới thiệu chuyên sâu về Tòa Thánh Bến Tre, Điện Thờ Phật Mẫu, Nhà Tu Trung Thừa và Nhà Tu Thượng Thừa (Lịch sử, Xây dựng, Đường đi đến); đồng thời thu gọn danh mục Thánh Thất địa phương vào một phân mục nhỏ có kiểm soát bảo mật.
 4. **Hỗ trợ hành chánh & nghi lễ:** Cung cấp công cụ soạn thảo biểu mẫu, sớ văn (Document Composer) chuẩn xác theo từng phạm vi áp dụng và phiên bản đã kiểm duyệt.
 5. **Nghiên cứu & Học tập:** Môi trường học Đạo trực tuyến có trích dẫn nguồn gốc xuất xứ, giữ gìn tính nguyên bản của văn tự cổ.
 
@@ -30,7 +30,7 @@ Hệ thống được thiết kế theo hướng module hóa linh hoạt gồm 6
 flowchart TD
     Core["Ban Chỉnh Đạo Digital Library"] --> Lib["📚 1. Thư Viện Đạo\n(Kinh văn, Thánh ngôn, Đạo sử)"]
     Core --> Cal["📅 2. Lịch Đạo\n(Âm-Dương, Ngày lễ, Vía)"]
-    Core --> Site["🗺️ 3. Hệ Thống Thánh Sở\n(Bản đồ, Họ đạo, Thánh Thất)"]
+    Core --> Site["🏛️ 3. Tổ Đình & Thánh Sở\n(Tòa Thánh, ĐTPM, Nhà Tu, Đường đi)"]
     Core --> Doc["📝 4. Soạn Tài Liệu\n(Sớ văn, Biểu mẫu nghi lễ)"]
     Core --> Study["🔍 5. Nghiên Cứu & Học Đạo\n(Từ điển, Tiểu sử, Khảo cứu)"]
     Core --> Admin["⚙️ 6. Quản Trị & Kiểm Duyệt\n(Phân quyền, Audit Log, Workflow)"]
@@ -41,8 +41,9 @@ flowchart TD
    * Đọc trực tuyến song song bản scan gốc đối chiếu và bản văn điện tử; tìm kiếm toàn văn; trích dẫn nguồn.
 2. **Lịch Đạo:**
    * Lịch âm – dương chuẩn múi giờ `Asia/Ho_Chi_Minh`, hiển thị ngày lễ, ngày vía của Ban Chỉnh Đạo (tách biệt định nghĩa sự kiện `event_definition` và lần diễn ra `event_occurrence`).
-3. **Hệ thống Thánh Sở & Bản đồ:**
-   * Danh mục và bản đồ định vị Tòa Thánh Bến Tre và các cơ sở trực thuộc. Lưu trữ lịch sử thay đổi địa giới hành chính qua các thời kỳ.
+3. **Tổ Đình Bến Tre & Thánh Sở (Thu gọn):**
+   * Giới thiệu chi tiết cụm công trình trung tâm: **Tòa Thánh Bến Tre (An Hội)**, **Điện Thờ Phật Mẫu**, **Nhà Tu Trung Thừa**, **Nhà Tu Thượng Thừa** theo 3 trục nội dung: *Lịch sử*, *Xây dựng*, *Đường đi đến*.
+   * Mục giới thiệu Thánh Thất địa phương được thu gọn và phân tầng bảo mật (`PUBLIC_COMPACT` / `INTERNAL_ONLY`), lưu giữ song song địa chỉ hiện hành và địa chỉ lịch sử.
 4. **Soạn tài liệu (Document Composer):**
    * Soạn thảo và in ấn sớ văn, biểu mẫu nghi lễ hoặc văn bản hành chánh nội bộ theo mẫu chuẩn được duyệt; hỗ trợ xuất PDF/DOCX khổ A4.
 5. **Nghiên cứu và Học Đạo:**
@@ -66,7 +67,7 @@ flowchart TD
 * **Mô hình kiến trúc:** Modular Monolith (tách ranh giới module rõ ràng, sẵn sàng mở rộng mà không phân mảnh hạ tầng ban đầu).
 * **Frontend:** Next.js, TypeScript, Tailwind CSS (giao diện chuẩn UX, tương thích Responsive/PWA).
 * **Backend:** NestJS, TypeScript, REST API, Swagger/OpenAPI.
-* **Cơ sở dữ liệu:** PostgreSQL kết hợp tiện ích mở rộng PostGIS (quản lý tọa độ không gian cho bản đồ Thánh sở).
+* **Cơ sở dữ liệu:** PostgreSQL kết hợp tiện ích mở rộng PostGIS (lưu trữ cấu trúc nội dung di tích, chỉ đường Tổ Đình Bến Tre và dữ liệu địa giới hành chính).
 * **Lưu trữ tệp:** Kho lưu trữ đối tượng tương thích S3 (MinIO / Cloudflare R2 / AWS S3) bảo đảm tính bất biến của tệp scan gốc.
 * **Quy trình phát triển:** Áp dụng **Spec-Driven Development (SDD)** qua bộ công cụ GitHub Spec Kit.
 

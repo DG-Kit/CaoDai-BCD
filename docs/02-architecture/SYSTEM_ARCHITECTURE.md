@@ -17,7 +17,7 @@ Hệ thống được thiết kế theo mô hình **Modular Monolith** nhằm c�
 ```mermaid
 flowchart TD
     subgraph ClientLayer["Lớp Client / Người Dùng"]
-        WebPortal["Next.js Web Portal\n(Public Library, Search, Map, Reader)"]
+        WebPortal["Next.js Web Portal\n(Public Library, Calendar, Core Complex, Reader)"]
         AdminPortal["Next.js Admin Console\n(Editor, Reviewer, System Admin)"]
     end
 
@@ -28,7 +28,7 @@ flowchart TD
     subgraph BackendApp["Lớp Ứng Dụng Backend (NestJS Modular Monolith)"]
         direction TB
         AuthMod["Auth & Scoped RBAC Module"]
-        OrgMod["Organization & Worship Sites Module"]
+        OrgMod["Organization & Sacred Complex Module"]
         LibMod["Digital Library Core Module"]
         CalMod["Religious Calendar Module"]
         DocMod["Document Composer Module"]
@@ -69,7 +69,7 @@ flowchart TD
 ### 2.1. Lớp Frontend (Web & Admin Portal)
 - **Công nghệ:** Next.js (App Router), TypeScript, Tailwind CSS.
 - **Thư viện giao diện:** Radix UI / Shadcn UI (ưu tiên ngữ nghĩa semantic, độ tương phản cao, hỗ trợ a11y theo quy chuẩn `impeccable`).
-- **Thư viện Bản đồ:** MapLibre GL JS (mã nguồn mở, không phụ thuộc chi phí Google Maps API).
+- **Thư viện Bản đồ & Chỉ đường:** MapLibre GL JS hoặc liên kết chỉ đường công khai (chỉ áp dụng cho Cụm Tổ Đình Bến Tre và các điểm công khai; không phô bày bản đồ GIS toàn mạng lưới Thánh Thất vì lý do bảo mật).
 - **Bộ đọc tài liệu (Reader):**
   * Chế độ 1: Tệp Scan gốc PDF (PDF.js canvas rendering, hỗ trợ zoom, xoay trang).
   * Chế độ 2: Bản văn điện tử (Typography chuẩn cho tiếng Việt cổ, Hán-Nôm unicode, điều chỉnh font size, mục lục chương/bài).
@@ -80,7 +80,7 @@ Backend chia thành các module nghiệp vụ độc lập, giao tiếp thông q
 * `auth`: Đăng ký, đăng nhập JWT/Session, mã hóa mật khẩu bằng Argon2/Bcrypt.
 * `access-control`: Scoped RBAC Guard (kiểm tra vai trò và phạm vi `unit_id` trên từng endpoint).
 * `organization`: Quản lý hồ sơ tổ chức và cây đơn vị trực thuộc.
-* `worship-sites`: Quản lý các cơ sở thờ tự, tọa độ PostGIS, ảnh và lịch sử hành chính.
+* `worship-sites`: Quản lý giới thiệu chi tiết Cụm Tổ Đình Bến Tre (Tòa Thánh, Điện Thờ Phật Mẫu, Nhà Tu Trung Thừa, Thượng Thừa: Lịch sử, Xây dựng, Đường đi đến) và phân tầng hiển thị thu gọn/nội bộ cho các cơ sở thờ tự khác.
 * `library`: Quản lý tác phẩm, ấn bản, file scan, mục lục, nội dung và workflow xuất bản.
 * `calendar`: Thuật toán âm lịch Việt Nam, định nghĩa ngày lễ, lần diễn ra sự kiện.
 * `document-composer`: Mẫu văn bản, kiểm tra trường dữ liệu, tạo file Word/PDF.
