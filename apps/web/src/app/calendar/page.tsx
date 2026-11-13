@@ -118,9 +118,9 @@ export default function CalendarPage() {
   }, [daysInMonth]);
 
   return (
-    <div className="max-w-[1550px] mx-auto px-3 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div className="max-w-[1680px] mx-auto px-3 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* 1. Header Trang Lịch Đạo */}
-      <div className="border-b border-heritage-border pb-5 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="border-b border-heritage-border pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-heritage-goldDark">
             <CalendarIcon className="w-4 h-4" />
@@ -129,7 +129,7 @@ export default function CalendarPage() {
           <h1 className="text-3xl sm:text-4xl font-serif font-bold text-heritage-wood mt-1">
             Lịch Đạo & Ngày Ăn Chay
           </h1>
-          <p className="text-sm sm:text-base text-heritage-woodLight mt-1.5 max-w-3xl leading-relaxed">
+          <p className="text-sm sm:text-base text-heritage-woodLight mt-1 max-w-3xl leading-relaxed">
             Tra cứu Âm – Dương song hành, Can Chi cổ truyền, 12 khung giờ Hoàng Đạo/Hắc Đạo mỗi ngày, cùng các ngày Đại Lễ chính thức của Hội Thánh Cao Đài Ban Chỉnh Đạo & Lễ Lớn Quốc Gia Việt Nam.
           </p>
         </div>
@@ -147,7 +147,7 @@ export default function CalendarPage() {
       </div>
 
       {/* 2. Thanh Điều Khiển Tháng, Trai Kỳ & Bộ Lọc Lễ */}
-      <div className="bg-white/85 border border-heritage-border rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div className="bg-white/90 border border-heritage-border rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col xl:flex-row xl:items-center justify-between gap-4">
         {/* Bộ chuyển tháng */}
         <div className="flex items-center gap-3">
           <div className="flex items-center space-x-1">
@@ -179,11 +179,11 @@ export default function CalendarPage() {
           </div>
         </div>
 
-        {/* Bộ Lọc Hiển Thị: Lễ Đạo / Lễ Quốc Gia */}
-        <div className="flex flex-wrap items-center gap-2 pt-2 lg:pt-0 border-t lg:border-t-0 border-heritage-border/60">
+        {/* Cụm Bộ Lọc Giữa: Lễ Đạo / Lễ Quốc Gia */}
+        <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-1.5 text-xs font-semibold text-heritage-woodLight mr-1">
             <Filter className="w-3.5 h-3.5 text-heritage-goldDark" />
-            <span>Sự kiện:</span>
+            <span>Xem sự kiện:</span>
           </div>
 
           <div className="flex items-center gap-1 bg-heritage-parchment/80 p-1 rounded-xl border border-heritage-border/70">
@@ -196,7 +196,7 @@ export default function CalendarPage() {
                   : 'text-heritage-wood hover:bg-white'
               }`}
             >
-              Tất cả
+              Tất cả sự kiện
             </button>
             <button
               type="button"
@@ -225,8 +225,8 @@ export default function CalendarPage() {
           </div>
         </div>
 
-        {/* Bộ lọc Chế độ Ăn Chay (Trai Kỳ) */}
-        <div className="flex flex-wrap items-center gap-2 pt-2 lg:pt-0 border-t lg:border-t-0 border-heritage-border/60">
+        {/* Cụm Bộ Lọc Phải: Chế độ Ăn Chay (Trai Kỳ) */}
+        <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-1.5 text-xs font-semibold text-heritage-woodLight mr-1">
             <span>Trai kỳ:</span>
           </div>
@@ -270,117 +270,121 @@ export default function CalendarPage() {
         </div>
       </div>
 
-      {/* 3. Bố Cục Chính: Bảng Lịch To Rộng Rãi (Big Grid) & Thẻ Chi Tiết Ngày */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Cột Trái: Bảng Lịch Tháng Lớn (lg:col-span-8) */}
-        <div className="lg:col-span-8 space-y-4">
-          <div className="bg-white/95 border border-heritage-border rounded-2xl p-3 sm:p-5 shadow-xs overflow-hidden">
-            {/* Hàng Tiêu Đề 7 Ngày Trong Tuần */}
-            <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center pb-3 border-b border-heritage-border/70 mb-3">
-              {WEEKDAYS.map((wd, idx) => (
-                <div
-                  key={wd}
-                  className={`text-sm sm:text-base font-serif font-bold py-1 ${
-                    idx === 6 ? 'text-caodai-red' : idx === 5 ? 'text-heritage-cyan' : 'text-heritage-wood'
-                  }`}
-                >
-                  <span className="hidden sm:inline">{wd}</span>
-                  <span className="sm:hidden">{wd.replace('Thứ ', 'T')}</span>
-                </div>
-              ))}
+      {/* 3. BẢNG LỊCH THÁNG CHIẾM TRỌN CHIỀU NGANG (FULL WIDTH GRID - RỘNG RÃI & THOÁNG MẮT) */}
+      <section className="bg-white/95 border border-heritage-border rounded-2xl p-4 sm:p-6 shadow-sm overflow-hidden">
+        {/* Hàng Tiêu Đề 7 Ngày Trong Tuần */}
+        <div className="grid grid-cols-7 gap-2 sm:gap-3 text-center pb-3 border-b border-heritage-border/70 mb-3">
+          {WEEKDAYS.map((wd, idx) => (
+            <div
+              key={wd}
+              className={`text-sm sm:text-base font-serif font-bold py-1.5 rounded-lg ${
+                idx === 6
+                  ? 'text-caodai-red bg-red-50/60'
+                  : idx === 5
+                  ? 'text-heritage-cyan bg-sky-50/60'
+                  : 'text-heritage-wood bg-stone-50/60'
+              }`}
+            >
+              <span className="hidden sm:inline">{wd}</span>
+              <span className="sm:hidden">{wd.replace('Thứ ', 'T')}</span>
             </div>
-
-            {/* Lưới Ngày trong Tháng (Kích Thước To, Rộng, Dễ Đọc) */}
-            <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
-              {/* Các ô trống trước ngày 1 */}
-              {Array.from({ length: startDayOffset }).map((_, i) => (
-                <div
-                  key={`empty-${i}`}
-                  className="min-h-[130px] sm:min-h-[155px] xl:min-h-[165px] bg-heritage-parchment/20 rounded-xl border border-dashed border-heritage-border/30"
-                />
-              ))}
-
-              {/* Từng ngày trong tháng */}
-              {daysInMonth.map((day) => {
-                const dayEvents = getEventsForDay(
-                  day.solarMonth,
-                  day.solarDay,
-                  day.lunar.month,
-                  day.lunar.day,
-                ).filter((e) => {
-                  if (eventTypeFilter === 'RELIGIOUS') return e.category !== 'NATIONAL_HOLIDAY';
-                  if (eventTypeFilter === 'NATIONAL') return e.category === 'NATIONAL_HOLIDAY';
-                  return true;
-                });
-
-                const isSelected = day.solarDate === selectedDateStr;
-                const isToday = day.solarDate === todayStr;
-
-                return (
-                  <CalendarDayCell
-                    key={day.solarDate}
-                    day={day}
-                    events={dayEvents}
-                    isSelected={isSelected}
-                    isToday={isToday}
-                    showCanChi={showCanChi}
-                    onSelect={() => setSelectedDateStr(day.solarDate)}
-                  />
-                );
-              })}
-            </div>
-
-            {/* Chú giải ký hiệu lịch ở đáy bảng */}
-            <div className="mt-5 pt-4 border-t border-heritage-border/60 flex flex-wrap items-center justify-between gap-3 text-xs text-heritage-woodLight">
-              <div className="flex flex-wrap items-center gap-4">
-                <span className="flex items-center gap-1.5">
-                  <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-white">
-                    🌑 Sóc
-                  </span>
-                  <span>Mùng 1 Âm lịch</span>
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-400 text-amber-950 border border-amber-600">
-                    🌕 Vọng
-                  </span>
-                  <span>Rằm 15 Âm lịch</span>
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-                    Chay
-                  </span>
-                  <span>Ngày ăn chay</span>
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-caodai-red/10 text-caodai-red border border-caodai-red/30">
-                    ✨ Lễ Đạo
-                  </span>
-                  <span>Đại Lễ Cao Đài</span>
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-700 text-white">
-                    🇻🇳 Lễ Quốc Gia
-                  </span>
-                  <span>Lễ Nhà Nước Việt Nam</span>
-                </span>
-              </div>
-              <div className="text-[11px] italic">
-                * 12 Khung giờ tính theo Chi ngày (Thập Nhị Thần Sát)
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
 
-        {/* Cột Phải: Thẻ Chi Tiết Ngày Đang Chọn & 12 Khung Giờ (lg:col-span-4) */}
-        <div className="lg:col-span-4 sticky top-24">
+        {/* Lưới 7 Cột Siêu Thoáng Mỗi Ngày */}
+        <div className="grid grid-cols-7 gap-2 sm:gap-3">
+          {/* Các ô trống trước ngày 1 */}
+          {Array.from({ length: startDayOffset }).map((_, i) => (
+            <div
+              key={`empty-${i}`}
+              className="min-h-[140px] sm:min-h-[165px] bg-heritage-parchment/15 rounded-xl border border-dashed border-heritage-border/30"
+            />
+          ))}
+
+          {/* Từng ngày trong tháng */}
+          {daysInMonth.map((day) => {
+            const dayEvents = getEventsForDay(
+              day.solarMonth,
+              day.solarDay,
+              day.lunar.month,
+              day.lunar.day,
+            ).filter((e) => {
+              if (eventTypeFilter === 'RELIGIOUS') return e.category !== 'NATIONAL_HOLIDAY';
+              if (eventTypeFilter === 'NATIONAL') return e.category === 'NATIONAL_HOLIDAY';
+              return true;
+            });
+
+            const isSelected = day.solarDate === selectedDateStr;
+            const isToday = day.solarDate === todayStr;
+
+            return (
+              <CalendarDayCell
+                key={day.solarDate}
+                day={day}
+                events={dayEvents}
+                isSelected={isSelected}
+                isToday={isToday}
+                showCanChi={showCanChi}
+                onSelect={() => setSelectedDateStr(day.solarDate)}
+              />
+            );
+          })}
+        </div>
+
+        {/* Chú giải ký hiệu lịch ở đáy bảng */}
+        <div className="mt-5 pt-4 border-t border-heritage-border/60 flex flex-wrap items-center justify-between gap-4 text-xs text-heritage-woodLight">
+          <div className="flex flex-wrap items-center gap-5">
+            <span className="flex items-center gap-1.5">
+              <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-white">
+                🌑 Sóc • Mùng 1
+              </span>
+              <span>Mùng Một Âm lịch</span>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-400 text-amber-950 border border-amber-600">
+                🌕 Vọng • Rằm 15
+              </span>
+              <span>Rằm 15 Âm lịch</span>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                Chay
+              </span>
+              <span>Ngày ăn chay</span>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-caodai-red/10 text-caodai-red border border-caodai-red/30">
+                ✨ Lễ Đạo
+              </span>
+              <span>Đại Lễ Cao Đài</span>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-700 text-white">
+                🇻🇳 Lễ Quốc Gia
+              </span>
+              <span>Lễ Nhà Nước Việt Nam</span>
+            </span>
+          </div>
+          <div className="text-[11px] italic text-heritage-goldDark font-medium">
+            * Bấm vào ngày bất kỳ trên lịch để xem 12 khung giờ Hoàng Đạo/Hắc Đạo và chi tiết sự kiện bên dưới
+          </div>
+        </div>
+      </section>
+
+      {/* 4. KHU VỰC THÔNG TIN CHUYÊN SÂU PHÍA DƯỚI (2 BOX SONG HÀNH CÂN XỨNG) */}
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* Box Trái: Thẻ Chi Tiết Ngày Đang Chọn & 12 Khung Giờ (lg:col-span-7) */}
+        <div className="lg:col-span-7">
           {selectedDayInfo && (
             <DayDetailCard day={selectedDayInfo} events={selectedDayEvents} />
           )}
         </div>
-      </div>
 
-      {/* 4. Danh Mục Tra Cứu Đại Lễ Ban Chỉnh Đạo & Lễ Quốc Gia */}
-      <ReligiousEventsReference />
+        {/* Box Phải: Bảng Tra Cứu Danh Mục Ngày Lễ Cao Đài & Quốc Gia (lg:col-span-5) */}
+        <div className="lg:col-span-5">
+          <ReligiousEventsReference />
+        </div>
+      </section>
     </div>
   );
 }

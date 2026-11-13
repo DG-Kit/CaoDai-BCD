@@ -8,27 +8,28 @@ import {
 import { BookMarked, ChevronDown, ChevronUp, Flag } from 'lucide-react';
 
 export function ReligiousEventsReference() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<'RELIGIOUS' | 'NATIONAL'>('RELIGIOUS');
 
   const activeEvents =
     activeTab === 'RELIGIOUS' ? VERIFIED_RELIGIOUS_EVENTS : VERIFIED_NATIONAL_EVENTS;
 
   return (
-    <div className="bg-heritage-parchment/70 border border-heritage-border rounded-2xl p-5 shadow-xs">
+    <div className="bg-heritage-parchment/95 border border-heritage-border rounded-2xl p-5 shadow-xs flex flex-col h-full">
+      {/* Tiêu đề Box */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between text-left group"
+        className="w-full flex items-center justify-between text-left group pb-1"
       >
         <div className="flex items-center gap-3">
           <BookMarked className="w-5 h-5 text-heritage-goldDark shrink-0" />
           <div>
             <h3 className="font-serif font-bold text-base sm:text-lg text-heritage-wood group-hover:text-heritage-goldDark transition-colors">
-              Tra Cứu Danh Mục Ngày Đại Lễ & Sự Kiện (Ban Chỉnh Đạo & Quốc Gia)
+              Tra Cứu Danh Mục Ngày Lễ & Kỷ Niệm
             </h3>
             <p className="text-xs text-heritage-woodLight">
-              Gồm 13 ngày Đại Lễ Cao Đài Ban Chỉnh Đạo & 16 ngày Lễ lớn Nhà nước Việt Nam (Bấm để {isOpen ? 'thu gọn' : 'xem đầy đủ'})
+              13 Đại Lễ Cao Đài Ban Chỉnh Đạo & 16 Ngày Lễ Lớn Việt Nam
             </p>
           </div>
         </div>
@@ -38,35 +39,36 @@ export function ReligiousEventsReference() {
       </button>
 
       {isOpen && (
-        <div className="mt-4 pt-4 border-t border-heritage-border/70 space-y-4">
+        <div className="mt-3 pt-3 border-t border-heritage-border/70 space-y-3 flex-1 flex flex-col">
           {/* Tabs chuyển đổi giữa Lễ Đạo & Lễ Quốc Gia */}
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setActiveTab('RELIGIOUS')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+              className={`flex-1 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all text-center ${
                 activeTab === 'RELIGIOUS'
                   ? 'bg-caodai-red text-white shadow-xs'
                   : 'bg-white/80 text-heritage-wood hover:bg-heritage-parchment border border-heritage-border'
               }`}
             >
-              ✨ 13 Đại Lễ Cao Đài Ban Chỉnh Đạo
+              ✨ 13 Đại Lễ Cao Đài
             </button>
             <button
               type="button"
               onClick={() => setActiveTab('NATIONAL')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-1.5 ${
+              className={`flex-1 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-1.5 ${
                 activeTab === 'NATIONAL'
                   ? 'bg-red-700 text-white shadow-xs'
                   : 'bg-white/80 text-heritage-wood hover:bg-heritage-parchment border border-heritage-border'
               }`}
             >
               <Flag className="w-3.5 h-3.5" />
-              16 Ngày Lễ Lớn Nhà Nước Việt Nam
+              16 Lễ Nhà Nước VN
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {/* Danh Sách Sự Kiện Cuộn Mượt Mà */}
+          <div className="space-y-2.5 max-h-[580px] overflow-y-auto pr-1">
             {activeEvents.map((item, idx) => (
               <div
                 key={item.code}
