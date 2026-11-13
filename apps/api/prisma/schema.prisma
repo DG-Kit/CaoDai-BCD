@@ -165,9 +165,10 @@ model AuditLog {
 // ==========================================
 
 enum EventCategory {
-  MAJOR_HOLIDAY        // Đại lễ tối cao
-  COMMEMORATION        // Lễ kỷ niệm tiền bối, biến cố lịch sử
-  TRADITIONAL_FESTIVAL // Lễ hội truyền thống
+  MAJOR_HOLIDAY        // Đại lễ tôn giáo
+  COMMEMORATION        // Lễ kỷ niệm tôn giáo, tiền bối
+  TRADITIONAL_FESTIVAL // Lễ hội truyền thống dân gian
+  NATIONAL_HOLIDAY     // Ngày lễ lớn của Nhà nước Việt Nam
 }
 
 model ReligiousEvent {

@@ -15,6 +15,8 @@ import {
   ChevronRight,
   Calendar as CalendarIcon,
   Filter,
+  Sparkles,
+  Flag,
 } from 'lucide-react';
 
 const WEEKDAYS = [
@@ -35,6 +37,7 @@ export default function CalendarPage() {
     FastingSchedule.LUC_TRAI,
   );
   const [showCanChi, setShowCanChi] = useState<boolean>(true);
+  const [eventTypeFilter, setEventTypeFilter] = useState<'ALL' | 'RELIGIOUS' | 'NATIONAL'>('ALL');
 
   // Ngày được chọn (mặc định là ngày hôm nay)
   const todayStr = useMemo(() => {
@@ -91,13 +94,20 @@ export default function CalendarPage() {
   // Sự kiện của ngày được chọn
   const selectedDayEvents = useMemo(() => {
     if (!selectedDayInfo) return [];
-    return getEventsForDay(
+    const all = getEventsForDay(
       selectedDayInfo.solarMonth,
       selectedDayInfo.solarDay,
       selectedDayInfo.lunar.month,
       selectedDayInfo.lunar.day,
     );
-  }, [selectedDayInfo]);
+    if (eventTypeFilter === 'RELIGIOUS') {
+      return all.filter((e) => e.category !== 'NATIONAL_HOLIDAY');
+    }
+    if (eventTypeFilter === 'NATIONAL') {
+      return all.filter((e) => e.category === 'NATIONAL_HOLIDAY');
+    }
+    return all;
+  }, [selectedDayInfo, eventTypeFilter]);
 
   // Tên tháng Âm lịch chủ đạo của tháng Dương này
   const primaryLunarMonthStr = useMemo(() => {
@@ -108,9 +118,9 @@ export default function CalendarPage() {
   }, [daysInMonth]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-[1550px] mx-auto px-3 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* 1. Header Trang Lịch Đạo */}
-      <div className="border-b border-heritage-border pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="border-b border-heritage-border pb-5 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-heritage-goldDark">
             <CalendarIcon className="w-4 h-4" />
@@ -119,25 +129,25 @@ export default function CalendarPage() {
           <h1 className="text-3xl sm:text-4xl font-serif font-bold text-heritage-wood mt-1">
             Lịch Đạo & Ngày Ăn Chay
           </h1>
-          <p className="text-sm sm:text-base text-heritage-woodLight mt-1.5 max-w-2xl leading-relaxed">
-            Tra cứu Âm – Dương song hành, Can Chi cổ truyền, 6 Giờ Hoàng Đạo mỗi ngày và các ngày Đại Lễ chính thức của Hội Thánh Cao Đài Ban Chỉnh Đạo.
+          <p className="text-sm sm:text-base text-heritage-woodLight mt-1.5 max-w-3xl leading-relaxed">
+            Tra cứu Âm – Dương song hành, Can Chi cổ truyền, 12 khung giờ Hoàng Đạo/Hắc Đạo mỗi ngày, cùng các ngày Đại Lễ chính thức của Hội Thánh Cao Đài Ban Chỉnh Đạo & Lễ Lớn Quốc Gia Việt Nam.
           </p>
         </div>
 
-        {/* Nút Về Hôm Nay & Chọn Lịch Ăn Chay Nhanh */}
+        {/* Nút Về Hôm Nay */}
         <div className="flex items-center gap-2 self-start md:self-auto">
           <button
             type="button"
             onClick={handleToday}
-            className="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-heritage-parchment hover:bg-amber-100 text-heritage-wood border border-heritage-border transition-colors shadow-2xs"
+            className="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-heritage-parchment hover:bg-amber-100 text-heritage-wood border border-heritage-border transition-colors shadow-2xs"
           >
-            Hôm Nay
+            Về Hôm Nay
           </button>
         </div>
       </div>
 
-      {/* 2. Thanh Điều Khiển Tháng & Tùy Chọn Trai Kỳ */}
-      <div className="bg-white/80 border border-heritage-border rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      {/* 2. Thanh Điều Khiển Tháng, Trai Kỳ & Bộ Lọc Lễ */}
+      <div className="bg-white/85 border border-heritage-border rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         {/* Bộ chuyển tháng */}
         <div className="flex items-center gap-3">
           <div className="flex items-center space-x-1">
@@ -145,7 +155,7 @@ export default function CalendarPage() {
               type="button"
               onClick={handlePrevMonth}
               aria-label="Tháng trước"
-              className="p-2 rounded-xl border border-heritage-border hover:bg-heritage-parchment text-heritage-wood transition-colors"
+              className="p-2.5 rounded-xl border border-heritage-border hover:bg-heritage-parchment text-heritage-wood transition-colors shadow-2xs"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -153,31 +163,76 @@ export default function CalendarPage() {
               type="button"
               onClick={handleNextMonth}
               aria-label="Tháng sau"
-              className="p-2 rounded-xl border border-heritage-border hover:bg-heritage-parchment text-heritage-wood transition-colors"
+              className="p-2.5 rounded-xl border border-heritage-border hover:bg-heritage-parchment text-heritage-wood transition-colors shadow-2xs"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
 
           <div>
-            <div className="text-xl sm:text-2xl font-serif font-bold text-heritage-wood">
+            <div className="text-2xl sm:text-3xl font-serif font-bold text-heritage-wood">
               Tháng {currentMonth} năm {currentYear}
             </div>
-            <div className="text-xs sm:text-sm text-heritage-goldDark font-medium">
+            <div className="text-xs sm:text-sm text-heritage-goldDark font-semibold">
               {primaryLunarMonthStr}
             </div>
+          </div>
+        </div>
+
+        {/* Bộ Lọc Hiển Thị: Lễ Đạo / Lễ Quốc Gia */}
+        <div className="flex flex-wrap items-center gap-2 pt-2 lg:pt-0 border-t lg:border-t-0 border-heritage-border/60">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-heritage-woodLight mr-1">
+            <Filter className="w-3.5 h-3.5 text-heritage-goldDark" />
+            <span>Sự kiện:</span>
+          </div>
+
+          <div className="flex items-center gap-1 bg-heritage-parchment/80 p-1 rounded-xl border border-heritage-border/70">
+            <button
+              type="button"
+              onClick={() => setEventTypeFilter('ALL')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                eventTypeFilter === 'ALL'
+                  ? 'bg-heritage-wood text-white shadow-2xs'
+                  : 'text-heritage-wood hover:bg-white'
+              }`}
+            >
+              Tất cả
+            </button>
+            <button
+              type="button"
+              onClick={() => setEventTypeFilter('RELIGIOUS')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
+                eventTypeFilter === 'RELIGIOUS'
+                  ? 'bg-caodai-red text-white shadow-2xs'
+                  : 'text-heritage-wood hover:bg-white'
+              }`}
+            >
+              <Sparkles className="w-3 h-3" />
+              Lễ Đạo Cao Đài
+            </button>
+            <button
+              type="button"
+              onClick={() => setEventTypeFilter('NATIONAL')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
+                eventTypeFilter === 'NATIONAL'
+                  ? 'bg-red-700 text-white shadow-2xs'
+                  : 'text-heritage-wood hover:bg-white'
+              }`}
+            >
+              <Flag className="w-3 h-3" />
+              Lễ Nhà Nước VN
+            </button>
           </div>
         </div>
 
         {/* Bộ lọc Chế độ Ăn Chay (Trai Kỳ) */}
         <div className="flex flex-wrap items-center gap-2 pt-2 lg:pt-0 border-t lg:border-t-0 border-heritage-border/60">
           <div className="flex items-center gap-1.5 text-xs font-semibold text-heritage-woodLight mr-1">
-            <Filter className="w-3.5 h-3.5 text-heritage-goldDark" />
             <span>Trai kỳ:</span>
           </div>
 
           {[
-            { mode: FastingSchedule.NONE, label: 'Không chọn' },
+            { mode: FastingSchedule.NONE, label: 'Tùy duyên' },
             { mode: FastingSchedule.LUC_TRAI, label: 'Lục Trai (6 ngày)' },
             { mode: FastingSchedule.THAP_TRAI, label: 'Thập Trai (10 ngày)' },
             { mode: FastingSchedule.THIEN_NGUON, label: 'Thiên Ngươn' },
@@ -215,17 +270,17 @@ export default function CalendarPage() {
         </div>
       </div>
 
-      {/* 3. Bố Cục Chính: Bảng Lịch Tháng (8 cột) & Thẻ Chi Tiết Ngày (4 cột) */}
+      {/* 3. Bố Cục Chính: Bảng Lịch To Rộng Rãi (Big Grid) & Thẻ Chi Tiết Ngày */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Cột Trái: Bảng Lịch Tháng (lg:col-span-8) */}
-        <div className="lg:col-span-7 xl:col-span-8 space-y-4">
-          <div className="bg-white/90 border border-heritage-border rounded-2xl p-3 sm:p-5 shadow-xs overflow-hidden">
+        {/* Cột Trái: Bảng Lịch Tháng Lớn (lg:col-span-8) */}
+        <div className="lg:col-span-8 space-y-4">
+          <div className="bg-white/95 border border-heritage-border rounded-2xl p-3 sm:p-5 shadow-xs overflow-hidden">
             {/* Hàng Tiêu Đề 7 Ngày Trong Tuần */}
-            <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center pb-2 border-b border-heritage-border/70 mb-2">
+            <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center pb-3 border-b border-heritage-border/70 mb-3">
               {WEEKDAYS.map((wd, idx) => (
                 <div
                   key={wd}
-                  className={`text-xs sm:text-sm font-serif font-bold py-1 ${
+                  className={`text-sm sm:text-base font-serif font-bold py-1 ${
                     idx === 6 ? 'text-caodai-red' : idx === 5 ? 'text-heritage-cyan' : 'text-heritage-wood'
                   }`}
                 >
@@ -235,13 +290,13 @@ export default function CalendarPage() {
               ))}
             </div>
 
-            {/* Lưới Ngày trong Tháng */}
-            <div className="grid grid-cols-7 gap-1 sm:gap-2">
+            {/* Lưới Ngày trong Tháng (Kích Thước To, Rộng, Dễ Đọc) */}
+            <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
               {/* Các ô trống trước ngày 1 */}
               {Array.from({ length: startDayOffset }).map((_, i) => (
                 <div
                   key={`empty-${i}`}
-                  className="min-h-[82px] sm:min-h-[104px] bg-heritage-parchment/20 rounded-xl border border-dashed border-heritage-border/30"
+                  className="min-h-[130px] sm:min-h-[155px] xl:min-h-[165px] bg-heritage-parchment/20 rounded-xl border border-dashed border-heritage-border/30"
                 />
               ))}
 
@@ -252,7 +307,12 @@ export default function CalendarPage() {
                   day.solarDay,
                   day.lunar.month,
                   day.lunar.day,
-                );
+                ).filter((e) => {
+                  if (eventTypeFilter === 'RELIGIOUS') return e.category !== 'NATIONAL_HOLIDAY';
+                  if (eventTypeFilter === 'NATIONAL') return e.category === 'NATIONAL_HOLIDAY';
+                  return true;
+                });
+
                 const isSelected = day.solarDate === selectedDateStr;
                 const isToday = day.solarDate === todayStr;
 
@@ -271,45 +331,55 @@ export default function CalendarPage() {
             </div>
 
             {/* Chú giải ký hiệu lịch ở đáy bảng */}
-            <div className="mt-4 pt-4 border-t border-heritage-border/60 flex flex-wrap items-center justify-between gap-3 text-xs text-heritage-woodLight">
+            <div className="mt-5 pt-4 border-t border-heritage-border/60 flex flex-wrap items-center justify-between gap-3 text-xs text-heritage-woodLight">
               <div className="flex flex-wrap items-center gap-4">
                 <span className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-slate-800" />
-                  <span>Sóc (Mùng 1)</span>
+                  <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-white">
+                    🌑 Sóc
+                  </span>
+                  <span>Mùng 1 Âm lịch</span>
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400 border border-amber-600" />
-                  <span>Vọng (Rằm 15)</span>
+                  <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-400 text-amber-950 border border-amber-600">
+                    🌕 Vọng
+                  </span>
+                  <span>Rằm 15 Âm lịch</span>
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="px-1.5 py-0.2 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
                     Chay
                   </span>
                   <span>Ngày ăn chay</span>
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="px-1.5 py-0.2 rounded text-[10px] font-semibold bg-caodai-red/10 text-caodai-red border border-caodai-red/30">
-                    Lễ
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-caodai-red/10 text-caodai-red border border-caodai-red/30">
+                    ✨ Lễ Đạo
                   </span>
-                  <span>Đại Lễ & Kỷ Niệm</span>
+                  <span>Đại Lễ Cao Đài</span>
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-700 text-white">
+                    🇻🇳 Lễ Quốc Gia
+                  </span>
+                  <span>Lễ Nhà Nước Việt Nam</span>
                 </span>
               </div>
               <div className="text-[11px] italic">
-                * Giờ Hoàng Đạo tính theo Chi ngày
+                * 12 Khung giờ tính theo Chi ngày (Thập Nhị Thần Sát)
               </div>
             </div>
           </div>
         </div>
 
-        {/* Cột Phải: Thẻ Chi Tiết Ngày Đang Chọn (lg:col-span-5) */}
-        <div className="lg:col-span-5 xl:col-span-4 sticky top-24">
+        {/* Cột Phải: Thẻ Chi Tiết Ngày Đang Chọn & 12 Khung Giờ (lg:col-span-4) */}
+        <div className="lg:col-span-4 sticky top-24">
           {selectedDayInfo && (
             <DayDetailCard day={selectedDayInfo} events={selectedDayEvents} />
           )}
         </div>
       </div>
 
-      {/* 4. Danh Mục 13 Ngày Đại Lễ Chính Thức Ban Chỉnh Đạo */}
+      {/* 4. Danh Mục Tra Cứu Đại Lễ Ban Chỉnh Đạo & Lễ Quốc Gia */}
       <ReligiousEventsReference />
     </div>
   );

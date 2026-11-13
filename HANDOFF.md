@@ -82,13 +82,22 @@ Theo kế hoạch chi tiết [`docs/06-planning/PHASE_1_CALENDAR_PLAN.md`](docs/
   * Cung cấp các API: `GET /api/calendar/month`, `GET /api/calendar/day`, `GET /api/calendar/events`.
   * Viết bộ Unit Test cho Service và Controller; toàn bộ 27/27 tests trong `apps/api` pass 100%.
 
-- [x] **Task 1.4 (Hoàn thành):**
-  * Xây dựng giao diện trang Lịch Đạo tại [`apps/web/src/app/calendar/page.tsx`](apps/web/src/app/calendar/page.tsx) với thiết kế di sản truyền thống:
-    - Bảng lịch 7 ngày/tuần (Thứ Hai đến Chủ Nhật), đánh dấu ngày Sóc (Mùng Một) và Vọng (Rằm 15).
-    - Bộ lọc ăn chay linh hoạt: Không chọn, Lục Trai (6 ngày/tháng, tự động bù ngày khi tháng thiếu), Thập Trai (10 ngày/tháng, tự động bù ngày), Thiên Ngươn (Trọn tháng Giêng, tháng 7, tháng 10).
-    - Tùy chọn bật/tắt hiển thị Can Chi.
-    - Thẻ chi tiết ngày chọn ([`DayDetailCard.tsx`](apps/web/src/components/calendar/DayDetailCard.tsx)): Hiển thị ngày Dương, ngày Âm (chỉ báo tháng đủ/thiếu, tháng nhuận), Can Chi 3 cấp (Ngày - Tháng - Năm), danh sách 6 Giờ Hoàng Đạo trong ngày và trạng thái ngày chay / ngày đại lễ.
-    - Bảng tham chiếu danh mục 13 ngày đại lễ chính thức của Ban Chỉnh Đạo ([`ReligiousEventsReference.tsx`](apps/web/src/components/calendar/ReligiousEventsReference.tsx)).
+- [x] **Task 1.4 & Nâng cấp UX / UI / Dữ liệu Lịch (Hoàn thành):**
+  * **Nâng cấp Bảng Lịch Lớn (Big Calendar Grid):**
+    - Tăng kích thước ô ngày từ 104px lên 155px–165px, hiển thị thoáng đãng và dễ đọc.
+    - Hiển thị trực diện nhãn **`[🌑 Sóc • Mùng 1]`** (nền tối chữ trắng) và **`[🌕 Vọng • Rằm 15]`** (nền vàng kim) ngay trong từng ô lịch thay vì chỉ là dấu chấm nhỏ.
+    - Hiển thị nhãn ngày lễ trọn vẹn, không bị cắt cụt; phân biệt rõ nét:
+      + ✨ Lễ Đạo Cao Đài (`caodai-red` / `heritage-gold`).
+      + 🇻🇳 Lễ Lớn & Kỷ Niệm Nhà Nước Việt Nam (nền đỏ tươi cờ hoa).
+  * **Hiển thị đủ 12 Khung Giờ Trong Ngày (Hoàng Đạo & Hắc Đạo):**
+    - Cập nhật thuật toán Thập Nhị Thần Sát (Ngọc Hạp Thông Thư) trong `@caodai-bcd/shared`: Tự động tính chính xác 12 sao chi phối (Thanh Long, Minh Đường, Thiên Hình, Chu Tước, Kim Quỹ, Thiên Đức, Bạch Hổ, Ngọc Đường, Thiên Lao, Huyền Vũ, Tư Mệnh, Câu Trận).
+    - Thẻ [`DayDetailCard.tsx`](apps/web/src/components/calendar/DayDetailCard.tsx) hiển thị đầy đủ 12 giờ với bộ lọc chuyển đổi linh hoạt: *Tất cả 12 Giờ*, *6 Giờ Hoàng Đạo (Cát)*, *6 Giờ Hắc Đạo (Hung)*.
+  * **Mở rộng Dữ liệu Seed 16 Ngày Lễ Lớn Nhà Nước Việt Nam:**
+    - Cập nhật enum `NATIONAL_HOLIDAY` trong `schema.prisma`.
+    - Seed đầy đủ 16 ngày lễ lớn: Tết Dương Lịch, Tết Nguyên Đán, Giỗ Tổ Hùng Vương, 30/4, 1/5, Quốc khánh 2/9, 8/3, 20/10, 20/11, 22/12, Tết Đoan Ngọ, Tết Táo Quân, v.v.
+    - Nâng cấp bảng tham chiếu [`ReligiousEventsReference.tsx`](apps/web/src/components/calendar/ReligiousEventsReference.tsx) thành 2 tabs tra cứu song hành (Đại Lễ Ban Chỉnh Đạo & Lễ Quốc Gia).
+    - Bổ sung bộ lọc sự kiện trực tiếp trên thanh công cụ Lịch: *Tất cả*, *Lễ Đạo Cao Đài*, *Lễ Nhà Nước VN*.
+  * **Khắc phục triệt để lỗi Webpack cache chunk `./135.js`:** Cấu hình `"dev": "npm run clean && next dev -p 3000"` trong `apps/web/package.json` tự động dọn cache trước khi boot.
 
 - [x] **Task 1.5 (Hoàn thành):**
   * Đã kiểm thử build toàn bộ Monorepo (`@caodai-bcd/shared`, `@caodai-bcd/api`, `@caodai-bcd/web`) thành công 100%.

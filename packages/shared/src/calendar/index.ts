@@ -1,7 +1,7 @@
 import { FastingSchedule } from '../index';
 import { convertSolar2Lunar, jdn } from './lunar';
 import { getFullCanChi } from './canchi';
-import { getHoangDaoHours } from './hoangdao';
+import { getHoangDaoHours, getFullDayHoursInfo } from './hoangdao';
 import { checkFastingDay } from './fasting';
 import { DayCalendarInfo, LunarDate, CanChi } from './types';
 
@@ -37,6 +37,7 @@ export function getDayCalendarInfo(
   // Lấy chi của ngày từ Can Chi ngày (ví dụ: 'Tân Hợi' -> chi là 'Hợi')
   const dayChi = canChi.day.split(' ')[1] || 'Tý';
   const hoangDaoHours = getHoangDaoHours(dayChi);
+  const allHours = getFullDayHoursInfo(dayChi);
 
   // Tính ngày trong tuần (0: Chủ Nhật, ..., 6: Thứ Bảy)
   const jd = jdn(solarDay, solarMonth, solarYear);
@@ -69,6 +70,7 @@ export function getDayCalendarInfo(
     isSocVong,
     canChi,
     hoangDaoHours,
+    allHours,
     isFastingDay: fastingResult.isFasting,
     fastingNote: fastingResult.note,
   };

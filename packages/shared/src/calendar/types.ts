@@ -16,6 +16,7 @@ export interface CanChi {
 export interface HoangDaoHour {
   chi: string;
   name: string;
+  starName: string;
   timeRange: string;
   isHoangDao: boolean;
 }
@@ -30,7 +31,8 @@ export interface DayCalendarInfo {
   lunar: LunarDate;
   isSocVong: boolean; // true nếu là Mùng 1 (Sóc) hoặc 15 (Vọng)
   canChi: CanChi;
-  hoangDaoHours: string[]; // Danh sách 6 chi giờ Hoàng đạo: ["Sửu (01h-03h)", ...]
+  hoangDaoHours: string[]; // Backward-compatible danh sách 6 chi giờ Hoàng đạo: ["Sửu (01h-03h)", ...]
+  allHours: HoangDaoHour[]; // Trọn vẹn 12 giờ trong ngày (Hoàng Đạo & Hắc Đạo)
   isFastingDay: boolean; // Theo chế độ ăn chay được truyền vào
   fastingNote?: string;
 }

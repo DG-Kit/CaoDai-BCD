@@ -15,42 +15,81 @@ export const CHI_HOURS: Record<string, string> = {
   Hợi: '21h-23h',
 };
 
-// 6 Giờ Hoàng Đạo ứng với từng cặp Địa Chi của ngày
-const HOANG_DAO_BY_DAY_CHI: Record<string, string[]> = {
-  Tý: ['Tý', 'Sửu', 'Mão', 'Ngọ', 'Thân', 'Dậu'],
-  Ngọ: ['Tý', 'Sửu', 'Mão', 'Ngọ', 'Thân', 'Dậu'],
-  Sửu: ['Dần', 'Mão', 'Tỵ', 'Thân', 'Tuất', 'Hợi'],
-  Mùi: ['Dần', 'Mão', 'Tỵ', 'Thân', 'Tuất', 'Hợi'],
-  Dần: ['Tý', 'Sửu', 'Thìn', 'Tỵ', 'Mùi', 'Tuất'],
-  Thân: ['Tý', 'Sửu', 'Thìn', 'Tỵ', 'Mùi', 'Tuất'],
-  Mão: ['Tý', 'Dần', 'Mão', 'Ngọ', 'Mùi', 'Dậu'],
-  Dậu: ['Tý', 'Dần', 'Mão', 'Ngọ', 'Mùi', 'Dậu'],
-  Thìn: ['Dần', 'Thìn', 'Tỵ', 'Thân', 'Dậu', 'Hợi'],
-  Tuất: ['Dần', 'Thìn', 'Tỵ', 'Thân', 'Dậu', 'Hợi'],
-  Tỵ: ['Sửu', 'Thìn', 'Ngọ', 'Mùi', 'Tuất', 'Hợi'],
-  Hợi: ['Sửu', 'Thìn', 'Ngọ', 'Mùi', 'Tuất', 'Hợi'],
+export const ORDERED_CHIS = [
+  'Tý',
+  'Sửu',
+  'Dần',
+  'Mão',
+  'Thìn',
+  'Tỵ',
+  'Ngọ',
+  'Mùi',
+  'Thân',
+  'Dậu',
+  'Tuất',
+  'Hợi',
+];
+
+// Thứ tự 12 sao Thập Nhị Thần Sát (Hoàng Đạo: 1, 2, 5, 6, 8, 11; Hắc Đạo: 3, 4, 7, 9, 10, 12)
+const TWELVE_STARS = [
+  { name: 'Thanh Long', isHoangDao: true },
+  { name: 'Minh Đường', isHoangDao: true },
+  { name: 'Thiên Hình', isHoangDao: false },
+  { name: 'Chu Tước', isHoangDao: false },
+  { name: 'Kim Quỹ', isHoangDao: true },
+  { name: 'Thiên Đức', isHoangDao: true },
+  { name: 'Bạch Hổ', isHoangDao: false },
+  { name: 'Ngọc Đường', isHoangDao: true },
+  { name: 'Thiên Lao', isHoangDao: false },
+  { name: 'Huyền Vũ', isHoangDao: false },
+  { name: 'Tư Mệnh', isHoangDao: true },
+  { name: 'Câu Trận', isHoangDao: false },
+];
+
+// Chi giờ bắt đầu sao Thanh Long theo Địa Chi của ngày
+const THANH_LONG_START_CHI: Record<string, string> = {
+  Dần: 'Tý',
+  Thân: 'Tý',
+  Mão: 'Dần',
+  Dậu: 'Dần',
+  Thìn: 'Thìn',
+  Tuất: 'Thìn',
+  Tỵ: 'Ngọ',
+  Hợi: 'Ngọ',
+  Tý: 'Thân',
+  Ngọ: 'Thân',
+  Sửu: 'Tuất',
+  Mùi: 'Tuất',
 };
 
 /**
- * Lấy danh sách 6 giờ Hoàng Đạo trong ngày kèm khung giờ hiển thị
- * @param dayChi Địa chi của ngày (ví dụ: 'Hợi', 'Tý', 'Sửu'...)
+ * Trả về chi tiết 12 giờ trong ngày kèm sao chi phối và trạng thái Hoàng đạo hay Hắc đạo
  */
-export function getHoangDaoHours(dayChi: string): string[] {
-  const chis = HOANG_DAO_BY_DAY_CHI[dayChi] || ['Tý', 'Sửu', 'Mão', 'Ngọ', 'Thân', 'Dậu'];
-  return chis.map((chi) => `${chi} (${CHI_HOURS[chi] || ''})`);
+export function getFullDayHoursInfo(dayChi: string): HoangDaoHour[] {
+  const startChi = THANH_LONG_START_CHI[dayChi] || 'Tý';
+  const startIdx = ORDERED_CHIS.indexOf(startChi);
+
+  return ORDERED_CHIS.map((chi, idx) => {
+    // Khoảng cách từ startChi đến chi này
+    const offset = (idx - startIdx + 12) % 12;
+    const star = TWELVE_STARS[offset] || { name: 'Thanh Long', isHoangDao: true };
+
+    return {
+      chi,
+      name: `Giờ ${chi}`,
+      starName: star.name,
+      timeRange: CHI_HOURS[chi] || '',
+      isHoangDao: star.isHoangDao,
+    };
+  });
 }
 
 /**
- * Trả về chi tiết 12 giờ trong ngày kèm trạng thái Hoàng đạo hay Hắc đạo
+ * Lấy danh sách 6 giờ Hoàng Đạo trong ngày kèm khung giờ hiển thị
  */
-export function getFullDayHoursInfo(dayChi: string): HoangDaoHour[] {
-  const hoangDaoChis = new Set(HOANG_DAO_BY_DAY_CHI[dayChi] || []);
-  const allChis = Object.keys(CHI_HOURS);
-
-  return allChis.map((chi) => ({
-    chi,
-    name: `Giờ ${chi}`,
-    timeRange: CHI_HOURS[chi] || '',
-    isHoangDao: hoangDaoChis.has(chi),
-  }));
+export function getHoangDaoHours(dayChi: string): string[] {
+  const allHours = getFullDayHoursInfo(dayChi);
+  return allHours
+    .filter((h) => h.isHoangDao)
+    .map((h) => `${h.chi} (${h.timeRange} - ${h.starName})`);
 }

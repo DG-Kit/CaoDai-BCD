@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { DayCalendarInfo, ReligiousEventItem } from '@caodai-bcd/shared';
-import { Calendar, Clock, Moon, Sparkles, AlertCircle } from 'lucide-react';
+import { Calendar, Clock, Moon, Sparkles, AlertCircle, CheckCircle2, ShieldAlert } from 'lucide-react';
 
 interface DayDetailCardProps {
   day: DayCalendarInfo;
@@ -13,8 +13,17 @@ export function DayDetailCard({ day, events }: DayDetailCardProps) {
   const isSunday = day.dayOfWeek === 0;
   const isSaturday = day.dayOfWeek === 6;
 
+  // Lọc 12 giờ: ALL (Tất cả), HOANG_DAO (Cát), HAC_DAO (Hung)
+  const [hoursFilter, setHoursFilter] = useState<'ALL' | 'HOANG_DAO' | 'HAC_DAO'>('ALL');
+
+  const displayedHours = (day.allHours || []).filter((h) => {
+    if (hoursFilter === 'HOANG_DAO') return h.isHoangDao;
+    if (hoursFilter === 'HAC_DAO') return !h.isHoangDao;
+    return true;
+  });
+
   return (
-    <div className="bg-heritage-parchment/90 border border-heritage-border rounded-2xl p-5 shadow-xs flex flex-col space-y-5">
+    <div className="bg-heritage-parchment/95 border border-heritage-border rounded-2xl p-5 shadow-xs flex flex-col space-y-5">
       {/* 1. Phần Tiêu Đề Ngày */}
       <div className="border-b border-heritage-border/70 pb-4">
         <div className="flex items-center justify-between text-xs font-semibold text-heritage-goldDark uppercase tracking-wider mb-1">
@@ -80,36 +89,88 @@ export function DayDetailCard({ day, events }: DayDetailCardProps) {
         </div>
       </div>
 
-      {/* 3. Danh sách Giờ Hoàng Đạo Trong Ngày */}
+      {/* 3. Danh Sách Đầy Đủ 12 Khung Giờ Trong Ngày (Hoàng Đạo & Hắc Đạo) */}
       <div>
         <div className="flex items-center justify-between text-xs font-semibold text-heritage-woodLight uppercase tracking-wider mb-2">
           <span className="flex items-center gap-1.5">
             <Clock className="w-3.5 h-3.5 text-heritage-goldDark" />
-            6 Giờ Hoàng Đạo trong ngày
+            12 Khung Giờ Trong Ngày
           </span>
           <span className="text-[11px] text-heritage-goldDark font-normal">
             (Theo Chi Ngày: {day.canChi.day.split(' ')[1] || ''})
           </span>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-          {day.hoangDaoHours.map((hStr) => {
-            const chi = hStr.split(' ')[0] || '';
-            const timeRange = hStr.includes('(') ? hStr.slice(hStr.indexOf('(') + 1, hStr.indexOf(')')) : '';
+
+        {/* Tab Lọc Giờ */}
+        <div className="flex items-center gap-1 mb-2.5 bg-white/70 p-1 rounded-xl border border-heritage-border/60">
+          <button
+            type="button"
+            onClick={() => setHoursFilter('ALL')}
+            className={`flex-1 py-1 text-xs rounded-lg font-medium transition-colors ${
+              hoursFilter === 'ALL'
+                ? 'bg-heritage-wood text-white shadow-2xs'
+                : 'text-heritage-woodLight hover:bg-stone-100'
+            }`}
+          >
+            Tất cả 12 Giờ
+          </button>
+          <button
+            type="button"
+            onClick={() => setHoursFilter('HOANG_DAO')}
+            className={`flex-1 py-1 text-xs rounded-lg font-medium transition-colors flex items-center justify-center gap-1 ${
+              hoursFilter === 'HOANG_DAO'
+                ? 'bg-emerald-700 text-white shadow-2xs'
+                : 'text-emerald-800 hover:bg-emerald-50'
+            }`}
+          >
+            <CheckCircle2 className="w-3 h-3" />
+            6 Hoàng Đạo
+          </button>
+          <button
+            type="button"
+            onClick={() => setHoursFilter('HAC_DAO')}
+            className={`flex-1 py-1 text-xs rounded-lg font-medium transition-colors flex items-center justify-center gap-1 ${
+              hoursFilter === 'HAC_DAO'
+                ? 'bg-stone-700 text-white shadow-2xs'
+                : 'text-stone-600 hover:bg-stone-100'
+            }`}
+          >
+            <ShieldAlert className="w-3 h-3" />
+            6 Hắc Đạo
+          </button>
+        </div>
+
+        {/* Lưới 12 Giờ */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[290px] overflow-y-auto pr-0.5">
+          {displayedHours.map((h) => {
             return (
               <div
-                key={hStr}
-                className="bg-white/80 border border-heritage-border/80 rounded-lg p-2 text-left shadow-2xs"
+                key={h.chi}
+                className={`p-2.5 rounded-xl border text-left shadow-2xs transition-all ${
+                  h.isHoangDao
+                    ? 'bg-white/95 border-emerald-300 ring-1 ring-emerald-200'
+                    : 'bg-stone-50/90 border-stone-200 text-stone-600'
+                }`}
               >
                 <div className="flex items-center justify-between">
                   <span className="font-serif font-bold text-heritage-wood text-sm">
-                    Giờ {chi}
+                    Giờ {h.chi}
                   </span>
-                  <span className="text-[10px] font-semibold px-1 py-0.2 rounded bg-amber-100 text-heritage-goldDark">
-                    Hoàng Đạo
+                  <span
+                    className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
+                      h.isHoangDao
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : 'bg-stone-200 text-stone-600'
+                    }`}
+                  >
+                    {h.isHoangDao ? 'Hoàng Đạo' : 'Hắc Đạo'}
                   </span>
                 </div>
-                <div className="text-[11px] text-heritage-woodLight mt-0.5">
-                  {timeRange}
+                <div className="text-[11px] font-semibold text-heritage-goldDark mt-0.5">
+                  Sao {h.starName}
+                </div>
+                <div className="text-[10px] text-heritage-woodLight">
+                  {h.timeRange}
                 </div>
               </div>
             );
@@ -142,35 +203,51 @@ export function DayDetailCard({ day, events }: DayDetailCardProps) {
         </div>
       </div>
 
-      {/* 5. Sự Kiện / Lễ Đạo Trong Ngày (Nếu Có) */}
+      {/* 5. Sự Kiện / Lễ Đạo & Lễ Quốc Gia Trong Ngày */}
       {events.length > 0 && (
         <div className="space-y-2">
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-caodai-red uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
-            Đại Lễ & Kỷ Niệm Trong Ngày
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-heritage-wood uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5 text-caodai-red" />
+            Đại Lễ & Sự Kiện Trong Ngày
           </div>
-          {events.map((ev) => (
-            <div
-              key={ev.code}
-              className={`p-3.5 rounded-xl border ${
-                ev.category === 'MAJOR_HOLIDAY'
-                  ? 'bg-caodai-red/5 border-caodai-red/30'
-                  : 'bg-amber-50 border-amber-300'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-serif font-bold text-base text-heritage-wood">
-                  {ev.title}
-                </span>
-                <span className="text-xs font-semibold px-2 py-0.5 rounded bg-white text-heritage-goldDark border border-heritage-border">
-                  {ev.dateRangeStr}
-                </span>
+          {events.map((ev) => {
+            const isNational = ev.category === 'NATIONAL_HOLIDAY';
+            const isMajorReligious = ev.category === 'MAJOR_HOLIDAY';
+
+            return (
+              <div
+                key={ev.code}
+                className={`p-3.5 rounded-xl border ${
+                  isNational
+                    ? 'bg-red-50 border-red-300'
+                    : isMajorReligious
+                    ? 'bg-caodai-red/5 border-caodai-red/30'
+                    : 'bg-amber-50 border-amber-300'
+                }`}
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <span className="font-serif font-bold text-base text-heritage-wood leading-snug">
+                    {isNational ? '🇻🇳 ' : '✨ '}
+                    {ev.title}
+                  </span>
+                  <span
+                    className={`text-[10px] font-bold px-2 py-0.5 rounded shrink-0 ${
+                      isNational
+                        ? 'bg-red-700 text-white'
+                        : isMajorReligious
+                        ? 'bg-caodai-red/10 text-caodai-red border border-caodai-red/30'
+                        : 'bg-amber-100 text-heritage-goldDark border border-amber-300'
+                    }`}
+                  >
+                    {ev.dateRangeStr}
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-heritage-woodLight mt-1.5 leading-relaxed">
+                  {ev.description}
+                </p>
               </div>
-              <p className="text-xs sm:text-sm text-heritage-woodLight mt-1 leading-relaxed">
-                {ev.description}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
@@ -178,7 +255,7 @@ export function DayDetailCard({ day, events }: DayDetailCardProps) {
       <div className="flex items-start gap-2 pt-2 border-t border-heritage-border/50 text-[11px] text-heritage-woodLight italic">
         <AlertCircle className="w-3.5 h-3.5 shrink-0 text-heritage-gold mt-0.5" />
         <span>
-          Lịch Đạo được tính toán theo múi giờ Việt Nam (GMT+7) và đối chiếu với dữ liệu chính thức của Hội Thánh Cao Đài Ban Chỉnh Đạo.
+          Lịch Đạo được tính toán theo múi giờ Việt Nam (GMT+7) và đối chiếu với dữ liệu chính thức của Hội Thánh Cao Đài Ban Chỉnh Đạo cùng Lịch Lễ Quốc Gia Việt Nam.
         </span>
       </div>
     </div>

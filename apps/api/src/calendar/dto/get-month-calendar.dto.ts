@@ -37,3 +37,4 @@ export class GetMonthCalendarDto {
   @IsEnum(FastingSchedule)
   fasting?: FastingSchedule = FastingSchedule.NONE;
 }
+

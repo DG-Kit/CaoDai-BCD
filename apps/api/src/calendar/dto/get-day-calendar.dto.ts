@@ -43,3 +43,4 @@ export class GetDayCalendarDto {
   @IsEnum(FastingSchedule)
   fasting?: FastingSchedule = FastingSchedule.NONE;
 }
+

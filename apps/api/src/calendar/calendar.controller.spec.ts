@@ -63,3 +63,4 @@ describe('CalendarController', () => {
     expect(service.getAllReligiousEvents).toHaveBeenCalled();
   });
 });
+

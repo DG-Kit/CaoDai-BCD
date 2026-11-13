@@ -5,7 +5,7 @@
   "description": "Frontend Web Portal for Ban Chinh Dao Digital Library",
   "scripts": {
     "clean": "node -e \"try { require('fs').rmSync('.next', { recursive: true, force: true }); } catch (e) {}\"",
-    "dev": "next dev -p 3000",
+    "dev": "npm run clean && next dev -p 3000",
     "build": "next build",
     "start": "next start -p 3000",
     "lint": "next lint"
