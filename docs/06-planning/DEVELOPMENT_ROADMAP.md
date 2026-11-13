@@ -13,18 +13,20 @@
 
 ```mermaid
 gantt
-    title Lộ Trình Phát Triển Ban Chỉnh Đạo Digital Library
+    title Lộ Trình Phát Triển Cao Đài Digital Library
     dateFormat  YYYY-MM
     section Giai đoạn 0
-    Phase 0 - Project Foundation & Scaffolding     :p0, 2026-11, 3w
-    section Giai đoạn 1 (MVP)
-    Phase 1 - Core Digital Library & Reader        :p1, after p0, 5w
+    Phase 0 - Project Foundation & Scaffolding     :done, p0, 2026-11, 3w
+    section Giai đoạn 1 (Ưu Tiên Số 1)
+    Phase 1 - Religious Calendar & Fasting Portal  :active, p1, after p0, 4w
     section Giai đoạn 2
-    Phase 2 - Religious Calendar & Temple Map     :p2, after p1, 4w
+    Phase 2 - Worship Sites & Geographic Map      :p2, after p1, 4w
     section Giai đoạn 3
-    Phase 3 - Document Composer (Sớ văn, Mẫu in)  :p3, after p2, 4w
+    Phase 3 - Core Digital Library & Reader       :p3, after p2, 5w
     section Giai đoạn 4
-    Phase 4 - Research Hub, Glossary & AI Pilot   :p4, after p3, 5w
+    Phase 4 - Document Composer (Sớ văn, Mẫu in)  :p4, after p3, 4w
+    section Giai đoạn 5
+    Phase 5 - Research Hub, Glossary & History    :p5, after p4, 5w
 ```
 
 ---
@@ -45,16 +47,25 @@ gantt
 
 ---
 
-### 🟡 Phase 1: Core Digital Library (Phân Hệ Thư Viện Trọng Tâm - MVP)
-* **Mục tiêu:** Cung cấp trải nghiệm đọc kinh sách, tra cứu tài liệu số hóa pilot cho Hội Thánh Cao Đài Ban Chỉnh Đạo.
-* **Bộ dữ liệu Pilot:** Ấn bản chuẩn của *Kinh Cúng Tứ Thời* và *Quan Hôn Tang Tế*.
+### 🟡 Phase 1: Religious Calendar & Fasting Management (Phân Hệ Lịch Đạo & Ngày Chay - Ưu Tiên Số 1)
+* **Mục tiêu:** Cung cấp công cụ tra cứu lịch Âm – Dương, ngày sóc vọng, các ngày đại lễ vía lớn của Đạo Cao Đài, tùy chọn hiển thị ngày ăn chay (Lục trai, Thập trai, Thiên ngươn) và Can Chi, Giờ Hoàng Đạo.
 * **Các tính năng:**
-  - **Admin:** Quản lý danh mục, tác phẩm, ấn bản, tải tệp scan gốc, quản lý workflow xuất bản (`DRAFT` ➔ `REVIEW` ➔ `PUBLISHED`).
-  - **Biên tập:** Mục lục phân cấp, nhập nội dung văn bản đối chiếu với số trang bản scan.
-  - **Portal công chúng:** Danh mục kinh sách, tìm kiếm toàn văn tiếng Việt có dấu, bộ đọc Reader song song (Split-view: Scan PDF đối chiếu vs Bản văn điện tử).
+  - **Thuật toán thiên văn:** Tính toán Âm - Dương chuẩn GMT+7 (Hồ Ngọc Đức), Can Chi Ngày/Tháng/Năm, 6 Giờ Hoàng Đạo mỗi ngày.
+  - **Quy tắc Trai kỳ:** Tự động tính bù ngày chay khi gặp tháng thiếu (29 ngày).
+  - **Backend API:** Endpoint lấy dữ liệu tháng, ngày, danh sách ngày lễ vía.
+  - **Giao diện Web Portal:** Bảng lịch tháng di sản êm mắt, bộ lọc bật/tắt ngày chay, Can Chi, Giờ Hoàng Đạo, thẻ chi tiết ngày được chọn.
 * **Tiêu chí nghiệm thu:**
-  - Người dùng công khai tra cứu và đọc được trọn vẹn bộ kinh pilot với độ hiển thị rõ nét trên cả Desktop và Mobile.
-  - Phân quyền chặt chẽ: Chỉ tài liệu `PUBLISHED` mới hiển thị ra ngoài; mọi chỉnh sửa đều lưu `audit_log`.
+  - Chuyển đổi Âm - Dương chuẩn 100%, đánh dấu ngày chay chính xác, hiển thị Can Chi và Giờ Hoàng Đạo mượt mà.
+
+---
+
+### 🔵 Phase 2: Worship Sites & Geographic Map (Thánh Sở & Bản Đồ Họ Đạo)
+* **Mục tiêu:** Bản đồ PostGIS định vị Tòa Thánh, Thánh Thất, Điện Thờ Phật Mẫu, Nhà tu thuộc Đạo Cao Đài.
+
+---
+
+### 🟣 Phase 3: Core Digital Library & Reader (Thư Viện Đạo & Bộ Đọc Đối Chiếu)
+* **Mục tiêu:** Số hóa, lưu trữ và tra cứu Kinh Cúng Tứ Thời, Quan Hôn Tang Tế, Thánh Ngôn, Thánh Giáo kèm bản scan gốc đối chiếu (triển khai khi có dữ liệu văn bản kinh sách).
 
 ---
 

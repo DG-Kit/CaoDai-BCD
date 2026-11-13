@@ -63,18 +63,15 @@
 
 ---
 
-## 2. Kế hoạch tiếp theo (Khởi động Phase 1: Core Library)
+## 2. Kế hoạch tiếp theo (Khởi động Phase 1: Phân Hệ Lịch Đạo & Ngày Chay)
 
-Theo tài liệu [`DEVELOPMENT_ROADMAP.md`](docs/06-planning/DEVELOPMENT_ROADMAP.md) và [`BRD.md`](docs/01-business/BRD.md), chúng ta sẽ bước vào **Phase 1: Phân hệ Thư Viện Đạo (Core Library)**:
+Theo yêu cầu điều chỉnh chiến lược của người dùng, phân hệ **Lịch Đạo & Ngày Chay** được đưa lên làm **Ưu tiên số 1 (Phase 1)**, tài liệu kế hoạch chi tiết đã được lập tại [`docs/06-planning/PHASE_1_CALENDAR_PLAN.md`](docs/06-planning/PHASE_1_CALENDAR_PLAN.md) và [`docs/06-planning/DEVELOPMENT_ROADMAP.md`](docs/06-planning/DEVELOPMENT_ROADMAP.md):
 
-1. **Bước 1.1: Thiết kế Database Schema cho Phân hệ Thư Viện:**
-   - Các bảng: `document_categories`, `documents`, `document_editions`, `document_files`, `document_sections`, `document_contents`, `document_sources`.
-   - Cơ chế lưu trữ bản scan đối chiếu bất biến (checksum SHA-256), trạng thái xác minh (`VerificationStatus`), và lịch sử sửa đổi.
-2. **Bước 1.2: Triển khai Module Thư viện Backend (NestJS):**
-   - API CRUD danh mục tác phẩm, ấn bản, tải tệp scan lên MinIO S3, lưu bản văn số hóa song song.
-   - Thẩm định và xuất bản ấn bản kinh văn theo quy trình Scoped RBAC.
-3. **Bước 1.3: Triển khai Giao diện Thư Viện Frontend (Next.js):**
-   - Danh mục phân cấp, bộ lọc tác phẩm, trang chi tiết ấn bản, trình đọc bản văn đối chiếu với scan gốc (Side-by-side reader).
+1. **Bước 1.1:** Xây dựng module thuật toán Âm Dương (GMT+7 Hồ Ngọc Đức), Can Chi Ngày/Tháng/Năm, 6 Giờ Hoàng Đạo và thuật toán tính bù ngày ăn chay khi tháng thiếu tại `packages/shared/src/calendar/`.
+2. **Bước 1.2:** Mở rộng Prisma Schema (`religious_events`, `calendar_rules`, `event_occurrences`), chạy migration và seed dữ liệu các ngày đại lễ vía lớn của Đạo Cao Đài.
+3. **Bước 1.3:** Triển khai module NestJS `CalendarModule` trong `apps/api`.
+4. **Bước 1.4:** Triển khai giao diện Lịch Đạo tại `apps/web/src/app/calendar/page.tsx` với bảng lịch tháng, bộ lọc ăn chay, Can Chi và Giờ Hoàng Đạo.
+5. **Bước 1.5:** Kiểm thử toàn diện e2e và bàn giao nghiệm thu.
 
 ---
 
