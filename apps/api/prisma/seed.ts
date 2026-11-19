@@ -1,5 +1,6 @@
 import { PrismaClient, RoleCode, EventCategory } from '@prisma/client';
 import { seedWorshipSites } from './seed-sites';
+import { seedDigitalLibrary } from './seed-library';
 
 const prisma = new PrismaClient();
 
@@ -614,6 +615,7 @@ async function main() {
   }
 
   await seedWorshipSites(prisma);
+  await seedDigitalLibrary(prisma);
 
   console.log('--- Hoàn tất khởi tạo dữ liệu nền tảng thành công! ---');
 }

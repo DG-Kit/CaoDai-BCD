@@ -344,5 +344,176 @@ model SiteDetailSection {
   @@map("site_detail_sections")
 }
 
+// ==========================================
+// 6. THƯ VIỆN ĐẠO (Digital Library Core - Phase 3)
+// ==========================================
+
+enum DocumentEditionStatus {
+  DRAFT
+  SUBMITTED
+  IN_REVIEW
+  REVISION_REQUIRED
+  APPROVED
+  PUBLISHED
+  ARCHIVED
+  REJECTED
+}
+
+enum DocumentFileType {
+  SCAN_ORIGINAL_PDF
+  OPTIMIZED_PDF
+  SCAN_IMAGE
+  AUDIO_MP3
+  COVER_IMAGE
+}
+
+model DocumentCategory {
+  id           String             @id @default(uuid()) @db.Uuid
+  parentId     String?            @map("parent_id") @db.Uuid
+  parent       DocumentCategory?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children     DocumentCategory[] @relation("CategoryHierarchy")
+
+  slug         String             @unique @db.VarChar(120)
+  name         String             @db.VarChar(200)
+  description  String?            @db.Text
+  displayOrder Int                @default(0) @map("display_order")
+
+  documents    Document[]
+
+  createdAt    DateTime           @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime           @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@index([displayOrder])
+  @@map("document_categories")
+}
+
+model Document {
+  id                     String            @id @default(uuid()) @db.Uuid
+  categoryId             String            @map("category_id") @db.Uuid
+  category               DocumentCategory  @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  slug                   String            @unique @db.VarChar(150)
+  title                  String            @db.VarChar(255)
+  authorOrIssuingBody    String?           @map("author_or_issuing_body") @db.VarChar(255)
+  summary                String?           @db.Text
+  historicalOrigin       String?           @map("historical_origin") @db.Text
+  isComparativeReference Boolean           @default(false) @map("is_comparative_reference")
+
+  // Phân loại tổng quát theo nghi thức, mục đích, thời điểm sử dụng (mở rộng cho mọi bộ kinh)
+  ritualTags             String[]          @default([]) @map("ritual_tags")
+  purposeTags            String[]          @default([]) @map("purpose_tags")
+  timingTags             String[]          @default([]) @map("timing_tags")
+
+  editions               DocumentEdition[]
+
+  createdAt              DateTime          @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt              DateTime          @updatedAt @map("updated_at") @db.Timestamptz
+  deletedAt              DateTime?         @map("deleted_at") @db.Timestamptz
+
+  @@index([categoryId])
+  @@map("documents")
+}
+
+model DocumentEdition {
+  id                 String                @id @default(uuid()) @db.Uuid
+  documentId         String                @map("document_id") @db.Uuid
+  document           Document              @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  editionLabel       String                @map("edition_label") @db.VarChar(200)
+  publicationYear    Int?                  @map("publication_year")
+  publisher          String?               @db.VarChar(200)
+  isbn               String?               @db.VarChar(50)
+  registrationCode   String?               @map("registration_code") @db.VarChar(120)
+  editorialTeam      String?               @map("editorial_team") @db.Text
+  sourceName         String?               @map("source_name") @db.VarChar(255)
+  archiveReference   String?               @map("archive_reference") @db.VarChar(255)
+  usagePermission    String?               @default("PUBLIC_READ") @map("usage_permission") @db.VarChar(50)
+
+  status             DocumentEditionStatus @default(DRAFT)
+  verificationStatus VerificationStatus    @default(PENDING_VERIFICATION) @map("verification_status")
+  publishedAt        DateTime?             @map("published_at") @db.Timestamptz
+
+  files              DocumentFile[]
+  sections           DocumentSection[]
+
+  createdAt          DateTime              @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt          DateTime              @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@index([documentId, status])
+  @@map("document_editions")
+}
+
+model DocumentFile {
+  id             String           @id @default(uuid()) @db.Uuid
+  editionId      String           @map("edition_id") @db.Uuid
+  edition        DocumentEdition  @relation(fields: [editionId], references: [id], onDelete: Cascade)
+
+  // Liên kết tùy chọn tới một bài kinh cụ thể (hỗ trợ file âm thanh tụng kinh / ảnh scan riêng từng bài)
+  sectionId      String?          @map("section_id") @db.Uuid
+  section        DocumentSection? @relation(fields: [sectionId], references: [id], onDelete: SetNull)
+
+  fileType       DocumentFileType @map("file_type")
+  fileName       String           @map("file_name") @db.VarChar(255)
+  storagePath    String           @map("storage_path") @db.VarChar(500)
+  checksumSha256 String?          @map("checksum_sha256") @db.VarChar(64)
+  fileSizeBytes  Int?             @map("file_size_bytes")
+  mimeType       String?          @map("mime_type") @db.VarChar(100)
+
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([editionId, fileType])
+  @@index([sectionId])
+  @@map("document_files")
+}
+
+model DocumentSection {
+  id               String            @id @default(uuid()) @db.Uuid
+  editionId        String            @map("edition_id") @db.Uuid
+  edition          DocumentEdition   @relation(fields: [editionId], references: [id], onDelete: Cascade)
+
+  parentId         String?           @map("parent_id") @db.Uuid
+  parent           DocumentSection?  @relation("SectionHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children         DocumentSection[] @relation("SectionHierarchy")
+
+  slug             String            @db.VarChar(150)
+  title            String            @db.VarChar(255)
+  orderIndex       Int               @default(0) @map("order_index")
+
+  // Ánh xạ số trang in trên sách và số trang thực tế trong file PDF scan
+  printedPageLabel String?           @map("printed_page_label") @db.VarChar(30)
+  pdfPageStart     Int?              @map("pdf_page_start")
+  pdfPageEnd       Int?              @map("pdf_page_end")
+
+  // Phân loại theo nghi thức, mục đích, thời điểm sử dụng & giọng điệu
+  ritualTags       String[]          @default([]) @map("ritual_tags")
+  purposeTags      String[]          @default([]) @map("purpose_tags")
+  timingTags       String[]          @default([]) @map("timing_tags")
+  tuneType         String?           @map("tune_type") @db.VarChar(100)
+
+  content          DocumentContent?
+  files            DocumentFile[]
+
+  @@unique([editionId, slug])
+  @@index([editionId, orderIndex])
+  @@map("document_sections")
+}
+
+model DocumentContent {
+  id                  String          @id @default(uuid()) @db.Uuid
+  sectionId           String          @unique @map("section_id") @db.Uuid
+  section             DocumentSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  contentMarkdown     String          @map("content_markdown") @db.Text
+  plainText           String          @map("plain_text") @db.Text
+  originalScanPageRef String?         @map("original_scan_page_ref") @db.VarChar(100)
+  editorialNote       String?         @map("editorial_note") @db.Text
+
+  createdAt           DateTime        @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt           DateTime        @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@map("document_contents")
+}
+
+
 
 

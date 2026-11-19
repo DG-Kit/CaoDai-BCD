@@ -191,15 +191,62 @@ Theo kế hoạch chi tiết [`docs/06-planning/PHASE_1_CALENDAR_PLAN.md`](docs/
     - Cập nhật trọn vẹn [`AGENTS.md`](AGENTS.md) (Mục 0) với: Vai trò Senior Software Engineer/Architect (giao tiếp tiếng Việt dễ hiểu cho người dùng phi kỹ thuật); Quy trình 10 giai đoạn SDLC; 5 Nguyên tắc bắt buộc (Không làm vượt bước, Không tự ý quyết định thay người dùng, Không sửa code mù quáng, Không tuyên bố hoàn thành khi chưa kiểm chứng, Không lạm dụng công nghệ); Mẫu báo cáo 7 mục chuẩn; Phương châm "Hiểu đúng → Thiết kế đúng → Làm từng phần → Kiểm tra → Triển khai → Bảo trì".
     - Khởi tạo chính thức Hiến pháp dự án tại [`.specify/memory/constitution.md`](.specify/memory/constitution.md) tích hợp các tiêu chuẩn kỹ thuật và tôn chỉ bản scan gốc đối chiếu.
     - Cập nhật [`SKILLS_NOTE.md`](SKILLS_NOTE.md) ánh xạ chi tiết các kỹ năng hiện có vào từng bước trong 10 giai đoạn SDLC.
-    - Lập bản kế hoạch chi tiết [`PHASE_3_LIBRARY_PLAN.md`](docs/06-planning/PHASE_3_LIBRARY_PLAN.md) cho phân hệ Thư Viện Đạo theo Hướng A (chuẩn bị khung CSDL, API và Bộ đọc đối chiếu song song).
+    - Chuẩn hóa toàn diện bản kế hoạch chi tiết [`PHASE_3_LIBRARY_PLAN.md`](docs/06-planning/PHASE_3_LIBRARY_PLAN.md) (v2.0.0) theo đúng cấu trúc 10 giai đoạn SDLC (PRD, Kiến trúc 6 thành phần, Database Schema 6 bảng, UI/UX Split Reader, 4 Vertical Slices, Checklist Bảo mật & Kiểm thử toàn diện).
 
 ---
 
-## 3. Kế hoạch tiếp theo (Sẵn sàng triển khai Phase 3)
+## 3. Tiến độ Phase 3: Thư Viện Đạo & Bộ Đọc Đối Chiếu (Đang thực hiện)
 
-1. Người dùng xác nhận kế hoạch [`PHASE_3_LIBRARY_PLAN.md`](docs/06-planning/PHASE_3_LIBRARY_PLAN.md).
-2. Tiến hành **Slice 3.1** (Bước 3 SDLC): Cập nhật `schema.prisma` thêm 6 bảng Thư Viện Đạo, chạy migration PostgreSQL và viết kịch bản nạp dữ liệu khung danh mục chuẩn `seed-library.ts`.
-3. Báo cáo tiến độ đầy đủ theo mẫu 7 mục chuẩn mực.
+- [x] **Slice 3.1: Thiết kế Schema Tổng Quát & Seed Dữ Liệu Thực Tế Từ PDF (2026-11-19):**
+  - **File PDF đối chiếu:** Sao chép [`Kinh Cung Tu Thoi Va Quan Hon Tang Te.pdf`](Kinh%20Cung%20Tu%20Thoi%20Va%20Quan%20Hon%20Tang%20Te.pdf) (144 trang, Ấn bản NXB Tôn Giáo 2022, ISBN `978-604-61-8816-2`) vào `apps/web/public/scans/kinh-cung-tu-thoi-quan-hon-tang-te-2022.pdf` kèm mã băm SHA-256 `5DFEB3D3617291BAABDCE7E5781A8FE50FF937598903812DFDC7DEDF9ED452E8`.
+  - **Schema Tổng Quát (`apps/api/prisma/schema.prisma`):** Mở rộng 6 bảng tổng quát (`DocumentCategory`, `Document`, `DocumentEdition`, `DocumentFile`, `DocumentSection`, `DocumentContent`) hỗ trợ mọi bộ kinh tương lai của Hội Thánh Ban Chỉnh Đạo: gắn thẻ phân loại đa chiều (`ritualTags`, `purposeTags`, `timingTags`, `tuneType`), audio theo từng bài kinh (`sectionId` trên `DocumentFile`), lịch sử & nguồn gốc (`historicalOrigin`, `isbn`, `registrationCode`, `editorialTeam`), ánh xạ số trang sách in (`printedPageLabel`) và số trang PDF (`pdfPageStart`/`pdfPageEnd`). Đã `prisma validate` & `prisma generate`.
+  - **Seed Data (`apps/api/prisma/seed-library.ts`):** Nạp 8 danh mục chuẩn (đã gộp phân loại Quan - Hôn - Tang - Tế vào danh mục Kinh Cúng Tứ Thời theo đúng cấu trúc ấn bản *Kinh Cúng Tứ Thời và Quan - Hôn - Tang - Tế*) và dữ liệu nguyên văn đối chiếu trực tiếp từ bản scan PDF (Phần I Kinh Cúng Tứ Thời, Trai kỳ, Cách thờ phượng, Cách lạy, Phần II Quan-Hôn-Tang-Tế), giữ nguyên 100% dấu câu và chú thích dị bản.
+  - **Migration & Nạp DB PostgreSQL:** Đã khởi động Docker (`caodai_bcd_db` Healthy), chạy thành công migration `20261119161502_add_library_phase3` và thực thi `npx ts-node apps/api/prisma/seed.ts` nạp đầy đủ dữ liệu vào CSDL thực tế.
+- [x] **Slice 3.2: Xây dựng Backend Library API & Unit Tests (2026-11-19):**
+  - Tạo [`SearchDocumentsDto`](apps/api/src/library/dto/search-documents.dto.ts), [`LibraryService`](apps/api/src/library/library.service.ts), [`LibraryController`](apps/api/src/library/library.controller.ts), [`LibraryModule`](apps/api/src/library/library.module.ts), đăng ký vào `AppModule`.
+  - Cung cấp 5 API công khai (chỉ trả về bản `PUBLISHED`): `GET /api/library/categories`, `GET /api/library/documents` (lọc theo danh mục, nghi thức, mục đích, thời điểm, tìm kiếm toàn văn), `GET /api/library/documents/:slug`, `GET /api/library/editions/:id`, `GET /api/library/sections/:id`.
+  - Viết Unit Tests tại [`library.service.spec.ts`](apps/api/src/library/library.service.spec.ts): 6/6 test suites (38/38 tests) pass 100%; `nest build` thành công.
+- [x] **Slice 3.3 & 3.4: Trang Danh Mục Thư Viện (`/library`) & Bộ Đọc Đối Chiếu Song Song (`/library/[slug]`) (2026-11-19):**
+  - Tạo [`library-data.ts`](apps/web/src/lib/library-data.ts) chứa types và dữ liệu fallback chuẩn xác trích xuất từ PDF gốc (8 danh mục chuẩn + 109 mục lục & bài kinh đầy đủ).
+  - Xây dựng [`LibraryExplorer.tsx`](apps/web/src/components/library/LibraryExplorer.tsx) và [`/library`](apps/web/src/app/library/page.tsx): Tìm kiếm toàn văn, lọc 8 danh mục, lọc theo thẻ nghi thức/mục đích, thiết kế Warm Heritage 0px radius.
+  - Xây dựng [`SplitLibraryReader.tsx`](apps/web/src/components/library/SplitLibraryReader.tsx) và [`/library/[slug]`](apps/web/src/app/library/[slug]/page.tsx):
+    + Cột Mục lục tương tác **đầy đủ 3 cấp (109 mục lục & bài kinh)** theo đúng cấu trúc Phần I (Kinh Cúng Tứ Thời + Nội dung phụ) và Phần II (Quan Hôn Tang Tế từ A. Lời Tựa đến J. Kinh Kỵ Lạp, bao gồm trọn vẹn 6 bài Kinh Sanh và 13 bài Kinh Làm Tuần từ Khai Cửu đến Đệ Cửu Cửu, Tiểu/Đại Tường).
+    + Bài 18 đã tách thành hai mục độc lập: `18. Kinh Sám Hối` (hiển thị trọn vẹn đầy đủ toàn bộ 111 câu/khổ kinh) và `Bài Khen Ngợi Kinh Sám Hối`.
+    + **Bổ sung nghi thức nguyện vái lạy:** Đã tích hợp đầy đủ và trang trọng số lạy, số gật và câu chú niệm tương ứng ở cuối 19 bài kinh cúng Tứ Thời cùng Nghi cúng lễ Vía Phật Mẫu theo đúng chuẩn nghi lễ Ban Chỉnh Đạo. Đặc biệt câu niệm của **Kinh Chuyển Luật Bạch Ngọc** đã được chuẩn hóa chính xác: *Lạy 3 lạy, mỗi lạy gật 3 gật (9 gật), mỗi gật niệm: "Nam Mô Cái Thiên Tiên Quan Từ Bi Phổ Tế Thiên Tôn"*.
+    + **Sửa lỗi chọn bài kinh & bổ sung trọn vẹn kinh văn:** Sửa lỗi kích hoạt giao diện khi chọn bài kinh từ C. Hôn Nhơn đến H. Kinh Tống Chung trong [`SplitLibraryReader.tsx`](apps/web/src/components/library/SplitLibraryReader.tsx); trích xuất nguyên văn đối chiếu từ bản scan gốc PDF (trang 60 đến 102) cho toàn bộ 32 bài kinh (C. Hôn Nhơn 6 bài, D. Kinh Lão 8 bài, E. Kinh Bịnh 3 bài, F. Kinh Tử 9 bài, G. Kinh Điếu 7 bài, H. Kinh Tống Chung 13 bài) vào cả `library-data.ts` và CSDL PostgreSQL qua `seed-library.ts`.
+    + **Bổ sung 2 mục mới & các bài kinh tương ứng:**
+      - Thêm mục **K. KINH CÚNG CÔ HỒN** gồm 2 bài: *1. Cầu Vong* và *2. Kinh Cúng Thập Loại Cô Hồn*.
+      - Thêm mục **J. KINH TẾ CHIẾN SĨ** gồm 3 bài: *1. Thỉnh Vong Cúng Chiến Sĩ*, *2. Cúng Vong Chiến Sĩ* và *3. Kinh Tế Chiến Sĩ* (đầy đủ số trang in 119–122 và liên kết PDF scan trang 121–124).
+      - Đồng thời bổ sung toàn bộ văn bản của 9 bài thuộc **J. KINH KỴ LẠP** (*Kỵ Cơm, Giỗ Hội Báo ân từ, Giỗ Hội thông dụng, Hiến Hoa, Hiến Quả, Hiến Tửu Trà*).
+    + **Bổ sung đầy đủ toàn bộ phần kinh từ trang 119 đến hết sách (trang 127 / PDF trang 121–129) theo yêu cầu đối chiếu scan gốc:**
+      - **J. KINH TẾ CHIẾN SĨ** (trang 119–122 / PDF 121–124):
+        * *1. Thỉnh Vong Cúng Chiến Sĩ* (trang 119 / PDF 121)
+        * *2. Cúng Vong Chiến Sĩ* (trang 120 / PDF 122)
+        * *3. Kinh Tế Chiến Sĩ* (trang 121–122 / PDF 123–124)
+      - **A. VỌNG THÀI XUÂN CÚNG THẦY** (trang 123–124 / PDF 125–126):
+        * *1. Hiến Từng Hoa* (trang 123 / PDF 125)
+        * *2. Hiến Từng Tửu* (trang 123 / PDF 125)
+        * *3. Hiến Từng Trà* (trang 124 / PDF 126)
+      - **B. VỌNG THÀI NAM CÚNG VONG (Thông Dụng)** (trang 124–125 / PDF 126–127):
+        * *1. Từng Sơ* (trang 124 / PDF 126)
+        * *2. Từng Á* (trang 125 / PDF 127)
+        * *3. Từng Chung* (trang 125 / PDF 127)
+      - **C. VỌNG THÀI NAM CÚNG VONG CHIẾN SĨ** (trang 125–126 / PDF 127–128):
+        * *1. Từng Sơ* (trang 125 / PDF 127)
+        * *2. Từng Á* (trang 126 / PDF 128)
+        * *3. Từng Chung* (trang 126 / PDF 128)
+      - **K. LỜI NGUYỆN** (trang 126–127 / PDF 128–129) kèm câu niệm *NAM MÔ CAO ĐÀI TIÊN ÔNG ĐẠI BỒ TÁT MA HA TÁT*.
+      - **L. KINH CẦU AN** (trang 127 / PDF 129) kèm câu niệm *NAM MÔ CAO ĐÀI TIÊN ÔNG ĐẠI BỒ TÁT MA HA TÁT*.
+    + Nhấp chọn bất kỳ bài kinh nào đều tự động hiển thị trọn vẹn bản văn số hóa đồng thời nhảy đến đúng số trang tương ứng trên bản PDF scan gốc.
+    + Bản văn số hóa với thanh điều chỉnh 4 cỡ chữ, chú thích dị bản và trích dẫn nguồn (copy 1 click).
+    + Khung đối chiếu trực tiếp PDF bản scan gốc (`#page=...`), chuyển đổi mượt mà sang 2 tab trên Mobile.
+  - Đã nạp thành công trọn vẹn **130 mục lục & bài kinh** vào PostgreSQL (`caodai_bcd_db`), Unit test backend 38/38 tests pass, kiểm thử `npm run build --workspace=apps/web` thành công 100% (tất cả 8 routes đều sạch).
+
+## 4. Kế hoạch tiếp theo
+
+1. Người dùng chạy kiểm thử trực tiếp trên trình duyệt (`npm run dev --workspace=apps/web` + `npm run start:dev --workspace=apps/api`) và nghiệm thu **Phase 3**.
+2. Commit & Push toàn bộ Phase 3 lên GitHub.
+3. Chuyển sang **Phase 4: Document Composer (Soạn Sớ Văn & Biểu Mẫu Nghi Lễ)** khi bạn sẵn sàng.
 
 ---
 
