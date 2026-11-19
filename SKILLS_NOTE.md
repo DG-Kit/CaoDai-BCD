@@ -102,3 +102,23 @@ flowchart TD
    * AI sẽ đề xuất phác thảo sơ đồ bằng `claude-whiteboard` để hai bên cùng nhìn vào một bức tranh chung.
 5. **Khi cần báo cáo hoặc trình bày:**
    * Chỉ cần nói *"Tạo slide tóm tắt tiến độ/kiến trúc..."*, AI sẽ tự động dùng `claude-slides` để xuất file thuyết trình.
+
+---
+
+## 🎯 4. Ánh Xạ Skills Vào Quy Trình Phát Triển Phần Mềm 10 Giai Đoạn
+
+Toàn bộ các kỹ năng trong hệ thống được vận hành chặt chẽ theo 10 giai đoạn chuẩn mực quy định tại [`AGENTS.md`](AGENTS.md) và [`.specify/memory/constitution.md`](.specify/memory/constitution.md):
+
+| Giai Đoạn SDLC | Trọng Tâm Công Việc | Kỹ Năng / Công Cụ Đảm Nhận |
+| :--- | :--- | :--- |
+| **Bước 1. Phân tích ý tưởng & yêu cầu** | Xác định vấn đề, đối tượng, tính năng MVP, tiêu chí nghiệm thu | **`speckit-specify`**, **`speckit-clarify`**, tài liệu `BRD.md` |
+| **Bước 2. Thiết kế kiến trúc hệ thống** | 6 thành phần: FE, BE, DB, Storage, Auth, External Services | **`claude-whiteboard`**, tài liệu `SYSTEM_ARCHITECTURE.md`, `ADR-001..005` |
+| **Bước 3. Thiết kế Database** | Schema, quan hệ, constraints, kế hoạch migration & backup | Tài liệu `DATABASE_SCHEMA.md`, Prisma Schema, `prisma migrate` |
+| **Bước 4. Thiết kế Giao diện & Trải nghiệm** | Wireframe, màn hình, luồng người dùng, Warm Heritage | **`claude-design`**, **`claude-design-system`**, **`impeccable`**, **`dataviz`** |
+| **Bước 5. Thiết lập dự án & Quản lý code** | Monorepo, Git, README, .gitignore, .env.example, lint | Quản lý Monorepo (`apps/api`, `apps/web`, `packages/shared`, `infra`) |
+| **Bước 6. Lập trình từng chức năng** | Vertical slices, giải thích mục tiêu, code & test từng task | **`speckit-plan`**, **`speckit-tasks`**, **`speckit-implement`** |
+| **Bước 7. Bảo mật & Phân quyền** | Scoped RBAC, validate input, chống SQLi/XSS, bảo mật secret | Guards trong NestJS, Prisma filter, Security Checklists |
+| **Bước 8. Kiểm thử toàn hệ thống** | Unit, Integration, E2E, Permission, Responsive, Error handling | **`tdd`**, **`code-review`**, **`diagnosing-bugs`**, Jest tests |
+| **Bước 9. Triển khai phần mềm** | Môi trường thật, migration an toàn, monitoring, rollback | **`release-skills`**, Docker Compose, scripts triển khai |
+| **Bước 10. Bảo trì & Phát triển** | Sửa lỗi sâu, sao lưu định kỳ, cập nhật an toàn, duy trì handoff | **`diagnosing-bugs`**, **`speckit-converge`**, **`HANDOFF.md`** |
+

@@ -70,7 +70,8 @@ gantt
 ---
 
 ### 🟣 Phase 3: Core Digital Library & Reader (Thư Viện Đạo & Bộ Đọc Đối Chiếu)
-* **Mục tiêu:** Số hóa, lưu trữ và tra cứu Kinh Cúng Tứ Thời, Quan Hôn Tang Tế, Thánh Ngôn, Thánh Giáo kèm bản scan gốc đối chiếu (triển khai khi có dữ liệu văn bản kinh sách).
+* **Mục tiêu:** Số hóa, lưu trữ và tra cứu Kinh Cúng Tứ Thời, Quan Hôn Tang Tế, Thánh Ngôn, Thánh Giáo kèm bản scan gốc đối chiếu. Triển khai theo **Hướng A**: dựng hoàn chỉnh khung CSDL, API và Bộ đọc đối chiếu song song với dữ liệu mẫu chuẩn mực để sẵn sàng nạp kinh sách thật.
+* **Xem chi tiết:** [`PHASE_3_LIBRARY_PLAN.md`](PHASE_3_LIBRARY_PLAN.md)
 
 ---
 
