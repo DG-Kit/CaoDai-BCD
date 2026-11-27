@@ -275,9 +275,10 @@ Theo kế hoạch chi tiết [`docs/06-planning/PHASE_1_CALENDAR_PLAN.md`](docs/
 
 ## 4. Kế hoạch tiếp theo
 
-1. Người dùng chạy kiểm thử trực tiếp trên trình duyệt (`npm run dev --workspace=apps/web` + `npm run start:dev --workspace=apps/api`) và nghiệm thu **Phase 3**.
-2. Commit & Push toàn bộ Phase 3 lên GitHub.
-3. Chuyển sang **Phase 4: Document Composer (Soạn Sớ Văn & Biểu Mẫu Nghi Lễ)** khi bạn sẵn sàng.
+1. **Quy ước vận hành máy chủ cục bộ:** AI Assistant **không tự ý chạy tiến trình dev server ngầm** (daemon); để người dùng toàn quyền tự bật/tắt máy chủ (`npm run dev --workspace=apps/web`) tại terminal cá nhân nhằm tránh xung đột cổng `3000`.
+2. Người dùng chạy kiểm thử trực tiếp trên trình duyệt (`npm run dev --workspace=apps/web` + `npm run start:dev --workspace=apps/api`) và nghiệm thu **Phase 3**.
+3. Commit & Push toàn bộ Phase 3 lên GitHub.
+4. Chuyển sang **Phase 4: Document Composer (Soạn Sớ Văn & Biểu Mẫu Nghi Lễ)** khi bạn sẵn sàng.
 
 ---
 
