@@ -27,10 +27,10 @@ export function Navbar() {
     { href: '/', label: 'Trang Chủ', icon: Home },
     { href: '/library', label: 'Kinh Sách', icon: BookOpen },
     { href: '/le-nhac-duong', label: 'Lễ Nhạc Đường', icon: Music },
-    { href: '/calendar', label: 'Lịch Đạo & Ngày Chay', icon: Calendar },
+    { href: '/calendar', label: 'Lịch Đạo', icon: Calendar },
     { href: '/to-dinh', label: 'Tòa Thánh Bến Tre', icon: MapPin },
     { href: '/composer', label: 'Soạn Sớ Văn', icon: FileEdit },
-    { href: '/research', label: 'Đạo Sử & Khảo Cứu', icon: Search },
+    { href: '/research', label: 'Đạo Sử', icon: Search },
   ];
 
   return (
@@ -65,14 +65,14 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center space-x-1.5 px-3 py-2 rounded-lg transition-colors ${
+                className={`flex items-center space-x-1.5 px-2.5 lg:px-3 py-2 rounded-lg whitespace-nowrap transition-colors ${
                   isActive
                     ? 'bg-heritage-wood text-heritage-paper font-bold shadow-xs'
                     : 'text-heritage-woodLight hover:text-heritage-wood hover:bg-heritage-parchment'
                 }`}
               >
                 <Icon className="w-4 h-4 shrink-0" />
-                <span>{link.label}</span>
+                <span className="whitespace-nowrap">{link.label}</span>
               </Link>
             );
           })}

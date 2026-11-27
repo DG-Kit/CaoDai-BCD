@@ -21,7 +21,10 @@ import {
   Minimize2,
   Minus,
   Plus,
+  RotateCcw,
+  SlidersHorizontal,
 } from 'lucide-react';
+import { BellMalletIcon } from '@/components/library/BellMalletIcon';
 import {
   FALLBACK_DOCUMENTS,
   FALLBACK_SECTIONS,
@@ -32,6 +35,54 @@ import {
 
 interface SplitLibraryReaderProps {
   slug: string;
+}
+
+const BELL_STORAGE_KEY = 'caodai-bcd:bell-markers:v1';
+
+// Dữ liệu đánh dấu câu kinh thỉnh chuông đã được người dùng kiểm tra và xác nhận (bài 1–12, 15–19)
+const DEFAULT_BELL_MARKERS: Record<string, number[]> = {
+  '1-niem-huong': [5, 6, 8, 11],
+  '2-khai-kinh': [4, 6, 8, 9, 10],
+  '3-ngoc-hoang-kinh': [2, 16, 19, 26],
+  '4-phat-giao-kinh': [3, 20],
+  '5-tien-giao-kinh': [4, 26],
+  '6-thanh-giao-kinh': [4, 19],
+  '7-dang-hoa': [1, 2],
+  '8-dang-ruou': [1, 2],
+  '9-dang-tra': [1, 2],
+  '10-ngu-nguyen': [2],
+  '11-giai-kho': [0, 9],
+  '12-doat-nghiet': [0],
+  '15-phat-mau-kinh': [0],
+  '16-cuu-nuong-kinh': [4, 7, 11, 12, 13, 16, 20, 21, 23, 26],
+  '17-kinh-cau-sieu': [2, 3, 4, 6, 8, 10, 12, 18],
+  '18-kinh-sam-hoi': [
+    1, 23, 40, 120, 122, 127, 150, 173, 195, 232, 255, 256, 300, 313, 330, 353, 370, 372, 387, 407,
+    438, 443, 448, 498, 512, 535,
+  ],
+  'bai-khen-ngoi-kinh-sam-hoi': [1, 11, 12],
+};
+
+// Các bài kinh văn xuôi cần đánh chuông ngay trước từng cụm từ cụ thể trong đoạn
+const INLINE_BELL_PHRASES: Record<string, string[]> = {
+  '19-kinh-cuu-kho': [
+    'Nam mô Đại Từ Đại Bi Quảng Đại Linh Quan Thế Âm Bồ Tát (3 lần)',
+    'Quan Thế Âm Bồ Tát',
+    'Phật cáo A Nan ngôn',
+    'Nam mô Phật',
+    'A Nậu Đại Thiên Vương Chánh Điện Bồ Tát',
+    'chư Đại Bồ Tát',
+    'Quan Thế Âm Anh Lạc',
+    'Kim Bà Kim Bà Đế',
+  ],
+};
+
+interface BellRenderOptions {
+  showBells: boolean;
+  isEditing: boolean;
+  bellLines: Set<number>;
+  inlineBellPhrases?: string[];
+  onToggleLine?: (lineIdx: number) => void;
 }
 
 const FONT_SIZES = [
@@ -50,8 +101,16 @@ function extractScriptureBodyOnly(markdown: string): string {
   return markdown;
 }
 
-function renderScriptureMarkdown(markdown: string, textClass: string) {
+function renderScriptureMarkdown(
+  markdown: string,
+  textClass: string,
+  bellOptions?: BellRenderOptions,
+) {
   const lines = markdown.split('\n');
+  const showBells = bellOptions?.showBells ?? false;
+  const isEditing = bellOptions?.isEditing ?? false;
+  const inlinePhrases = showBells ? bellOptions?.inlineBellPhrases : undefined;
+
   return (
     <div className={`space-y-2.5 font-serif text-heritage-ink dark:text-heritage-dark-ink ${textClass}`}>
       {lines.map((rawLine, idx) => {
@@ -86,38 +145,125 @@ function renderScriptureMarkdown(markdown: string, textClass: string) {
             </div>
           );
         }
-        return <p key={idx}>{renderInlineFormatting(line)}</p>;
+
+        const isNonVerseLine =
+          line.startsWith('*(Giọng') ||
+          line.startsWith('**(') ||
+          line.startsWith('★') ||
+          line.startsWith('>');
+
+        const isBelled =
+          !isNonVerseLine && !inlinePhrases?.length && (bellOptions?.bellLines.has(idx) ?? false);
+
+        if (isEditing && !isNonVerseLine) {
+          return (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => bellOptions?.onToggleLine?.(idx)}
+              aria-pressed={isBelled}
+              className={`group flex w-full items-start gap-2.5 px-2 py-1 text-left transition-colors ${
+                isBelled
+                  ? 'bg-heritage-parchment/80 dark:bg-heritage-dark-surface/80'
+                  : 'hover:bg-heritage-parchment/40 dark:hover:bg-heritage-dark-surface/40'
+              }`}
+              title={isBelled ? 'Nhấp để bỏ đánh dấu chuông' : 'Nhấp để đánh dấu đánh chuông'}
+            >
+              <span
+                className={`mt-1.5 shrink-0 transition-opacity ${
+                  isBelled
+                    ? 'text-caodai-vermilion opacity-100 dark:text-caodai-yellow'
+                    : 'text-heritage-muted opacity-30 group-hover:opacity-80 dark:text-heritage-dark-muted'
+                }`}
+              >
+                <BellMalletIcon className="h-4 w-4" active={isBelled} />
+              </span>
+              <span className="flex-1">{renderInlineFormatting(line)}</span>
+            </button>
+          );
+        }
+
+        if (showBells && isBelled) {
+          return (
+            <div key={idx} className="flex items-start gap-2.5">
+              <span
+                className="mt-1.5 shrink-0 text-caodai-vermilion dark:text-caodai-yellow"
+                title="Câu kinh thỉnh chuông"
+                aria-label="Thỉnh chuông"
+              >
+                <BellMalletIcon className="h-4 w-4" active />
+              </span>
+              <p className="flex-1 font-medium text-heritage-wood dark:text-heritage-dark-ink">
+                {renderInlineFormatting(line, inlinePhrases)}
+              </p>
+            </div>
+          );
+        }
+
+        return <p key={idx}>{renderInlineFormatting(line, inlinePhrases)}</p>;
       })}
     </div>
   );
 }
 
-function renderInlineFormatting(text: string): React.ReactNode {
+function renderTextWithInlineBells(text: string, inlinePhrases?: string[]): React.ReactNode {
+  if (!inlinePhrases || inlinePhrases.length === 0) {
+    return text;
+  }
+  const escaped = [...inlinePhrases]
+    .sort((a, b) => b.length - a.length)
+    .map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const regex = new RegExp(`(${escaped.join('|')})`, 'g');
+  const segments = text.split(regex);
+  if (segments.length === 1) {
+    return text;
+  }
+  const phraseSet = new Set(inlinePhrases);
+  return segments.map((seg, i) => {
+    if (phraseSet.has(seg)) {
+      return (
+        <span
+          key={i}
+          className="inline-flex items-baseline gap-1 font-semibold text-heritage-wood dark:text-heritage-dark-ink"
+        >
+          <BellMalletIcon
+            className="inline-block h-3.5 w-3.5 shrink-0 translate-y-[2px] text-caodai-vermilion dark:text-caodai-yellow"
+            active
+          />
+          <span>{seg}</span>
+        </span>
+      );
+    }
+    return <React.Fragment key={i}>{seg}</React.Fragment>;
+  });
+}
+
+function renderInlineFormatting(text: string, inlinePhrases?: string[]): React.ReactNode {
   // Xử lý đơn giản **bold**, *(italic)* và <u>underline</u> giữ nguyên văn bản gốc
   const parts = text.split(/(\*\*.*?\*\*|\*[^*]+?\*|<u>.*?<\/u>)/g);
   return parts.map((part, idx) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       return (
         <strong key={idx} className="font-bold text-heritage-wood dark:text-heritage-dark-ink">
-          {part.slice(2, -2)}
+          {renderTextWithInlineBells(part.slice(2, -2), inlinePhrases)}
         </strong>
       );
     }
     if (part.startsWith('*') && part.endsWith('*')) {
       return (
         <em key={idx} className="italic text-heritage-muted dark:text-heritage-dark-muted">
-          {part.slice(1, -1)}
+          {renderTextWithInlineBells(part.slice(1, -1), inlinePhrases)}
         </em>
       );
     }
     if (part.startsWith('<u>') && part.endsWith('</u>')) {
       return (
         <span key={idx} className="underline underline-offset-4">
-          {part.slice(3, -4)}
+          {renderTextWithInlineBells(part.slice(3, -4), inlinePhrases)}
         </span>
       );
     }
-    return <React.Fragment key={idx}>{part}</React.Fragment>;
+    return <React.Fragment key={idx}>{renderTextWithInlineBells(part, inlinePhrases)}</React.Fragment>;
   });
 }
 
@@ -151,7 +297,87 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
   const [fontSizeIdx, setFontSizeIdx] = useState<number>(1);
   const [copiedCitation, setCopiedCitation] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [showBells, setShowBells] = useState<boolean>(true);
+  const [isEditingBells, setIsEditingBells] = useState<boolean>(false);
+  const [bellMarkersMap, setBellMarkersMap] = useState<Record<string, number[]>>(
+    DEFAULT_BELL_MARKERS,
+  );
   const fullscreenContentRef = useRef<HTMLDivElement | null>(null);
+
+  // Nạp dữ liệu đánh dấu chuông tùy chỉnh từ localStorage
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(BELL_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved) as Record<string, number[]>;
+        if (parsed && typeof parsed === 'object') {
+          setBellMarkersMap({ ...DEFAULT_BELL_MARKERS, ...parsed });
+        }
+      }
+    } catch {
+      // Bỏ qua nếu trình duyệt chặn localStorage
+    }
+  }, []);
+
+  const persistBellMarkers = (nextMap: Record<string, number[]>) => {
+    setBellMarkersMap(nextMap);
+    try {
+      window.localStorage.setItem(BELL_STORAGE_KEY, JSON.stringify(nextMap));
+    } catch {
+      // Bỏ qua nếu trình duyệt chặn localStorage
+    }
+  };
+
+  const activeSectionSlug = activeSectionDetail?.slug ?? '';
+  const activeBellLines = useMemo(() => {
+    const arr = activeSectionSlug ? bellMarkersMap[activeSectionSlug] ?? [] : [];
+    return new Set<number>(arr);
+  }, [bellMarkersMap, activeSectionSlug]);
+
+  const handleToggleBellLine = (lineIdx: number) => {
+    if (!activeSectionSlug) return;
+    const current = new Set(bellMarkersMap[activeSectionSlug] ?? []);
+    if (current.has(lineIdx)) {
+      current.delete(lineIdx);
+    } else {
+      current.add(lineIdx);
+    }
+    persistBellMarkers({
+      ...bellMarkersMap,
+      [activeSectionSlug]: Array.from(current).sort((a, b) => a - b),
+    });
+  };
+
+  const handleResetSectionBells = () => {
+    if (!activeSectionSlug) return;
+    const fallback = DEFAULT_BELL_MARKERS[activeSectionSlug] ?? [];
+    persistBellMarkers({
+      ...bellMarkersMap,
+      [activeSectionSlug]: fallback,
+    });
+  };
+
+  const [copiedBells, setCopiedBells] = useState<boolean>(false);
+
+  const handleClearSectionBells = () => {
+    if (!activeSectionSlug) return;
+    persistBellMarkers({
+      ...bellMarkersMap,
+      [activeSectionSlug]: [],
+    });
+  };
+
+  const handleCopyBellConfig = () => {
+    const cleanedEntries = Object.entries(bellMarkersMap).filter(
+      ([, lines]) => Array.isArray(lines) && lines.length > 0,
+    );
+    const payload = JSON.stringify(Object.fromEntries(cleanedEntries), null, 2);
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(payload);
+      setCopiedBells(true);
+      setTimeout(() => setCopiedBells(false), 2500);
+    }
+  };
 
   // 1. Nạp thông tin tác phẩm từ API (nếu có)
   useEffect(() => {
@@ -466,6 +692,41 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
               <Plus className="h-3.5 w-3.5" />
             </button>
           </div>
+
+          {/* Bật/tắt hiển thị icon chuông & chày */}
+          <button
+            type="button"
+            onClick={() => setShowBells((prev) => !prev)}
+            aria-pressed={showBells}
+            className={`inline-flex items-center gap-1.5 border px-3 py-1.5 text-xs font-semibold transition-colors ${
+              showBells
+                ? 'border-caodai-ochre bg-heritage-paper text-caodai-vermilion dark:border-caodai-yellow dark:bg-heritage-dark-paper dark:text-caodai-yellow'
+                : 'border-heritage-border bg-heritage-paper text-heritage-muted dark:border-heritage-dark-border dark:bg-heritage-dark-paper dark:text-heritage-dark-muted'
+            }`}
+            title="Bật hoặc tắt hiển thị biểu tượng đánh chuông"
+          >
+            <BellMalletIcon className="h-3.5 w-3.5" active={showBells} />
+            <span>{showBells ? 'Hiện chuông' : 'Ẩn chuông'}</span>
+          </button>
+
+          {/* Chế độ tự đánh dấu / tùy chỉnh đánh chuông */}
+          <button
+            type="button"
+            onClick={() => {
+              setIsEditingBells((prev) => !prev);
+              setShowBells(true);
+            }}
+            aria-pressed={isEditingBells}
+            className={`inline-flex items-center gap-1.5 border px-3 py-1.5 text-xs font-semibold transition-colors ${
+              isEditingBells
+                ? 'border-caodai-vermilion bg-caodai-vermilion text-white'
+                : 'border-heritage-border bg-heritage-paper text-heritage-ink hover:border-caodai-ochre dark:border-heritage-dark-border dark:bg-heritage-dark-paper dark:text-heritage-dark-ink'
+            }`}
+            title="Nhấp vào từng câu kinh để đánh dấu hoặc bỏ đánh dấu chuông"
+          >
+            <SlidersHorizontal className="h-3.5 w-3.5" />
+            <span>{isEditingBells ? 'Đang đánh dấu chuông' : 'Tùy chỉnh đánh chuông'}</span>
+          </button>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -671,12 +932,75 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
                   </div>
                 </div>
 
+                {/* Thanh hướng dẫn khi đang bật chế độ Tùy chỉnh đánh chuông */}
+                {isEditingBells && (
+                  <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-caodai-ochre/60 bg-heritage-parchment/70 px-4 py-3 text-xs dark:border-caodai-yellow/60 dark:bg-heritage-dark-surface">
+                    <div className="flex items-center gap-2 text-heritage-ink dark:text-heritage-dark-ink">
+                      <BellMalletIcon className="h-4 w-4 shrink-0 text-caodai-vermilion dark:text-caodai-yellow" />
+                      <span>
+                        <strong>Chế độ tùy chỉnh:</strong> Nhấp vào từng câu kinh bên dưới để bật/tắt icon chuông & chày (tự động lưu).
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      {DEFAULT_BELL_MARKERS[activeSectionSlug] && (
+                        <button
+                          type="button"
+                          onClick={handleResetSectionBells}
+                          className="inline-flex items-center gap-1 border border-heritage-border bg-heritage-paper px-2.5 py-1 text-[11px] font-semibold text-heritage-ink hover:border-caodai-ochre dark:border-heritage-dark-border dark:bg-heritage-dark-paper dark:text-heritage-dark-ink"
+                        >
+                          <RotateCcw className="h-3 w-3" />
+                          <span>Khôi phục mẫu</span>
+                        </button>
+                      )}
+                      <button
+                        type="button"
+                        onClick={handleClearSectionBells}
+                        className="border border-heritage-border bg-heritage-paper px-2.5 py-1 text-[11px] font-semibold text-heritage-muted hover:border-caodai-vermilion hover:text-caodai-vermilion dark:border-heritage-dark-border dark:bg-heritage-dark-paper dark:text-heritage-dark-muted"
+                      >
+                        Xóa hết
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleCopyBellConfig}
+                        className="inline-flex items-center gap-1 border border-caodai-ochre bg-heritage-paper px-2.5 py-1 text-[11px] font-semibold text-caodai-ochre hover:bg-caodai-ochre hover:text-white dark:border-caodai-yellow dark:bg-heritage-dark-paper dark:text-caodai-yellow"
+                        title="Sao chép toàn bộ cấu hình đánh chuông để gửi cập nhật lên trang web"
+                      >
+                        {copiedBells ? (
+                          <>
+                            <Check className="h-3 w-3" />
+                            <span>Đã sao chép</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="h-3 w-3" />
+                            <span>Sao chép dữ liệu chuông</span>
+                          </>
+                        )}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setIsEditingBells(false)}
+                        className="bg-caodai-vermilion px-3 py-1 text-[11px] font-bold text-white hover:bg-caodai-vermilion/90"
+                      >
+                        Xong
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 {/* Nội dung bài kinh */}
                 <div className="py-6">
                   {activeSectionDetail.content?.contentMarkdown ? (
                     renderScriptureMarkdown(
                       activeSectionDetail.content.contentMarkdown,
                       FONT_SIZES[fontSizeIdx]?.textClass ?? 'text-base leading-loose',
+                      {
+                        showBells,
+                        isEditing: isEditingBells,
+                        bellLines: activeBellLines,
+                        inlineBellPhrases: INLINE_BELL_PHRASES[activeSectionSlug],
+                        onToggleLine: handleToggleBellLine,
+                      },
                     )
                   ) : (
                     <div className="border border-heritage-border bg-heritage-parchment/40 p-5 text-sm leading-relaxed text-heritage-muted dark:border-heritage-dark-border dark:bg-heritage-dark-surface/40 dark:text-heritage-dark-muted">
@@ -869,6 +1193,21 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
 
               <button
                 type="button"
+                onClick={() => setShowBells((prev) => !prev)}
+                aria-pressed={showBells}
+                className={`inline-flex items-center gap-1.5 border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                  showBells
+                    ? 'border-caodai-ochre bg-heritage-paper text-caodai-vermilion dark:border-caodai-yellow dark:bg-heritage-dark-paper dark:text-caodai-yellow'
+                    : 'border-heritage-border bg-heritage-paper text-heritage-muted dark:border-heritage-dark-border dark:bg-heritage-dark-paper dark:text-heritage-dark-muted'
+                }`}
+                title="Bật/tắt biểu tượng đánh chuông"
+              >
+                <BellMalletIcon className="h-3.5 w-3.5" active={showBells} />
+                <span className="hidden sm:inline">{showBells ? 'Chuông: Bật' : 'Chuông: Tắt'}</span>
+              </button>
+
+              <button
+                type="button"
                 onClick={() => setIsFullscreen(false)}
                 className="inline-flex items-center gap-1.5 border border-heritage-border bg-heritage-paper px-3 py-1.5 text-xs font-bold text-heritage-ink hover:border-caodai-vermilion hover:text-caodai-vermilion dark:border-heritage-dark-border dark:bg-heritage-dark-paper dark:text-heritage-dark-ink"
                 title="Thu gọn (Esc)"
@@ -898,6 +1237,12 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
                   renderScriptureMarkdown(
                     extractScriptureBodyOnly(activeSectionDetail.content.contentMarkdown),
                     FONT_SIZES[fontSizeIdx]?.textClass ?? 'text-base leading-loose',
+                    {
+                      showBells,
+                      isEditing: false,
+                      bellLines: activeBellLines,
+                      inlineBellPhrases: INLINE_BELL_PHRASES[activeSectionSlug],
+                    },
                   )
                 ) : (
                   <p className="text-sm text-heritage-muted dark:text-heritage-dark-muted">

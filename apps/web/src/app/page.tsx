@@ -1,3 +1,10 @@
+/*
+ * From Uiverse.io by ElSombrero2 - https://uiverse.io/ElSombrero2/fresh-wombat-97
+ * MIT License, Copyright (c) ElSombrero2 (Rakotondrasoa Nirilala)
+ *
+ * From Uiverse.io by adamgiebl - https://uiverse.io/adamgiebl/new-bird-34
+ * MIT License, Copyright (c) adamgiebl (Adam Giebl)
+ */
 import React from 'react';
 import Link from 'next/link';
 import {
@@ -6,7 +13,6 @@ import {
   MapPin,
   FileEdit,
   Search,
-  ArrowRight,
   BookMarked,
   Sparkles,
   Music,
@@ -84,27 +90,25 @@ export default function HomePage() {
               Không gian lưu trữ, số hóa và phục vụ đồng đạo cùng quý độc giả tra cứu kinh sách, lịch Đạo, hệ thống Thánh sở và tư liệu lịch sử với nguồn gốc rõ ràng, tôn trọng nguyên tác.
             </p>
 
-            {/* Thanh Tìm Kiếm Nhanh: Liền mạch, góc vuông sắc nét, không lồng card */}
-            <div className="pt-2 max-w-xl">
-              <div className="flex items-stretch border border-heritage-border bg-heritage-parchment">
-                <div className="flex items-center pl-3.5 pr-1 text-heritage-muted pointer-events-none">
-                  <Search className="w-5 h-5" />
+            {/* Thanh Tìm Kiếm Nhanh: Tích hợp Uiverse Input & Button */}
+            <div className="pt-2 max-w-2xl">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <div className="uiverse-search-group flex-1">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" className="uiverse-search-icon">
+                    <g>
+                      <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z" />
+                    </g>
+                  </svg>
+                  <input
+                    className="uiverse-search-input"
+                    type="search"
+                    placeholder="Tìm tên bài kinh, thánh ngôn, ngày lễ, địa danh..."
+                  />
                 </div>
-                <input
-                  type="text"
-                  placeholder="Tìm tên bài kinh, thánh ngôn, ngày lễ, địa danh..."
-                  className="w-full bg-transparent px-3 py-3 text-sm text-heritage-wood placeholder:text-heritage-muted focus:outline-none font-sans font-medium"
-                />
-                <button
-                  type="button"
-                  className="bg-caodai-vermilion text-white text-xs font-bold uppercase tracking-wider px-6 py-3 hover:bg-caodai-vermilion/90 transition-colors shrink-0"
-                >
+                <button type="button" className="uiverse-shine-button shrink-0">
                   Tra cứu
                 </button>
               </div>
-              <p className="text-xs text-heritage-muted mt-2 pl-0.5 font-medium">
-                Gợi ý: <span className="underline cursor-pointer hover:text-caodai-vermilion">Kinh Cúng Tứ Thời</span>, <span className="underline cursor-pointer hover:text-caodai-vermilion">Lịch sóc vọng</span>, <span className="underline cursor-pointer hover:text-caodai-vermilion">Thánh Ngôn Hiệp Tuyển</span>
-              </p>
             </div>
           </div>
 
@@ -136,50 +140,65 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Lưới các ô chuyên mục có khoảng cách thoáng đãng, góc vuông trang nhã, không card lồng card */}
+        {/* Lưới các ô chuyên mục có hiệu ứng viền chuyển động & nút thao tác */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {categories.map((cat) => {
             const Icon = cat.icon;
             return (
               <div
                 key={cat.title}
-                className="border border-heritage-border bg-heritage-paper p-6 sm:p-7 flex flex-col justify-between hover:border-caodai-ochre hover:bg-heritage-parchment/40 transition-colors group"
+                className="uiverse-category-card group"
               >
-                <div>
-                  {/* Hàng đầu: Icon trực tiếp & Nhãn thể loại (Không lồng hộp bao quanh) */}
-                  <div className="flex items-center justify-between mb-4">
-                    <Icon className="w-6 h-6 text-caodai-ochre group-hover:scale-105 transition-transform" />
-                    <span className="text-xs font-bold uppercase tracking-wider text-caodai-ochre">
-                      {cat.tag}
-                    </span>
+                <div className="uiverse-category-card__content p-6 sm:p-7 flex flex-col justify-between">
+                  <div>
+                    {/* Hàng đầu: Icon trực tiếp & Nhãn thể loại (Không lồng hộp bao quanh) */}
+                    <div className="flex items-center justify-between mb-4">
+                      <Icon className="w-6 h-6 text-caodai-ochre group-hover:scale-105 transition-transform" />
+                      <span className="text-xs font-bold uppercase tracking-wider text-caodai-ochre">
+                        {cat.tag}
+                      </span>
+                    </div>
+
+                    <h3 className="text-lg font-serif font-bold text-heritage-wood group-hover:text-caodai-vermilion transition-colors">
+                      {cat.title}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-heritage-woodLight mt-2.5 leading-relaxed font-normal">
+                      {cat.description}
+                    </p>
+
+                    <ul className="mt-4 space-y-1.5 border-t border-heritage-border/70 pt-3">
+                      {cat.highlights.map((item) => (
+                        <li key={item} className="text-xs text-heritage-woodLight flex items-center space-x-2 font-medium">
+                          <span className="w-1.5 h-1.5 bg-caodai-ochre shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
 
-                  <h3 className="text-lg font-serif font-bold text-heritage-wood group-hover:text-caodai-vermilion transition-colors">
-                    {cat.title}
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-heritage-woodLight mt-2.5 leading-relaxed font-normal">
-                    {cat.description}
-                  </p>
-
-                  <ul className="mt-4 space-y-1.5 border-t border-heritage-border/70 pt-3">
-                    {cat.highlights.map((item) => (
-                      <li key={item} className="text-xs text-heritage-woodLight flex items-center space-x-2 font-medium">
-                        <span className="w-1.5 h-1.5 bg-caodai-ochre shrink-0" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="mt-6 pt-3 border-t border-heritage-border/70">
-                  <Link
-                    href={cat.href}
-                    className="inline-flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-caodai-vermilion hover:underline"
-                  >
-                    <span>Xem nội dung</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
+                  <div className="mt-6 pt-3 border-t border-heritage-border/70">
+                    <Link
+                      href={cat.href}
+                      className="uiverse-action-btn"
+                    >
+                      <span>Xem nội dung</span>
+                      <div className="uiverse-action-btn__icon" aria-hidden="true">
+                        <svg
+                          height="24"
+                          width="24"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M0 0h24v24H0z" fill="none" />
+                          <path
+                            d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </div>
+                    </Link>
+                  </div>
                 </div>
               </div>
             );

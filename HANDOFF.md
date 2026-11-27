@@ -253,6 +253,25 @@ Theo kế hoạch chi tiết [`docs/06-planning/PHASE_1_CALENDAR_PLAN.md`](docs/
     + **Xem toàn màn hình (Focus Mode):** Bổ sung nút "Xem toàn màn hình" trong [`SplitLibraryReader.tsx`](apps/web/src/components/library/SplitLibraryReader.tsx). Chế độ này lọc thuần nội dung bài kinh (tự động tách bỏ nghi thức vái lạy và ghi chú bên dưới để tập trung tụng/đọc).
     + **Thanh điều hướng toàn màn hình:** Hiển thị rõ nút "Bài kế tiếp" kèm tên cụ thể của bài kinh kế tiếp (tự động bỏ qua các mục tiêu đề rỗng), nút "Bài trước", và công cụ tăng/giảm cỡ chữ.
     + **Mục lục trên Mobile:** Thêm nút toggle "Thu gọn / Mở rộng" ngay tại tiêu đề Mục Lục Ấn Bản trên giao diện điện thoại, giúp tiết kiệm không gian màn hình.
+  - **Biểu tượng Chuông chữ U & Chày gõ thỉnh chuông (2026-11-27):**
+    + Tạo component SVG [`BellMalletIcon.tsx`](apps/web/src/components/library/BellMalletIcon.tsx) mô phỏng chuông gia trì hình chữ U và chày gõ.
+    + Bổ sung chức năng bật/tắt hiển thị chuông (`Hiện chuông` / `Ẩn chuông`), chế độ `Tùy chỉnh đánh chuông` (lưu `localStorage`, nút `Sao chép dữ liệu chuông`) trong [`SplitLibraryReader.tsx`](apps/web/src/components/library/SplitLibraryReader.tsx).
+    + Nạp chính thức dữ liệu đánh dấu chuông đã được người dùng kiểm tra cho **18 bài kinh** (từ bài 1 đến bài 12 và bài 15, 16, 17, 18, Bài Khen Ngợi Kinh Sám Hối, 19).
+    + Hỗ trợ gắn chuông chi tiết tới từng danh xưng/cụm từ bên trong bài *19. Kinh Cứu Khổ*.
+  - **Tích hợp UI Elements phong cách Uiverse (2026-11-27):**
+    + Switch chế độ Sáng/Tối phong cách Sun/Moon (`honest-stingray-90`) tại [`ThemeToggle.tsx`](apps/web/src/components/ThemeToggle.tsx).
+    + Nút bấm Khám phá phong cách Arrow Button (`new-bird-34`) tại [`page.tsx`](apps/web/src/app/page.tsx).
+    + Hiệu ứng viền chuyển động thẻ chuyên mục (`fresh-wombat-97`) tại [`globals.css`](apps/web/src/app/globals.css): Giữ nguyên cơ chế 2 vệt sáng song song quét đối xứng quanh viền như bản gốc; mỗi vệt sáng là cụm 3 màu Tam Giáo (Vàng `#eab308`, Xanh `#2563eb`, Đỏ `#dc2626`) chuyển sắc mượt mà, không phủ kín toàn bộ viền.
+    + Khung tìm kiếm phong cách Search Input bo tròn (`funny-cougar-97`) kèm icon kính lúp tại [`page.tsx`](apps/web/src/app/page.tsx), đã được phối màu đồng bộ hoàn toàn với palette giấy ngà (`--bg-surface`, `--border-subtle`, focus viền vàng hoàng thổ `--caodai-ochre`), đồng thời đã bỏ dòng gợi ý bên dưới giúp giao diện tinh giản, sạch sẽ.
+    + Nút bấm Tra cứu hiệu ứng tia sáng quét ngang (`stale-cheetah-42`) tại [`page.tsx`](apps/web/src/app/page.tsx), đã đồng bộ màu đỏ son chu sa (`--caodai-vermilion`), hiệu ứng phát quang ấm áp tôn nghiêm.
+    + Effect Loading phong cách Dot Pulse (`bad-firefox-25`) chuyển thể theo **3 màu chủ đạo Tam Giáo Cao Đài** (Vàng Thái Thanh - Xanh Thượng Thanh - Đỏ Ngọc Thanh) tại [`apps/web/src/components/TamGiaoLoader.tsx`](apps/web/src/components/TamGiaoLoader.tsx).
+    + **Hệ thống Loading Chuyển Trang Toàn Diện (Toàn Bộ Ứng Dụng):**
+      - Tích hợp component điều hướng toàn cầu [`NavigationLoader.tsx`](apps/web/src/components/NavigationLoader.tsx) vào [`layout.tsx`](apps/web/src/app/layout.tsx): Tự động phát hiện khi người dùng nhấp vào bất kỳ liên kết chuyển trang nào (Navbar, Menu, Footer, Thẻ chuyên mục, nút Đọc sách...) để hiển thị thanh tia sáng Tam Giáo ở đỉnh đầu cùng modal 3 chấm Tam Giáo pulsing mượt mà.
+      - Bổ sung các tệp `loading.tsx` chuẩn Next.js App Router cho tất cả các phân hệ: [`apps/web/src/app/loading.tsx`](apps/web/src/app/loading.tsx) (Gốc), [`apps/web/src/app/library/loading.tsx`](apps/web/src/app/library/loading.tsx) (Kinh Sách), [`apps/web/src/app/library/[slug]/loading.tsx`](apps/web/src/app/library/[slug]/loading.tsx) (Bộ đọc kinh văn & bản scan), [`apps/web/src/app/calendar/loading.tsx`](apps/web/src/app/calendar/loading.tsx) (Lịch Đạo), [`apps/web/src/app/le-nhac-duong/loading.tsx`](apps/web/src/app/le-nhac-duong/loading.tsx) (Lễ Nhạc Đường), và [`apps/web/src/app/to-dinh/loading.tsx`](apps/web/src/app/to-dinh/loading.tsx) (Tòa Thánh Bến Tre).
+      - Đồng bộ trạng thái loading danh mục tư liệu trong [`LibraryExplorer.tsx`](apps/web/src/components/library/LibraryExplorer.tsx).
+  - **Tối ưu Thanh Điều Hướng Header (2026-11-27):**
+    + Rút gọn nhãn menu theo yêu cầu: "Lịch Đạo & Ngày Chay" → "Lịch Đạo", "Đạo Sử & Khảo Cứu" → "Đạo Sử".
+    + Thêm `whitespace-nowrap` giúp tiêu đề menu hiển thị thẳng hàng trên 1 dòng duy nhất, khắc phục triệt để lỗi chữ bị ngắt xuống 2 dòng trên màn hình desktop/laptop.
 
 ## 4. Kế hoạch tiếp theo
 

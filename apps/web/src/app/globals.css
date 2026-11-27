@@ -124,3 +124,478 @@ body, header, nav, footer, div, button {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
+
+/*
+ * From Uiverse.io by andrew-demchenk0 - https://uiverse.io/andrew-demchenk0/honest-stingray-90
+ * MIT License, Copyright (c) andrew-demchenk0 (A)
+ */
+.uiverse-theme-switch {
+  font-size: 17px;
+  position: relative;
+  display: inline-block;
+  width: 64px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.uiverse-theme-switch__input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.uiverse-theme-switch__slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #73C0FC;
+  transition: 0.4s;
+  border-radius: 30px;
+}
+
+.uiverse-theme-switch__slider:before {
+  position: absolute;
+  content: "";
+  height: 30px;
+  width: 30px;
+  border-radius: 20px;
+  left: 2px;
+  bottom: 2px;
+  z-index: 2;
+  background-color: #e8e8e8;
+  transition: 0.4s;
+}
+
+.uiverse-theme-switch__sun svg {
+  position: absolute;
+  top: 6px;
+  left: 36px;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  animation: uiverse-theme-rotate 15s linear infinite;
+}
+
+.uiverse-theme-switch__moon svg {
+  fill: #73C0FC;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  animation: uiverse-theme-tilt 5s linear infinite;
+}
+
+@keyframes uiverse-theme-rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes uiverse-theme-tilt {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.uiverse-theme-switch__input:checked + .uiverse-theme-switch__slider {
+  background-color: #183153;
+}
+
+.uiverse-theme-switch__input:focus-visible + .uiverse-theme-switch__slider {
+  box-shadow: 0 0 1px #183153;
+  outline: 2px solid var(--caodai-ochre);
+  outline-offset: 2px;
+}
+
+.uiverse-theme-switch__input:checked + .uiverse-theme-switch__slider:before {
+  transform: translateX(30px);
+}
+
+/*
+ * From Uiverse.io by ElSombrero2 - https://uiverse.io/ElSombrero2/fresh-wombat-97
+ * MIT License, Copyright (c) ElSombrero2 (Rakotondrasoa Nirilala)
+ */
+.uiverse-category-card {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 2px;
+  background-color: var(--border-subtle);
+  cursor: pointer;
+}
+
+.uiverse-category-card__content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: var(--bg-canvas);
+  overflow: hidden;
+}
+
+.uiverse-category-card__content::before {
+  opacity: 0;
+  transition: opacity 300ms;
+  content: " ";
+  display: block;
+  background: var(--caodai-ochre);
+  width: 10px;
+  height: 60px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  filter: blur(45px);
+  pointer-events: none;
+}
+
+.uiverse-category-card:hover .uiverse-category-card__content::before {
+  opacity: 0.45;
+}
+
+.uiverse-category-card::before {
+  opacity: 0;
+  content: " ";
+  position: absolute;
+  display: block;
+  width: 100px;
+  height: 580px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #eab308 18%,
+    #2563eb 50%,
+    #dc2626 82%,
+    transparent 100%
+  );
+  transition: opacity 300ms;
+  animation: uiverse-card-rotation 6000ms infinite linear;
+  animation-play-state: paused;
+}
+
+.uiverse-category-card:hover::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+.uiverse-category-card::after {
+  position: absolute;
+  content: " ";
+  display: block;
+  inset: 0;
+  background: rgba(253, 251, 247, 0.08);
+  backdrop-filter: blur(12px);
+  pointer-events: none;
+}
+
+.dark .uiverse-category-card::after {
+  background: rgba(22, 19, 17, 0.12);
+}
+
+@keyframes uiverse-card-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*
+ * From Uiverse.io by adamgiebl - https://uiverse.io/adamgiebl/new-bird-34
+ * MIT License, Copyright (c) adamgiebl (Adam Giebl)
+ */
+.uiverse-action-btn {
+  background: var(--caodai-vermilion);
+  color: #ffffff;
+  font-family: inherit;
+  padding: 0.35em 3.2em 0.35em 1.15em;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 0.9em;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: inset 0 0 1.6em -0.6em rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  position: relative;
+  height: 2.8em;
+  cursor: pointer;
+}
+
+.uiverse-action-btn__icon {
+  background: var(--bg-canvas);
+  margin-left: 1em;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.2em;
+  width: 2.2em;
+  border-radius: 0.7em;
+  box-shadow: 0.1em 0.1em 0.6em 0.2em rgba(158, 42, 43, 0.28);
+  right: 0.3em;
+  transition: all 0.3s;
+}
+
+.uiverse-action-btn:hover .uiverse-action-btn__icon {
+  width: calc(100% - 0.6em);
+}
+
+.uiverse-action-btn__icon svg {
+  width: 1.1em;
+  height: 1.1em;
+  transition: transform 0.3s;
+  color: var(--caodai-vermilion);
+}
+
+.uiverse-action-btn:hover .uiverse-action-btn__icon svg {
+  transform: translateX(0.1em);
+}
+
+.uiverse-action-btn:active .uiverse-action-btn__icon {
+  transform: scale(0.95);
+}
+
+/*
+ * From Uiverse.io by LightAndy1 - https://uiverse.io/LightAndy1/funny-cougar-97
+ * MIT License, Copyright (c) alexruix (Alex Ruiz), LightAndy1 (LightAndy)
+ */
+.uiverse-search-group {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.uiverse-search-input {
+  width: 100%;
+  height: 44px;
+  line-height: 28px;
+  padding: 0 1rem;
+  padding-left: 2.75rem;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: 8px;
+  outline: none;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  transition: 0.3s ease;
+  font-size: 0.875rem;
+  font-family: inherit;
+}
+
+.uiverse-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.uiverse-search-input:focus,
+.uiverse-search-input:hover {
+  outline: none;
+  border-color: var(--caodai-ochre);
+  background-color: var(--bg-canvas);
+  box-shadow: 0 0 0 4px rgba(166, 110, 22, 0.15);
+}
+
+.dark .uiverse-search-input {
+  border-color: var(--border-subtle);
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+.dark .uiverse-search-input:focus,
+.dark .uiverse-search-input:hover {
+  background-color: var(--bg-canvas);
+  border-color: var(--caodai-ochre);
+  box-shadow: 0 0 0 4px rgba(214, 154, 51, 0.18);
+}
+
+.uiverse-search-icon {
+  position: absolute;
+  left: 1rem;
+  fill: var(--text-muted);
+  width: 1.15rem;
+  height: 1.15rem;
+  pointer-events: none;
+  transition: fill 0.3s ease;
+}
+
+.uiverse-search-group:focus-within .uiverse-search-icon {
+  fill: var(--caodai-ochre);
+}
+
+/*
+ * From Uiverse.io by mrhyddenn - https://uiverse.io/mrhyddenn/stale-cheetah-42
+ * MIT License, Copyright (c) mrhyddenn
+ */
+.uiverse-shine-button {
+  position: relative;
+  padding: 10px 24px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid var(--caodai-vermilion);
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: var(--caodai-vermilion);
+  color: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 0 0 0 transparent;
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+.dark .uiverse-shine-button {
+  background: var(--caodai-vermilion);
+  border-color: var(--caodai-vermilion);
+  color: #ffffff;
+}
+
+.uiverse-shine-button:hover {
+  background: #b53234;
+  border-color: #b53234;
+  color: #ffffff;
+  box-shadow: 0 0 25px 4px rgba(158, 42, 43, 0.55);
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+.uiverse-shine-button:hover::before {
+  -webkit-animation: sh02 0.5s 0s linear;
+  -moz-animation: sh02 0.5s 0s linear;
+  animation: sh02 0.5s 0s linear;
+}
+
+.uiverse-shine-button::before {
+  content: '';
+  display: block;
+  width: 0px;
+  height: 86%;
+  position: absolute;
+  top: 7%;
+  left: 0%;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 0 0 50px 30px #fff;
+  -webkit-transform: skewX(-20deg);
+  -moz-transform: skewX(-20deg);
+  -ms-transform: skewX(-20deg);
+  -o-transform: skewX(-20deg);
+  transform: skewX(-20deg);
+}
+
+@keyframes sh02 {
+  from {
+    opacity: 0;
+    left: 0%;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    left: 100%;
+  }
+}
+
+.uiverse-shine-button:active {
+  box-shadow: 0 0 0 0 transparent;
+  -webkit-transition: box-shadow 0.2s ease-in;
+  -moz-transition: box-shadow 0.2s ease-in;
+  transition: box-shadow 0.2s ease-in;
+}
+
+/*
+ * From Uiverse.io by Fadhilmagass - https://uiverse.io/Fadhilmagass/bad-firefox-25
+ * MIT License, Copyright (c) Fadhilmagass (Fadhil Muhammad Agast)
+ * Adapted to Cao Đài 3 Primary Colors: Vàng (Thái Thanh) - Xanh (Thượng Thanh) - Đỏ (Ngọc Thanh)
+ */
+.uiverse-loader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 100%;
+}
+
+.uiverse-loader .dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0 4px;
+  border-radius: 50%;
+  -webkit-animation: dot-pulse2 1.2s ease-in-out infinite;
+  animation: dot-pulse2 1.2s ease-in-out infinite;
+}
+
+.uiverse-loader .dot-1 {
+  background-color: #eab308; /* Vàng Thái Thanh / Phật giáo */
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+}
+
+.uiverse-loader .dot-2 {
+  background-color: #2563eb; /* Xanh Thượng Thanh / Tiên giáo */
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s;
+}
+
+.uiverse-loader .dot-3 {
+  background-color: #dc2626; /* Đỏ Ngọc Thanh / Nho giáo */
+  -webkit-animation-delay: 0.6s;
+  animation-delay: 0.6s;
+}
+
+@keyframes dot-pulse2 {
+  0% {
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    opacity: 0.4;
+  }
+
+  50% {
+    -webkit-transform: scale(1.15);
+    transform: scale(1.15);
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    opacity: 0.4;
+  }
+}

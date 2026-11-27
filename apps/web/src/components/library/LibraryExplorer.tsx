@@ -19,6 +19,7 @@ import {
   LibraryDocument,
   LibraryDomain,
 } from '@/lib/library-data';
+import { TamGiaoLoader } from '@/components/TamGiaoLoader';
 
 interface LibraryExplorerProps {
   domain?: LibraryDomain;
@@ -268,8 +269,8 @@ export function LibraryExplorer({ domain = 'KINH_SACH' }: LibraryExplorerProps) 
         {/* Danh sách Tác Phẩm */}
         <div className="lg:col-span-8 xl:col-span-9">
           {loading ? (
-            <div className="border border-heritage-border bg-heritage-paper p-8 text-center text-sm text-heritage-muted dark:border-heritage-dark-border dark:bg-heritage-dark-paper dark:text-heritage-dark-muted">
-              Đang tải danh mục tư liệu...
+            <div className="border border-heritage-border bg-heritage-paper p-12 text-center text-sm dark:border-heritage-dark-border dark:bg-heritage-dark-paper">
+              <TamGiaoLoader size="md" label="Đang tải danh mục tư liệu..." />
             </div>
           ) : filteredDocuments.length === 0 ? (
             <div className="border border-heritage-border bg-heritage-paper p-10 text-center dark:border-heritage-dark-border dark:bg-heritage-dark-paper">

@@ -1,3 +1,4 @@
+import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { Lora, Be_Vietnam_Pro } from 'next/font/google';
 import './globals.css';
@@ -7,6 +8,7 @@ import { TamGiaoStripe } from '@/components/ThienNhan';
 import { Navbar } from '@/components/Navbar';
 import { ThemeProvider, themeInitScript } from '@/components/ThemeProvider';
 import { ThemeSegmentedControl } from '@/components/ThemeToggle';
+import { NavigationLoader } from '@/components/NavigationLoader';
 
 const lora = Lora({
   subsets: ['vietnamese', 'latin'],
@@ -52,6 +54,11 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col bg-heritage-paper text-heritage-wood font-sans selection:bg-caodai-ochre selection:text-white">
         <ThemeProvider>
+          {/* Hiệu ứng loading Tam Giáo khi chuyển trang toàn hệ thống */}
+          <Suspense fallback={null}>
+            <NavigationLoader />
+          </Suspense>
+
           {/* Thông báo tôn chỉ nghiên cứu & bảo tồn - Tôn nghiêm, ấm áp */}
           <div className="bg-heritage-parchment border-b border-heritage-border text-xs text-heritage-woodLight text-center py-2 px-4 font-medium tracking-wide">
             Thư viện số bảo tồn tư liệu Đạo Cao Đài • Căn cứ theo các bản in và tư liệu lịch sử
