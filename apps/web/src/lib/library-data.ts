@@ -1,9 +1,12 @@
+export type LibraryDomain = 'KINH_SACH' | 'LE_NHAC_DUONG';
+
 export interface LibraryCategory {
   id: string;
   parentId: string | null;
   slug: string;
   name: string;
   description: string | null;
+  domain: LibraryDomain;
   displayOrder: number;
   publishedDocumentCount: number;
 }
@@ -72,6 +75,7 @@ export interface LibraryDocument {
     id: string;
     slug: string;
     name: string;
+    domain?: LibraryDomain;
   };
   editions: LibraryEdition[];
 }
@@ -83,7 +87,8 @@ export const FALLBACK_CATEGORIES: LibraryCategory[] = [
     slug: 'kinh-cung-tu-thoi',
     name: 'Kinh Cúng Tứ Thời',
     description:
-      'Kinh Thiên Đạo, cúng Tứ Thời (Tý, Mẹo, Ngọ, Dậu), kinh sám hối, giải khổ, cứu khổ và hướng dẫn hành lễ.',
+      'Kinh Thiên Đạo, cúng Tứ Thời (Tý, Mẹo, Ngọ, Dậu), kinh sám hối, giải khổ, cứu khổ, quan hôn tang tế và hướng dẫn hành lễ.',
+    domain: 'KINH_SACH',
     displayOrder: 1,
     publishedDocumentCount: 1,
   },
@@ -93,6 +98,7 @@ export const FALLBACK_CATEGORIES: LibraryCategory[] = [
     slug: 'thanh-ngon',
     name: 'Thánh Ngôn',
     description: 'Thánh ngôn hiệp tuyển và lời dạy thiêng liêng của Đức Chí Tôn và Đức Phật Mẫu.',
+    domain: 'KINH_SACH',
     displayOrder: 2,
     publishedDocumentCount: 0,
   },
@@ -102,6 +108,7 @@ export const FALLBACK_CATEGORIES: LibraryCategory[] = [
     slug: 'thanh-giao',
     name: 'Thánh Giáo',
     description: 'Thánh giáo của chư vị Tiên, Phật, Thánh giáng cơ dạy đạo trong nền Đại Đạo Tam Kỳ Phổ Độ.',
+    domain: 'KINH_SACH',
     displayOrder: 3,
     publishedDocumentCount: 0,
   },
@@ -111,6 +118,7 @@ export const FALLBACK_CATEGORIES: LibraryCategory[] = [
     slug: 'giao-ly-luat-phap',
     name: 'Giáo Lý & Luật Pháp',
     description: 'Tân Luật, Pháp Chánh Truyền, Hiến Chương và tài liệu giáo lý căn bản Ban Chỉnh Đạo.',
+    domain: 'KINH_SACH',
     displayOrder: 4,
     publishedDocumentCount: 0,
   },
@@ -121,6 +129,7 @@ export const FALLBACK_CATEGORIES: LibraryCategory[] = [
     name: 'Đạo Sử & Tiểu Sử',
     description:
       'Lịch sử hình thành Hội Thánh Cao Đài Ban Chỉnh Đạo (Tòa Thánh Bến Tre) và tiểu sử chư chức sắc tiền bối.',
+    domain: 'KINH_SACH',
     displayOrder: 5,
     publishedDocumentCount: 0,
   },
@@ -130,16 +139,8 @@ export const FALLBACK_CATEGORIES: LibraryCategory[] = [
     slug: 'van-ban-hoi-thanh',
     name: 'Văn Bản Hội Thánh',
     description: 'Quy chế, thông tư, đạo nghị định và các văn bản hành đạo chính thức của Hội Thánh.',
+    domain: 'KINH_SACH',
     displayOrder: 6,
-    publishedDocumentCount: 0,
-  },
-  {
-    id: 'cat-7',
-    parentId: null,
-    slug: 'nghi-le-le-nhac',
-    name: 'Nghi Lễ & Lễ Nhạc',
-    description: 'Lễ Nhạc Đường, các bài Thài, giọng Nam Ai, Nam Xuân, nghi thức thiết đàn và hành lễ.',
-    displayOrder: 7,
     publishedDocumentCount: 0,
   },
   {
@@ -148,6 +149,18 @@ export const FALLBACK_CATEGORIES: LibraryCategory[] = [
     slug: 'khao-cuu-tham-khao',
     name: 'Khảo Cứu & Tham Khảo',
     description: 'Tài liệu nghiên cứu học thuật, chú giải thuật ngữ và tư liệu đối chiếu có ghi rõ nguồn.',
+    domain: 'KINH_SACH',
+    displayOrder: 7,
+    publishedDocumentCount: 0,
+  },
+  {
+    id: 'cat-7',
+    parentId: null,
+    slug: 'tai-lieu-le-nhac-duong',
+    name: 'Tài Liệu Lễ Nhạc Đường',
+    description:
+      'Tài liệu chuyên biệt của Lễ Nhạc Đường: các bài Thài Xuân, Thài Nam, cổ nhạc, nghi thức thiết đàn và hành lễ tại Đền Thánh.',
+    domain: 'LE_NHAC_DUONG',
     displayOrder: 8,
     publishedDocumentCount: 0,
   },

@@ -9,18 +9,27 @@ import {
   ArrowRight,
   BookMarked,
   Sparkles,
+  Music,
 } from 'lucide-react';
 import { ThienNhanPortrait } from '@/components/ThienNhan';
 
 export default function HomePage() {
   const categories = [
     {
-      title: 'Kinh Sách & Giáo Lý',
-      description: 'Tra cứu Kinh Cúng Tứ Thời, Quan Hôn Tang Tế, Thánh Ngôn Hiệp Tuyển và các tài liệu giáo lý với bản scan tài liệu gốc để đối chiếu.',
+      title: 'Kinh Sách',
+      description: 'Tra cứu riêng biệt Kinh Cúng Tứ Thời, Quan Hôn Tang Tế, Thánh Ngôn Hiệp Tuyển và các tài liệu giáo lý với bản scan gốc đối chiếu.',
       icon: BookOpen,
       href: '/library',
       tag: 'Kinh Văn',
       highlights: ['Kinh Cúng Tứ Thời', 'Thánh Ngôn & Thánh Giáo', 'Bản scan đối chiếu'],
+    },
+    {
+      title: 'Tài Liệu Lễ Nhạc Đường',
+      description: 'Kho tài liệu chuyên biệt về Lễ Nhạc Đường: các bài Thài Xuân, Thài Nam, cổ nhạc, nghi thức thiết đàn và hướng dẫn hành lễ.',
+      icon: Music,
+      href: '/le-nhac-duong',
+      tag: 'Lễ Nhạc',
+      highlights: ['Thài Xuân & Thài Nam', 'Nghi thức hành lễ', 'Tài liệu Lễ Nhạc Đường'],
     },
     {
       title: 'Lịch Đạo & Ngày Ăn Chay',

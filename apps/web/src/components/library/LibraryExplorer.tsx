@@ -17,11 +17,29 @@ import {
   FALLBACK_DOCUMENTS,
   LibraryCategory,
   LibraryDocument,
+  LibraryDomain,
 } from '@/lib/library-data';
 
-export function LibraryExplorer() {
-  const [categories, setCategories] = useState<LibraryCategory[]>(FALLBACK_CATEGORIES);
-  const [documents, setDocuments] = useState<LibraryDocument[]>(FALLBACK_DOCUMENTS);
+interface LibraryExplorerProps {
+  domain?: LibraryDomain;
+}
+
+export function LibraryExplorer({ domain = 'KINH_SACH' }: LibraryExplorerProps) {
+  const initialCategories = useMemo(
+    () => FALLBACK_CATEGORIES.filter((c) => c.domain === domain),
+    [domain],
+  );
+  const initialDocuments = useMemo(
+    () =>
+      FALLBACK_DOCUMENTS.filter((doc) => {
+        const cat = FALLBACK_CATEGORIES.find((c) => c.slug === doc.category?.slug);
+        return (doc.category?.domain ?? cat?.domain ?? 'KINH_SACH') === domain;
+      }),
+    [domain],
+  );
+
+  const [categories, setCategories] = useState<LibraryCategory[]>(initialCategories);
+  const [documents, setDocuments] = useState<LibraryDocument[]>(initialDocuments);
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [selectedTag, setSelectedTag] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -35,8 +53,8 @@ export function LibraryExplorer() {
       setLoading(true);
       try {
         const [catRes, docRes] = await Promise.all([
-          fetch(`${apiBase}/library/categories`),
-          fetch(`${apiBase}/library/documents?limit=50`),
+          fetch(`${apiBase}/library/categories?domain=${domain}`),
+          fetch(`${apiBase}/library/documents?domain=${domain}&limit=50`),
         ]);
 
         if (!cancelled && catRes.ok) {
@@ -50,6 +68,8 @@ export function LibraryExplorer() {
           const docJson = (await docRes.json()) as { items?: LibraryDocument[] };
           if (Array.isArray(docJson.items) && docJson.items.length > 0) {
             setDocuments(docJson.items);
+          } else if (Array.isArray(docJson.items)) {
+            setDocuments([]);
           }
         }
       } catch {
@@ -65,7 +85,7 @@ export function LibraryExplorer() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [domain]);
 
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();

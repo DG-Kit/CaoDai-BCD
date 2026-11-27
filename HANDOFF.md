@@ -241,6 +241,18 @@ Theo kế hoạch chi tiết [`docs/06-planning/PHASE_1_CALENDAR_PLAN.md`](docs/
     + Bản văn số hóa với thanh điều chỉnh 4 cỡ chữ, chú thích dị bản và trích dẫn nguồn (copy 1 click).
     + Khung đối chiếu trực tiếp PDF bản scan gốc (`#page=...`), chuyển đổi mượt mà sang 2 tab trên Mobile.
   - Đã nạp thành công trọn vẹn **130 mục lục & bài kinh** vào PostgreSQL (`caodai_bcd_db`), Unit test backend 38/38 tests pass, kiểm thử `npm run build --workspace=apps/web` thành công 100% (tất cả 8 routes đều sạch).
+  - **Tách riêng 2 phân khu Kinh Sách & Tài Liệu Lễ Nhạc Đường (2026-11-27):**
+    + **Database (`apps/api/prisma/schema.prisma` & `seed-library.ts`):** Bổ sung enum `LibraryDomain` (`KINH_SACH`, `LE_NHAC_DUONG`) và trường `domain` trên bảng `document_categories` (migration `20261127052852_add_library_domain_separation`). Tách danh mục `tai-lieu-le-nhac-duong` (`LE_NHAC_DUONG`) khỏi 7 danh mục `KINH_SACH`.
+    + **Backend (`apps/api/src/library/`):** Cập nhật `GET /api/library/categories` và `GET /api/library/documents` hỗ trợ lọc theo `domain`.
+    + **Frontend (`apps/web/`):**
+      - Tách card `Kinh Sách & Giáo Lý` trên trang chủ [`page.tsx`](apps/web/src/app/page.tsx) thành 2 mục độc lập: **Kinh Sách** (`/library`) và **Tài Liệu Lễ Nhạc Đường** (`/le-nhac-duong`).
+      - Cập nhật [`Navbar.tsx`](apps/web/src/components/Navbar.tsx) bổ sung điều hướng **Lễ Nhạc Đường** (`/le-nhac-duong`).
+      - Tạo trang chuyên biệt [`apps/web/src/app/le-nhac-duong/page.tsx`](apps/web/src/app/le-nhac-duong/page.tsx) và cập nhật [`LibraryExplorer.tsx`](apps/web/src/components/library/LibraryExplorer.tsx) lọc theo `domain` để phần Kinh Sách hoàn toàn riêng biệt.
+    + **Tài liệu hệ thống:** Cập nhật [`BRD.md`](docs/01-business/BRD.md) và [`PHASE_3_LIBRARY_PLAN.md`](docs/06-planning/PHASE_3_LIBRARY_PLAN.md).
+  - **Nâng cấp Bộ Đọc Kinh Văn — Toàn màn hình & Tối ưu Mobile (2026-11-27):**
+    + **Xem toàn màn hình (Focus Mode):** Bổ sung nút "Xem toàn màn hình" trong [`SplitLibraryReader.tsx`](apps/web/src/components/library/SplitLibraryReader.tsx). Chế độ này lọc thuần nội dung bài kinh (tự động tách bỏ nghi thức vái lạy và ghi chú bên dưới để tập trung tụng/đọc).
+    + **Thanh điều hướng toàn màn hình:** Hiển thị rõ nút "Bài kế tiếp" kèm tên cụ thể của bài kinh kế tiếp (tự động bỏ qua các mục tiêu đề rỗng), nút "Bài trước", và công cụ tăng/giảm cỡ chữ.
+    + **Mục lục trên Mobile:** Thêm nút toggle "Thu gọn / Mở rộng" ngay tại tiêu đề Mục Lục Ấn Bản trên giao diện điện thoại, giúp tiết kiệm không gian màn hình.
 
 ## 4. Kế hoạch tiếp theo
 

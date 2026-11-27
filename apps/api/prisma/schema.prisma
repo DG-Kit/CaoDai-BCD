@@ -367,6 +367,11 @@ enum DocumentFileType {
   COVER_IMAGE
 }
 
+enum LibraryDomain {
+  KINH_SACH
+  LE_NHAC_DUONG
+}
+
 model DocumentCategory {
   id           String             @id @default(uuid()) @db.Uuid
   parentId     String?            @map("parent_id") @db.Uuid
@@ -376,6 +381,7 @@ model DocumentCategory {
   slug         String             @unique @db.VarChar(120)
   name         String             @db.VarChar(200)
   description  String?            @db.Text
+  domain       LibraryDomain      @default(KINH_SACH)
   displayOrder Int                @default(0) @map("display_order")
 
   documents    Document[]
@@ -383,6 +389,7 @@ model DocumentCategory {
   createdAt    DateTime           @default(now()) @map("created_at") @db.Timestamptz
   updatedAt    DateTime           @updatedAt @map("updated_at") @db.Timestamptz
 
+  @@index([domain])
   @@index([displayOrder])
   @@map("document_categories")
 }

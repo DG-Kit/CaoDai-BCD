@@ -52,13 +52,16 @@ Quyền hạn trong hệ thống là **vai trò trên phần mềm**, không đ�
 ```mermaid
 mindmap
   root((Ban Chỉnh Đạo Digital Library))
-    Thư Viện Đạo
-      Kinh Cúng Tứ Thời
-      Quan Hôn Tang Tế
-      Thánh Ngôn & Thánh Giáo
-      Đạo sử & Tiểu sử
-      Văn bản Hội Thánh & Tạp chí
-      Trình đọc song song Scan vs Text
+    Thư Viện Đạo (Tách 2 phân khu)
+      Kinh Sách (KINH_SACH)
+        Kinh Cúng Tứ Thời & Quan Hôn Tang Tế
+        Thánh Ngôn & Thánh Giáo
+        Giáo Lý, Luật Pháp & Đạo Sử
+        Văn bản Hội Thánh & Khảo cứu
+        Trình đọc song song Scan vs Text
+      Tài Liệu Lễ Nhạc Đường (LE_NHAC_DUONG)
+        Thài Xuân & Thài Nam
+        Cổ nhạc & Nghi thức hành lễ
     Lịch Đạo
       Lịch Âm Dương chuẩn VN
       Định nghĩa sự kiện vs Lần diễn ra

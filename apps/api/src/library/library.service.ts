@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { DocumentEditionStatus, Prisma } from '@prisma/client';
+import { DocumentEditionStatus, LibraryDomain, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { SearchDocumentsDto } from './dto/search-documents.dto';
 
@@ -9,9 +9,11 @@ export class LibraryService {
 
   /**
    * Lấy cây danh mục Thư Viện Đạo kèm số lượng tác phẩm đã xuất bản (PUBLISHED).
+   * Có thể lọc riêng theo phân khu KINH_SACH hoặc LE_NHAC_DUONG.
    */
-  async getCategories() {
+  async getCategories(domain?: LibraryDomain) {
     const categories = await this.prisma.documentCategory.findMany({
+      where: domain ? { domain } : undefined,
       orderBy: { displayOrder: 'asc' },
       include: {
         _count: {
@@ -35,6 +37,7 @@ export class LibraryService {
       slug: cat.slug,
       name: cat.name,
       description: cat.description,
+      domain: cat.domain,
       displayOrder: cat.displayOrder,
       publishedDocumentCount: cat._count.documents,
     }));
@@ -42,7 +45,7 @@ export class LibraryService {
 
   /**
    * Tra cứu và lọc danh sách tác phẩm đã xuất bản (PUBLISHED).
-   * Hỗ trợ lọc theo danh mục, thẻ nghi thức/mục đích/thời điểm và tìm kiếm toàn văn.
+   * Hỗ trợ lọc theo phân khu (domain), danh mục, thẻ nghi thức/mục đích/thời điểm và tìm kiếm toàn văn.
    */
   async searchDocuments(dto: SearchDocumentsDto) {
     const page = dto.page ?? 1;
@@ -56,10 +59,15 @@ export class LibraryService {
       },
     };
 
+    const categoryFilter: Prisma.DocumentCategoryWhereInput = {};
+    if (dto.domain) {
+      categoryFilter.domain = dto.domain;
+    }
     if (dto.category && dto.category.trim() !== '') {
-      where.category = {
-        slug: dto.category.trim(),
-      };
+      categoryFilter.slug = dto.category.trim();
+    }
+    if (Object.keys(categoryFilter).length > 0) {
+      where.category = categoryFilter;
     }
 
     if (dto.ritual && dto.ritual.trim() !== '') {

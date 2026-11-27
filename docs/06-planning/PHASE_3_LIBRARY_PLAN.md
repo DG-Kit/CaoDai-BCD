@@ -30,7 +30,9 @@ Hiện nay, tư liệu kinh sách, Thánh ngôn, Thánh giáo và đạo sử c�
 - **Web App Responsive** (Desktop, Tablet, Mobile), tối ưu hóa trải nghiệm đọc như sách in xưa (Warm Heritage), sẵn sàng mở rộng PWA offline reader.
 
 ### 1.4. Phạm vi tính năng MVP (Bắt buộc có trong Phase 3)
-1. **Hệ thống 9 Danh mục Thư viện chuẩn Ban Chỉnh Đạo:** Phân cấp rõ ràng (*Kinh Cúng Tứ Thời, Quan Hôn Tang Tế, Thánh Ngôn, Thánh Giáo, Giáo Lý & Luật Pháp, Đạo Sử & Tiểu Sử, Văn Bản Hội Thánh, Nghi Lễ & Lễ Nhạc, Khảo Cứu & Tham Khảo*).
+1. **Hệ thống Danh mục Thư viện tách riêng 2 phân khu (`LibraryDomain`):**
+   - **Phân khu Kinh Sách (`KINH_SACH` — `/library`):** *Kinh Cúng Tứ Thời (gộp Quan Hôn Tang Tế), Thánh Ngôn, Thánh Giáo, Giáo Lý & Luật Pháp, Đạo Sử & Tiểu Sử, Văn Bản Hội Thánh, Khảo Cứu & Tham Khảo*.
+   - **Phân khu Tài Liệu Lễ Nhạc Đường (`LE_NHAC_DUONG` — `/le-nhac-duong`):** *Tài Liệu Lễ Nhạc Đường* (các bài Thài Xuân, Thài Nam, cổ nhạc, nghi thức thiết đàn và hành lễ).
 2. **Quản lý Tác phẩm & Ấn bản (`BR-LIB-01`):** Một tác phẩm có thể có nhiều ấn bản lịch sử khác nhau theo năm và nhà in (*vd: Bản in Bến Tre 1968, Bản in 1995*); **tuyệt đối không tự ý hợp nhất dị bản**.
 3. **Bộ Đọc Đối Chiếu Song Song (Split-View Reader):**
    - *Bản văn điện tử:* Định dạng rõ nét, font di sản `Lora`/`Be Vietnam Pro`, thanh công cụ tăng/giảm cỡ chữ.
@@ -67,11 +69,12 @@ Xác định cụ thể 6 thành phần của Phase 3:
 Bổ sung 6 model và 2 enum chuyên biệt:
 
 - **Enums:**
+  - `LibraryDomain`: `KINH_SACH`, `LE_NHAC_DUONG`
   - `DocumentEditionStatus`: `DRAFT`, `SUBMITTED`, `IN_REVIEW`, `REVISION_REQUIRED`, `APPROVED`, `PUBLISHED`, `ARCHIVED`, `REJECTED`
   - `DocumentFileType`: `SCAN_ORIGINAL_PDF`, `OPTIMIZED_PDF`, `SCAN_IMAGE`, `AUDIO_MP3`, `COVER_IMAGE`
 
 - **Models:**
-  1. `DocumentCategory`: Cây danh mục cha-con (`id`, `parentId`, `slug`, `name`, `description`, `displayOrder`).
+  1. `DocumentCategory`: Cây danh mục cha-con (`id`, `parentId`, `slug`, `name`, `description`, `domain`, `displayOrder`).
   2. `Document`: Đầu mục tác phẩm (`id`, `categoryId`, `slug`, `title`, `authorOrIssuingBody`, `summary`, `isComparativeReference`).
   3. `DocumentEdition`: Ấn bản lịch sử cụ thể (`id`, `documentId`, `editionLabel`, `publicationYear`, `publisher`, `sourceName`, `archiveReference`, `usagePermission`, `status`, `verificationStatus`, `publishedAt`).
   4. `DocumentFile`: Tệp tin đính kèm (`id`, `editionId`, `fileType`, `fileName`, `storagePath`, `checksumSha256`, `fileSizeBytes`, `mimeType`).

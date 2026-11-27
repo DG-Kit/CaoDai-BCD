@@ -1,5 +1,6 @@
 import { Controller, Get, Param, ParseUUIDPipe, Query } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { LibraryDomain } from '@prisma/client';
 import { SearchDocumentsDto } from './dto/search-documents.dto';
 import { LibraryService } from './library.service';
 
@@ -11,10 +12,12 @@ export class LibraryController {
   @Get('categories')
   @ApiOperation({
     summary: 'Lấy cây danh mục Thư Viện Đạo',
-    description: 'Trả về danh mục chuẩn kèm số lượng tác phẩm đã xuất bản trong từng mục.',
+    description:
+      'Trả về danh mục chuẩn kèm số lượng tác phẩm đã xuất bản trong từng mục. Có thể lọc theo phân khu KINH_SACH hoặc LE_NHAC_DUONG.',
   })
-  getCategories() {
-    return this.libraryService.getCategories();
+  @ApiQuery({ name: 'domain', required: false, enum: LibraryDomain })
+  getCategories(@Query('domain') domain?: LibraryDomain) {
+    return this.libraryService.getCategories(domain);
   }
 
   @Get('documents')

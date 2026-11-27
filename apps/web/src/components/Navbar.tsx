@@ -13,6 +13,7 @@ import {
   Menu,
   X,
   Home,
+  Music,
 } from 'lucide-react';
 import { CoPhapEmblem } from '@/components/CoPhap';
 import { TamGiaoStripe } from '@/components/ThienNhan';
@@ -25,6 +26,7 @@ export function Navbar() {
   const navLinks = [
     { href: '/', label: 'Trang Chủ', icon: Home },
     { href: '/library', label: 'Kinh Sách', icon: BookOpen },
+    { href: '/le-nhac-duong', label: 'Lễ Nhạc Đường', icon: Music },
     { href: '/calendar', label: 'Lịch Đạo & Ngày Chay', icon: Calendar },
     { href: '/to-dinh', label: 'Tòa Thánh Bến Tre', icon: MapPin },
     { href: '/composer', label: 'Soạn Sớ Văn', icon: FileEdit },

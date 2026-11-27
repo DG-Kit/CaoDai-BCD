@@ -1,13 +1,15 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowLeft,
   BookOpen,
   Check,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
   Copy,
   ExternalLink,
   Eye,
@@ -15,6 +17,8 @@ import {
   FileText,
   Info,
   List,
+  Maximize2,
+  Minimize2,
   Minus,
   Plus,
 } from 'lucide-react';
@@ -36,6 +40,15 @@ const FONT_SIZES = [
   { label: 'Lớn', textClass: 'text-lg leading-loose' },
   { label: 'Rất lớn', textClass: 'text-xl leading-loose' },
 ];
+
+function extractScriptureBodyOnly(markdown: string): string {
+  // Chỉ giữ lại phần nội dung bài kinh, bỏ phần nghi thức vái lạy và ghi chú bên dưới (sau dấu '---')
+  const separatorMatch = markdown.match(/\n---(?:\r?\n|$)/);
+  if (separatorMatch && separatorMatch.index !== undefined) {
+    return markdown.slice(0, separatorMatch.index).trim();
+  }
+  return markdown;
+}
 
 function renderScriptureMarkdown(markdown: string, textClass: string) {
   const lines = markdown.split('\n');
@@ -131,11 +144,14 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
   );
 
   const [showToc, setShowToc] = useState<boolean>(true);
+  const [mobileTocOpen, setMobileTocOpen] = useState<boolean>(true);
   const [showScan, setShowScan] = useState<boolean>(true);
   const [showEditionInfo, setShowEditionInfo] = useState<boolean>(false);
   const [mobileTab, setMobileTab] = useState<'TEXT' | 'SCAN'>('TEXT');
   const [fontSizeIdx, setFontSizeIdx] = useState<number>(1);
   const [copiedCitation, setCopiedCitation] = useState<boolean>(false);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const fullscreenContentRef = useRef<HTMLDivElement | null>(null);
 
   // 1. Nạp thông tin tác phẩm từ API (nếu có)
   useEffect(() => {
@@ -242,6 +258,48 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
   const prevSection = activeIndex > 0 ? sections[activeIndex - 1] : null;
   const nextSection =
     activeIndex >= 0 && activeIndex < sections.length - 1 ? sections[activeIndex + 1] : null;
+
+  // Tìm bài kinh có nội dung liền trước / liền sau (bỏ qua tiêu đề nhóm không có nội dung)
+  const prevReadableSection = useMemo(() => {
+    if (activeIndex <= 0) return null;
+    for (let i = activeIndex - 1; i >= 0; i--) {
+      if (sections[i]?.content?.contentMarkdown) return sections[i]!;
+    }
+    return prevSection;
+  }, [sections, activeIndex, prevSection]);
+
+  const nextReadableSection = useMemo(() => {
+    if (activeIndex < 0 || activeIndex >= sections.length - 1) return null;
+    for (let i = activeIndex + 1; i < sections.length; i++) {
+      if (sections[i]?.content?.contentMarkdown) return sections[i]!;
+    }
+    return nextSection;
+  }, [sections, activeIndex, nextSection]);
+
+  // Hỗ trợ phím Esc thoát chế độ toàn màn hình và khóa cuộn nền
+  useEffect(() => {
+    if (!isFullscreen) return;
+    const prevOverflow = window.document.body.style.overflow;
+    window.document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsFullscreen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isFullscreen]);
+
+  // Cuộn lên đầu bài kinh khi chuyển bài trong chế độ toàn màn hình
+  useEffect(() => {
+    if (isFullscreen && fullscreenContentRef.current) {
+      fullscreenContentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [activeSectionId, isFullscreen]);
 
   const pdfFile = useMemo(
     () =>
@@ -411,6 +469,17 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
+          {/* Nút Xem Toàn Màn Hình (Focus Mode) */}
+          <button
+            type="button"
+            onClick={() => setIsFullscreen(true)}
+            className="inline-flex items-center gap-1.5 border border-caodai-vermilion bg-caodai-vermilion px-3 py-1.5 text-xs font-bold text-white transition-colors hover:bg-caodai-vermilion/90"
+            title="Mở chế độ đọc toàn màn hình để tập trung"
+          >
+            <Maximize2 className="h-3.5 w-3.5" />
+            <span>Xem toàn màn hình</span>
+          </button>
+
           {/* Nút bật/tắt khung Scan trên Desktop */}
           <button
             type="button"
@@ -473,10 +542,34 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
         {showToc && (
           <aside className="lg:col-span-3">
             <div className="border border-heritage-border bg-heritage-paper p-4 dark:border-heritage-dark-border dark:bg-heritage-dark-paper">
-              <h2 className="border-b border-heritage-border pb-2.5 font-serif text-sm font-bold uppercase tracking-wider text-heritage-ink dark:border-heritage-dark-border dark:text-heritage-dark-ink">
-                Mục Lục Ấn Bản
-              </h2>
-              <nav className="mt-3 max-h-[650px] space-y-0.5 overflow-y-auto pr-1">
+              <div className="flex items-center justify-between gap-2 border-b border-heritage-border pb-2.5 dark:border-heritage-dark-border">
+                <h2 className="font-serif text-sm font-bold uppercase tracking-wider text-heritage-ink dark:text-heritage-dark-ink">
+                  Mục Lục Ấn Bản
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => setMobileTocOpen((prev) => !prev)}
+                  className="inline-flex items-center gap-1 border border-heritage-border bg-heritage-parchment/70 px-2 py-1 text-[11px] font-semibold text-heritage-ink hover:border-caodai-ochre lg:hidden dark:border-heritage-dark-border dark:bg-heritage-dark-surface dark:text-heritage-dark-ink"
+                  aria-expanded={mobileTocOpen}
+                >
+                  {mobileTocOpen ? (
+                    <>
+                      <span>Thu gọn</span>
+                      <ChevronUp className="h-3.5 w-3.5" />
+                    </>
+                  ) : (
+                    <>
+                      <span>Mở rộng</span>
+                      <ChevronDown className="h-3.5 w-3.5" />
+                    </>
+                  )}
+                </button>
+              </div>
+              <nav
+                className={`${
+                  mobileTocOpen ? 'block' : 'hidden lg:block'
+                } mt-3 max-h-[650px] space-y-0.5 overflow-y-auto pr-1`}
+              >
                 {sections.map((sec) => {
                   const isActive = sec.id === activeSectionId;
                   const parent = sec.parentId ? sections.find((s) => s.id === sec.parentId) : null;
@@ -535,11 +628,22 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
                     <span className="text-xs font-semibold uppercase tracking-wider text-caodai-ochre dark:text-caodai-yellow">
                       {activeSectionDetail.tuneType || 'Văn bản nguyên tác'}
                     </span>
-                    {activeSectionDetail.printedPageLabel && (
-                      <span className="border border-heritage-border bg-heritage-parchment/70 px-2.5 py-0.5 text-xs font-medium text-heritage-muted dark:border-heritage-dark-border dark:bg-heritage-dark-surface dark:text-heritage-dark-muted">
-                        Trang in {activeSectionDetail.printedPageLabel}
-                      </span>
-                    )}
+                    <div className="flex items-center gap-2">
+                      {activeSectionDetail.printedPageLabel && (
+                        <span className="border border-heritage-border bg-heritage-parchment/70 px-2.5 py-0.5 text-xs font-medium text-heritage-muted dark:border-heritage-dark-border dark:bg-heritage-dark-surface dark:text-heritage-dark-muted">
+                          Trang in {activeSectionDetail.printedPageLabel}
+                        </span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => setIsFullscreen(true)}
+                        className="inline-flex items-center gap-1 border border-heritage-border bg-heritage-parchment/70 px-2.5 py-0.5 text-xs font-semibold text-caodai-vermilion hover:border-caodai-vermilion dark:border-heritage-dark-border dark:bg-heritage-dark-surface dark:text-caodai-yellow"
+                        title="Xem toàn màn hình"
+                      >
+                        <Maximize2 className="h-3 w-3" />
+                        <span>Toàn màn hình</span>
+                      </button>
+                    </div>
                   </div>
 
                   <h2 className="mt-2 font-serif text-2xl font-bold text-heritage-ink dark:text-heritage-dark-ink">
@@ -711,6 +815,139 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
           </aside>
         )}
       </div>
+
+      {/* Chế độ Đọc Toàn Màn Hình (Focus Mode): Chỉ hiển thị thuần nội dung bài kinh */}
+      {isFullscreen && activeSectionDetail && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Đọc toàn màn hình: ${activeSectionDetail.title}`}
+          className="fixed inset-0 z-50 flex flex-col bg-heritage-paper dark:bg-heritage-dark-paper"
+        >
+          {/* Thanh điều khiển trên cùng */}
+          <header className="flex flex-wrap items-center justify-between gap-3 border-b border-heritage-border bg-heritage-parchment/80 px-4 py-3 sm:px-8 dark:border-heritage-dark-border dark:bg-heritage-dark-surface/90">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-caodai-ochre dark:text-caodai-yellow">
+                <span>{document.title}</span>
+                {activeSectionDetail.printedPageLabel && (
+                  <>
+                    <span>•</span>
+                    <span>Trang in {activeSectionDetail.printedPageLabel}</span>
+                  </>
+                )}
+              </div>
+              <h2 className="truncate font-serif text-base font-bold text-heritage-ink sm:text-lg dark:text-heritage-dark-ink">
+                {activeSectionDetail.title}
+              </h2>
+            </div>
+
+            <div className="flex items-center gap-2">
+              {/* Chỉnh cỡ chữ ngay trong toàn màn hình */}
+              <div className="flex items-center border border-heritage-border bg-heritage-paper dark:border-heritage-dark-border dark:bg-heritage-dark-paper">
+                <button
+                  type="button"
+                  onClick={() => setFontSizeIdx((prev) => Math.max(0, prev - 1))}
+                  disabled={fontSizeIdx === 0}
+                  className="px-2.5 py-1.5 text-xs text-heritage-ink disabled:opacity-40 dark:text-heritage-dark-ink"
+                  title="Giảm cỡ chữ"
+                >
+                  <Minus className="h-3.5 w-3.5" />
+                </button>
+                <span className="hidden border-x border-heritage-border px-2.5 py-1 text-xs font-medium text-heritage-muted sm:inline dark:border-heritage-dark-border dark:text-heritage-dark-muted">
+                  {FONT_SIZES[fontSizeIdx]?.label}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setFontSizeIdx((prev) => Math.min(FONT_SIZES.length - 1, prev + 1))}
+                  disabled={fontSizeIdx === FONT_SIZES.length - 1}
+                  className="px-2.5 py-1.5 text-xs text-heritage-ink disabled:opacity-40 dark:text-heritage-dark-ink"
+                  title="Tăng cỡ chữ"
+                >
+                  <Plus className="h-3.5 w-3.5" />
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsFullscreen(false)}
+                className="inline-flex items-center gap-1.5 border border-heritage-border bg-heritage-paper px-3 py-1.5 text-xs font-bold text-heritage-ink hover:border-caodai-vermilion hover:text-caodai-vermilion dark:border-heritage-dark-border dark:bg-heritage-dark-paper dark:text-heritage-dark-ink"
+                title="Thu gọn (Esc)"
+              >
+                <Minimize2 className="h-3.5 w-3.5" />
+                <span>Thu gọn (Esc)</span>
+              </button>
+            </div>
+          </header>
+
+          {/* Khung nội dung tập trung ở giữa: chỉ phần nội dung kinh */}
+          <div ref={fullscreenContentRef} className="flex-1 overflow-y-auto px-4 py-8 sm:px-8 sm:py-12">
+            <article className="mx-auto max-w-3xl border border-heritage-border bg-heritage-paper p-6 sm:p-10 dark:border-heritage-dark-border dark:bg-heritage-dark-paper">
+              <div className="border-b border-heritage-border pb-4 dark:border-heritage-dark-border">
+                {activeSectionDetail.tuneType && (
+                  <span className="text-xs font-semibold uppercase tracking-wider text-caodai-ochre dark:text-caodai-yellow">
+                    {activeSectionDetail.tuneType}
+                  </span>
+                )}
+                <h1 className="mt-1 font-serif text-2xl font-bold text-heritage-ink sm:text-3xl dark:text-heritage-dark-ink">
+                  {activeSectionDetail.title}
+                </h1>
+              </div>
+
+              <div className="py-6">
+                {activeSectionDetail.content?.contentMarkdown ? (
+                  renderScriptureMarkdown(
+                    extractScriptureBodyOnly(activeSectionDetail.content.contentMarkdown),
+                    FONT_SIZES[fontSizeIdx]?.textClass ?? 'text-base leading-loose',
+                  )
+                ) : (
+                  <p className="text-sm text-heritage-muted dark:text-heritage-dark-muted">
+                    Mục này là tiêu đề nhóm hoặc đang được tiếp tục đối chiếu bản scan gốc (PDF trang {activePdfPage}).
+                  </p>
+                )}
+              </div>
+            </article>
+          </div>
+
+          {/* Thanh điều hướng dưới cùng: Hiển thị rõ Bài trước và Bài kế tiếp là bài gì */}
+          <footer className="border-t border-heritage-border bg-heritage-parchment/80 px-4 py-3 sm:px-8 dark:border-heritage-dark-border dark:bg-heritage-dark-surface/90">
+            <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-3">
+              <button
+                type="button"
+                disabled={!prevReadableSection}
+                onClick={() => prevReadableSection && setActiveSectionId(prevReadableSection.id)}
+                className="inline-flex items-center gap-2 border border-heritage-border bg-heritage-paper px-3.5 py-2 text-left text-xs font-semibold text-heritage-ink transition-colors hover:border-caodai-ochre disabled:opacity-40 dark:border-heritage-dark-border dark:bg-heritage-dark-paper dark:text-heritage-dark-ink"
+              >
+                <ChevronLeft className="h-4 w-4 shrink-0 text-caodai-ochre dark:text-caodai-yellow" />
+                <div className="min-w-0">
+                  <span className="block text-[10px] font-medium uppercase tracking-wider text-heritage-muted dark:text-heritage-dark-muted">
+                    Bài trước
+                  </span>
+                  <span className="block max-w-[160px] truncate sm:max-w-[240px]">
+                    {prevReadableSection ? prevReadableSection.title : 'Đầu sách'}
+                  </span>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                disabled={!nextReadableSection}
+                onClick={() => nextReadableSection && setActiveSectionId(nextReadableSection.id)}
+                className="inline-flex items-center gap-2 border border-caodai-vermilion bg-caodai-vermilion px-4 py-2 text-right text-xs font-semibold text-white transition-colors hover:bg-caodai-vermilion/90 disabled:border-heritage-border disabled:bg-heritage-paper disabled:text-heritage-muted disabled:opacity-50 dark:disabled:border-heritage-dark-border dark:disabled:bg-heritage-dark-paper"
+              >
+                <div className="min-w-0">
+                  <span className="block text-[10px] font-medium uppercase tracking-wider opacity-85">
+                    Bài kế tiếp
+                  </span>
+                  <span className="block max-w-[180px] truncate font-bold sm:max-w-[280px]">
+                    {nextReadableSection ? nextReadableSection.title : 'Đã đến cuối sách'}
+                  </span>
+                </div>
+                <ChevronRight className="h-4 w-4 shrink-0" />
+              </button>
+            </div>
+          </footer>
+        </div>
+      )}
     </div>
   );
 }

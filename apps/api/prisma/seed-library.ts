@@ -1,6 +1,7 @@
 import {
   DocumentEditionStatus,
   DocumentFileType,
+  LibraryDomain,
   PrismaClient,
   VerificationStatus,
 } from '@prisma/client';
@@ -23,59 +24,67 @@ interface SeedSectionInput {
 export async function seedDigitalLibrary(prisma: PrismaClient) {
   console.log('--- Khởi tạo Dữ liệu Thư Viện Đạo (Phase 3 - Mục Lục Đầy Đủ) ---');
 
-  // Dọn dẹp danh mục cũ 'quan-hon-tang-te' nếu tồn tại (đã được gộp vào 'kinh-cung-tu-thoi')
+  // Dọn dẹp danh mục cũ 'quan-hon-tang-te' (đã gộp vào 'kinh-cung-tu-thoi') và 'nghi-le-le-nhac' (đã tách sang 'tai-lieu-le-nhac-duong')
   await prisma.documentCategory.deleteMany({
-    where: { slug: 'quan-hon-tang-te' },
+    where: { slug: { in: ['quan-hon-tang-te', 'nghi-le-le-nhac'] } },
   });
 
-  // 1. Tạo 8 Danh mục chuẩn của Hội Thánh Cao Đài Ban Chỉnh Đạo (Quan - Hôn - Tang - Tế đã gộp trong Kinh Cúng Tứ Thời)
+  // 1. Tạo Danh mục chuẩn tách riêng 2 phân khu: Kinh Sách (KINH_SACH) và Tài Liệu Lễ Nhạc Đường (LE_NHAC_DUONG)
   const categoriesData = [
     {
       slug: 'kinh-cung-tu-thoi',
       name: 'Kinh Cúng Tứ Thời',
       description: 'Kinh Thiên Đạo, cúng Tứ Thời (Tý, Mẹo, Ngọ, Dậu), kinh sám hối, giải khổ, cứu khổ, quan hôn tang tế và hướng dẫn hành lễ.',
+      domain: LibraryDomain.KINH_SACH,
       displayOrder: 1,
     },
     {
       slug: 'thanh-ngon',
       name: 'Thánh Ngôn',
       description: 'Thánh ngôn hiệp tuyển và lời dạy thiêng liêng của Đức Chí Tôn và Đức Phật Mẫu.',
+      domain: LibraryDomain.KINH_SACH,
       displayOrder: 2,
     },
     {
       slug: 'thanh-giao',
       name: 'Thánh Giáo',
       description: 'Thánh giáo của chư vị Tiên, Phật, Thánh giáng cơ dạy đạo trong nền Đại Đạo Tam Kỳ Phổ Độ.',
+      domain: LibraryDomain.KINH_SACH,
       displayOrder: 3,
     },
     {
       slug: 'giao-ly-luat-phap',
       name: 'Giáo Lý & Luật Pháp',
       description: 'Tân Luật, Pháp Chánh Truyền, Hiến Chương và tài liệu giáo lý căn bản Ban Chỉnh Đạo.',
+      domain: LibraryDomain.KINH_SACH,
       displayOrder: 4,
     },
     {
       slug: 'dao-su-tieu-su',
       name: 'Đạo Sử & Tiểu Sử',
       description: 'Lịch sử hình thành Hội Thánh Cao Đài Ban Chỉnh Đạo (Tòa Thánh Bến Tre) và tiểu sử chư chức sắc tiền bối.',
+      domain: LibraryDomain.KINH_SACH,
       displayOrder: 5,
     },
     {
       slug: 'van-ban-hoi-thanh',
       name: 'Văn Bản Hội Thánh',
       description: 'Quy chế, thông tư, đạo nghị định và các văn bản hành đạo chính thức của Hội Thánh.',
+      domain: LibraryDomain.KINH_SACH,
       displayOrder: 6,
-    },
-    {
-      slug: 'nghi-le-le-nhac',
-      name: 'Nghi Lễ & Lễ Nhạc',
-      description: 'Lễ Nhạc Đường, các bài Thài, giọng Nam Ai, Nam Xuân, nghi thức thiết đàn và hành lễ.',
-      displayOrder: 7,
     },
     {
       slug: 'khao-cuu-tham-khao',
       name: 'Khảo Cứu & Tham Khảo',
       description: 'Tài liệu nghiên cứu học thuật, chú giải thuật ngữ và tư liệu đối chiếu có ghi rõ nguồn.',
+      domain: LibraryDomain.KINH_SACH,
+      displayOrder: 7,
+    },
+    {
+      slug: 'tai-lieu-le-nhac-duong',
+      name: 'Tài Liệu Lễ Nhạc Đường',
+      description: 'Tài liệu chuyên biệt của Lễ Nhạc Đường: các bài Thài Xuân, Thài Nam, cổ nhạc, nghi thức thiết đàn và hành lễ tại Đền Thánh.',
+      domain: LibraryDomain.LE_NHAC_DUONG,
       displayOrder: 8,
     },
   ];
@@ -87,12 +96,13 @@ export async function seedDigitalLibrary(prisma: PrismaClient) {
       update: {
         name: cat.name,
         description: cat.description,
+        domain: cat.domain,
         displayOrder: cat.displayOrder,
       },
       create: cat,
     });
     categoryMap.set(cat.slug, saved.id);
-    console.log(`✓ Danh mục Thư viện: ${saved.name}`);
+    console.log(`✓ Danh mục [${cat.domain}]: ${saved.name}`);
   }
 
   // 2. Tạo Tác phẩm mẫu thực tế từ file PDF scan

@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { DocumentEditionStatus } from '@prisma/client';
+import { DocumentEditionStatus, LibraryDomain } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { LibraryService } from './library.service';
 
@@ -44,12 +44,13 @@ describe('LibraryService', () => {
         slug: 'kinh-cung-tu-thoi',
         name: 'Kinh Cúng Tứ Thời',
         description: 'Kinh Thiên Đạo',
+        domain: LibraryDomain.KINH_SACH,
         displayOrder: 1,
         _count: { documents: 1 },
       },
     ]);
 
-    const result = await service.getCategories();
+    const result = await service.getCategories(LibraryDomain.KINH_SACH);
 
     expect(result).toHaveLength(1);
     expect(result[0]).toEqual({
@@ -58,11 +59,13 @@ describe('LibraryService', () => {
       slug: 'kinh-cung-tu-thoi',
       name: 'Kinh Cúng Tứ Thời',
       description: 'Kinh Thiên Đạo',
+      domain: LibraryDomain.KINH_SACH,
       displayOrder: 1,
       publishedDocumentCount: 1,
     });
     expect(mockPrisma.documentCategory.findMany).toHaveBeenCalledWith(
       expect.objectContaining({
+        where: { domain: LibraryDomain.KINH_SACH },
         orderBy: { displayOrder: 'asc' },
       }),
     );

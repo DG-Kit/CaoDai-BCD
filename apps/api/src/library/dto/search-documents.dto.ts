@@ -1,8 +1,17 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { LibraryDomain } from '@prisma/client';
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, IsString, Max, MaxLength, Min } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString, Max, MaxLength, Min } from 'class-validator';
 
 export class SearchDocumentsDto {
+  @ApiPropertyOptional({
+    description: 'Lọc theo phân khu thư viện (KINH_SACH hoặc LE_NHAC_DUONG)',
+    enum: LibraryDomain,
+  })
+  @IsOptional()
+  @IsEnum(LibraryDomain)
+  domain?: LibraryDomain;
+
   @ApiPropertyOptional({ description: 'Lọc theo slug danh mục' })
   @IsOptional()
   @IsString()
