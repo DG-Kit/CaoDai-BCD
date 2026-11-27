@@ -1148,43 +1148,28 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
           aria-label={`Đọc toàn màn hình: ${activeSectionDetail.title}`}
           className="fixed inset-0 z-50 flex flex-col bg-heritage-paper dark:bg-heritage-dark-paper"
         >
-          {/* Thanh điều khiển trên cùng */}
-          <header className="flex flex-wrap items-center justify-between gap-3 border-b border-heritage-border bg-heritage-parchment/80 px-4 py-3 sm:px-8 dark:border-heritage-dark-border dark:bg-heritage-dark-surface/90">
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-caodai-ochre dark:text-caodai-yellow">
-                <span>{document.title}</span>
-                {activeSectionDetail.printedPageLabel && (
-                  <>
-                    <span>•</span>
-                    <span>Trang in {activeSectionDetail.printedPageLabel}</span>
-                  </>
-                )}
-              </div>
-              <h2 className="truncate font-serif text-base font-bold text-heritage-ink sm:text-lg dark:text-heritage-dark-ink">
-                {activeSectionDetail.title}
-              </h2>
-            </div>
-
-            <div className="flex items-center gap-2">
+          {/* Thanh điều khiển trên cùng (Tối ưu gọn gàng cho điện thoại, giữ lại các nút thao tác) */}
+          <header className="flex items-center justify-end border-b border-heritage-border bg-heritage-parchment/80 px-3 py-2 sm:px-6 dark:border-heritage-dark-border dark:bg-heritage-dark-surface/90">
+            <div className="flex items-center justify-end gap-2 w-full">
               {/* Chỉnh cỡ chữ ngay trong toàn màn hình */}
               <div className="flex items-center border border-heritage-border bg-heritage-paper dark:border-heritage-dark-border dark:bg-heritage-dark-paper">
                 <button
                   type="button"
                   onClick={() => setFontSizeIdx((prev) => Math.max(0, prev - 1))}
                   disabled={fontSizeIdx === 0}
-                  className="px-2.5 py-1.5 text-xs text-heritage-ink disabled:opacity-40 dark:text-heritage-dark-ink"
+                  className="px-2 py-1 text-xs text-heritage-ink disabled:opacity-40 dark:text-heritage-dark-ink"
                   title="Giảm cỡ chữ"
                 >
                   <Minus className="h-3.5 w-3.5" />
                 </button>
-                <span className="hidden border-x border-heritage-border px-2.5 py-1 text-xs font-medium text-heritage-muted sm:inline dark:border-heritage-dark-border dark:text-heritage-dark-muted">
+                <span className="border-x border-heritage-border px-2 py-1 text-xs font-medium text-heritage-muted dark:border-heritage-dark-border dark:text-heritage-dark-muted">
                   {FONT_SIZES[fontSizeIdx]?.label}
                 </span>
                 <button
                   type="button"
                   onClick={() => setFontSizeIdx((prev) => Math.min(FONT_SIZES.length - 1, prev + 1))}
                   disabled={fontSizeIdx === FONT_SIZES.length - 1}
-                  className="px-2.5 py-1.5 text-xs text-heritage-ink disabled:opacity-40 dark:text-heritage-dark-ink"
+                  className="px-2 py-1 text-xs text-heritage-ink disabled:opacity-40 dark:text-heritage-dark-ink"
                   title="Tăng cỡ chữ"
                 >
                   <Plus className="h-3.5 w-3.5" />
@@ -1195,7 +1180,7 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
                 type="button"
                 onClick={() => setShowBells((prev) => !prev)}
                 aria-pressed={showBells}
-                className={`inline-flex items-center gap-1.5 border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                className={`inline-flex items-center gap-1.5 border px-2.5 py-1 text-xs font-semibold transition-colors ${
                   showBells
                     ? 'border-caodai-ochre bg-heritage-paper text-caodai-vermilion dark:border-caodai-yellow dark:bg-heritage-dark-paper dark:text-caodai-yellow'
                     : 'border-heritage-border bg-heritage-paper text-heritage-muted dark:border-heritage-dark-border dark:bg-heritage-dark-paper dark:text-heritage-dark-muted'
@@ -1203,17 +1188,18 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
                 title="Bật/tắt biểu tượng đánh chuông"
               >
                 <BellMalletIcon className="h-3.5 w-3.5" active={showBells} />
-                <span className="hidden sm:inline">{showBells ? 'Chuông: Bật' : 'Chuông: Tắt'}</span>
+                <span className="hidden xs:inline sm:inline">{showBells ? 'Chuông: Bật' : 'Chuông: Tắt'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setIsFullscreen(false)}
-                className="inline-flex items-center gap-1.5 border border-heritage-border bg-heritage-paper px-3 py-1.5 text-xs font-bold text-heritage-ink hover:border-caodai-vermilion hover:text-caodai-vermilion dark:border-heritage-dark-border dark:bg-heritage-dark-paper dark:text-heritage-dark-ink"
+                className="inline-flex items-center gap-1.5 border border-heritage-border bg-heritage-paper px-2.5 py-1 text-xs font-bold text-heritage-ink hover:border-caodai-vermilion hover:text-caodai-vermilion dark:border-heritage-dark-border dark:bg-heritage-dark-paper dark:text-heritage-dark-ink shrink-0"
                 title="Thu gọn (Esc)"
               >
                 <Minimize2 className="h-3.5 w-3.5" />
-                <span>Thu gọn (Esc)</span>
+                <span className="hidden sm:inline">Thu gọn (Esc)</span>
+                <span className="sm:hidden">Thu gọn</span>
               </button>
             </div>
           </header>
