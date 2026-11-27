@@ -101,6 +101,11 @@ function extractScriptureBodyOnly(markdown: string): string {
   return markdown;
 }
 
+function getCleanSectionTitle(title: string): string {
+  // Bỏ phần chú thích trong ngoặc đơn (...) để tiêu đề nút điều hướng luôn ngắn gọn, không vỡ dòng
+  return title.replace(/\s*\([^)]*\)/g, '').trim();
+}
+
 function renderScriptureMarkdown(
   markdown: string,
   textClass: string,
@@ -1058,16 +1063,16 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
                 </div>
 
                 {/* Điều hướng Bài trước / Bài sau */}
-                <div className="mt-6 flex items-center justify-between gap-3 border-t border-heritage-border pt-4 dark:border-heritage-dark-border">
+                <div className="mt-6 grid grid-cols-2 gap-3 border-t border-heritage-border pt-4 dark:border-heritage-dark-border">
                   <button
                     type="button"
                     disabled={!prevSection}
                     onClick={() => prevSection && setActiveSectionId(prevSection.id)}
-                    className="inline-flex items-center gap-1.5 border border-heritage-border px-3 py-2 text-xs font-semibold text-heritage-ink hover:border-caodai-ochre disabled:opacity-40 dark:border-heritage-dark-border dark:text-heritage-dark-ink"
+                    className="inline-flex items-center gap-1.5 border border-heritage-border px-3 py-2 text-xs font-semibold text-heritage-ink hover:border-caodai-ochre disabled:opacity-40 min-w-0 dark:border-heritage-dark-border dark:text-heritage-dark-ink"
                   >
-                    <ChevronLeft className="h-4 w-4" />
-                    <span className="max-w-[140px] truncate">
-                      {prevSection ? prevSection.title : 'Đầu sách'}
+                    <ChevronLeft className="h-4 w-4 shrink-0 text-caodai-ochre dark:text-caodai-yellow" />
+                    <span className="truncate">
+                      {prevSection ? getCleanSectionTitle(prevSection.title) : 'Đầu sách'}
                     </span>
                   </button>
 
@@ -1075,12 +1080,12 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
                     type="button"
                     disabled={!nextSection}
                     onClick={() => nextSection && setActiveSectionId(nextSection.id)}
-                    className="inline-flex items-center gap-1.5 border border-heritage-border px-3 py-2 text-xs font-semibold text-heritage-ink hover:border-caodai-ochre disabled:opacity-40 dark:border-heritage-dark-border dark:text-heritage-dark-ink"
+                    className="inline-flex items-center justify-end gap-1.5 border border-heritage-border px-3 py-2 text-xs font-semibold text-heritage-ink hover:border-caodai-ochre disabled:opacity-40 min-w-0 text-right dark:border-heritage-dark-border dark:text-heritage-dark-ink"
                   >
-                    <span className="max-w-[140px] truncate">
-                      {nextSection ? nextSection.title : 'Cuối sách'}
+                    <span className="truncate">
+                      {nextSection ? getCleanSectionTitle(nextSection.title) : 'Cuối sách'}
                     </span>
-                    <ChevronRight className="h-4 w-4" />
+                    <ChevronRight className="h-4 w-4 shrink-0 text-caodai-ochre dark:text-caodai-yellow" />
                   </button>
                 </div>
               </>
@@ -1239,22 +1244,22 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
             </article>
           </div>
 
-          {/* Thanh điều hướng dưới cùng: Hiển thị rõ Bài trước và Bài kế tiếp là bài gì */}
-          <footer className="border-t border-heritage-border bg-heritage-parchment/80 px-4 py-3 sm:px-8 dark:border-heritage-dark-border dark:bg-heritage-dark-surface/90">
-            <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-3">
+          {/* Thanh điều hướng dưới cùng: Hiển thị rõ Bài trước và Bài kế tiếp, bố cục 2 cột cố định chống vỡ dòng */}
+          <footer className="border-t border-heritage-border bg-heritage-parchment/80 px-3 py-2.5 sm:px-6 dark:border-heritage-dark-border dark:bg-heritage-dark-surface/90">
+            <div className="mx-auto grid grid-cols-2 max-w-4xl gap-2 sm:gap-4">
               <button
                 type="button"
                 disabled={!prevReadableSection}
                 onClick={() => prevReadableSection && setActiveSectionId(prevReadableSection.id)}
-                className="inline-flex items-center gap-2 border border-heritage-border bg-heritage-paper px-3.5 py-2 text-left text-xs font-semibold text-heritage-ink transition-colors hover:border-caodai-ochre disabled:opacity-40 dark:border-heritage-dark-border dark:bg-heritage-dark-paper dark:text-heritage-dark-ink"
+                className="flex items-center gap-2 border border-heritage-border bg-heritage-paper px-2.5 py-2 text-left text-xs font-semibold text-heritage-ink transition-colors hover:border-caodai-ochre disabled:opacity-40 min-w-0 dark:border-heritage-dark-border dark:bg-heritage-dark-paper dark:text-heritage-dark-ink"
               >
                 <ChevronLeft className="h-4 w-4 shrink-0 text-caodai-ochre dark:text-caodai-yellow" />
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <span className="block text-[10px] font-medium uppercase tracking-wider text-heritage-muted dark:text-heritage-dark-muted">
                     Bài trước
                   </span>
-                  <span className="block max-w-[160px] truncate sm:max-w-[240px]">
-                    {prevReadableSection ? prevReadableSection.title : 'Đầu sách'}
+                  <span className="block truncate text-xs font-semibold">
+                    {prevReadableSection ? getCleanSectionTitle(prevReadableSection.title) : 'Đầu sách'}
                   </span>
                 </div>
               </button>
@@ -1263,14 +1268,14 @@ export function SplitLibraryReader({ slug }: SplitLibraryReaderProps) {
                 type="button"
                 disabled={!nextReadableSection}
                 onClick={() => nextReadableSection && setActiveSectionId(nextReadableSection.id)}
-                className="inline-flex items-center gap-2 border border-caodai-vermilion bg-caodai-vermilion px-4 py-2 text-right text-xs font-semibold text-white transition-colors hover:bg-caodai-vermilion/90 disabled:border-heritage-border disabled:bg-heritage-paper disabled:text-heritage-muted disabled:opacity-50 dark:disabled:border-heritage-dark-border dark:disabled:bg-heritage-dark-paper"
+                className="flex items-center justify-end gap-2 border border-caodai-vermilion bg-caodai-vermilion px-2.5 py-2 text-right text-xs font-semibold text-white transition-colors hover:bg-caodai-vermilion/90 disabled:border-heritage-border disabled:bg-heritage-paper disabled:text-heritage-muted disabled:opacity-50 min-w-0 dark:disabled:border-heritage-dark-border dark:disabled:bg-heritage-dark-paper"
               >
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1 text-right">
                   <span className="block text-[10px] font-medium uppercase tracking-wider opacity-85">
                     Bài kế tiếp
                   </span>
-                  <span className="block max-w-[180px] truncate font-bold sm:max-w-[280px]">
-                    {nextReadableSection ? nextReadableSection.title : 'Đã đến cuối sách'}
+                  <span className="block truncate text-xs font-bold">
+                    {nextReadableSection ? getCleanSectionTitle(nextReadableSection.title) : 'Cuối sách'}
                   </span>
                 </div>
                 <ChevronRight className="h-4 w-4 shrink-0" />
